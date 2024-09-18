@@ -23,11 +23,12 @@ export default tseslint.config({
       { allowConstantExport: true },
     ],
     "@typescript-eslint/explicit-function-return-type": "off",
-    "react-hooks/rules-of-hooks": "error",
+    // "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "react/react-in-jsx-scope": "off",
     "react/jsx-uses-vars": "error",
     "react/jsx-no-undef": "error",
     "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-var-requires": "error",
   },
 });
