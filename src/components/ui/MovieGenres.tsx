@@ -23,7 +23,7 @@ const MovieGenres: React.FC<{ movieId: number }> = ({ movieId }) => {
       <p className="text-left text-[8px]">
         {genres.map(
           (genre, index, arr) =>
-            `${genre.name}${index !== arr.length - 1 ? ',' : ''}`,
+            `${genre.name}${index !== arr.length - 1 ? ', ' : ''}`,
         )}
       </p>
     </div>

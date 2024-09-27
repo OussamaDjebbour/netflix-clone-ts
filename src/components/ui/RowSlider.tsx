@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { Movie } from './SlidersContainer';
+import { Movie } from '../features/SlidersContainer';
 import MovieSlider from './MovieSlider';
 import { PERCENTAGE_TRANSFORM } from '../../constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -24,30 +24,56 @@ const RowSlider: FC<SliderProps> = ({ title }) => {
   });
   const [currentIndex, setCurrentIndex] = useState(0);
   const [moviesPerPage, setMoviesPerPage] = useState(1);
-  // const totalPages = movies ? Math.ceil(movies.length / moviesPerPage) : 20;
-  const totalPages = Math.ceil(movies.length / moviesPerPage);
+  // const totalPages = movies ? Math.floor(movies.length / moviesPerPage) : 20;
+  const totalPages = Math.floor(movies.length / moviesPerPage);
+  console.log('totalPages', totalPages);
+
+  // const isVerySmallScreen = useMediaQuery({ query: '(max-width: 599px)' });
+  // const isSmallScreen = useMediaQuery({
+  //   query: '(min-width: 600px) and (max-width: 767px)',
+  // });
+  // const isMediumScreen = useMediaQuery({
+  //   query: '(min-width: 768px) and (max-width: 1023px)',
+  // });
+  // const isLargeScreen = useMediaQuery({
+  //   query: '(min-width: 1024px)',
+  // });
 
   const isVerySmallScreen = useMediaQuery({ query: '(max-width: 599px)' });
   const isSmallScreen = useMediaQuery({
-    query: '(min-width: 600px) and (max-width: 767px)',
+    query: '(min-width: 600px) and (max-width: 679px)',
   });
+  // const isSmallScreen = useMediaQuery({
+  //   query: '(min-width: 600px) and (max-width: 767px)',
+  // });
   const isMediumScreen = useMediaQuery({
-    query: '(min-width: 768px) and (max-width: 1023px)',
+    query: '(min-width: 680px) and (max-width: 899px)',
   });
   const isLargeScreen = useMediaQuery({
+    query: '(min-width: 900px) and (max-width: 1023px)',
+  });
+  const isVeryLargeScreen = useMediaQuery({
     query: '(min-width: 1024px)',
   });
+
+  // const styles = {
+  //   transform: isVerySmallScreen
+  //     ? `translateX(calc(-${currentIndex * PERCENTAGE_TRANSFORM}% + ${currentIndex * 68}px))`
+  //     : isSmallScreen
+  //       ? `translateX(calc(-${currentIndex * PERCENTAGE_TRANSFORM}% + ${currentIndex * 108}px))`
+  //       : isMediumScreen
+  //         ? `translateX(calc(-${currentIndex * PERCENTAGE_TRANSFORM}% + ${currentIndex * 108}px))`
+  //         : isLargeScreen
+  //           ? `translateX(calc(-${currentIndex * PERCENTAGE_TRANSFORM}% + ${currentIndex * 108}px))`
+  //           : '',
+  // };
 
   const styles = {
     transform: isVerySmallScreen
       ? `translateX(calc(-${currentIndex * PERCENTAGE_TRANSFORM}% + ${currentIndex * 68}px))`
-      : isSmallScreen
+      : isSmallScreen || isMediumScreen || isLargeScreen || isVeryLargeScreen
         ? `translateX(calc(-${currentIndex * PERCENTAGE_TRANSFORM}% + ${currentIndex * 108}px))`
-        : isMediumScreen
-          ? `translateX(calc(-${currentIndex * PERCENTAGE_TRANSFORM}% + ${currentIndex * 108}px))`
-          : isLargeScreen
-            ? `translateX(calc(-${currentIndex * PERCENTAGE_TRANSFORM}% + ${currentIndex * 108}px))`
-            : '',
+        : '',
   };
 
   const prevSlide = () => {
@@ -67,12 +93,37 @@ const RowSlider: FC<SliderProps> = ({ title }) => {
       setMoviesPerPage(2);
     } else if (isMediumScreen) {
       setCurrentIndex(0);
-      setMoviesPerPage(4);
+      setMoviesPerPage(3);
     } else if (isLargeScreen) {
+      setCurrentIndex(0);
+      setMoviesPerPage(4);
+    } else if (isVeryLargeScreen) {
       setCurrentIndex(0);
       setMoviesPerPage(5);
     }
-  }, [isSmallScreen, isMediumScreen, isLargeScreen]);
+  }, [
+    isVerySmallScreen,
+    isSmallScreen,
+    isMediumScreen,
+    isLargeScreen,
+    isVeryLargeScreen,
+  ]);
+
+  // useEffect(() => {
+  //   if (isVerySmallScreen) {
+  //     setCurrentIndex(0);
+  //     setMoviesPerPage(1);
+  //   } else if (isSmallScreen) {
+  //     setCurrentIndex(0);
+  //     setMoviesPerPage(2);
+  //   } else if (isMediumScreen) {
+  //     setCurrentIndex(0);
+  //     setMoviesPerPage(4);
+  //   } else if (isLargeScreen) {
+  //     setCurrentIndex(0);
+  //     setMoviesPerPage(5);
+  //   }
+  // }, [isSmallScreen, isMediumScreen, isLargeScreen]);
 
   return (
     <div className="relative">

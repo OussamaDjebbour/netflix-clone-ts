@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Movie } from './SlidersContainer';
+import { Movie } from '../features/SlidersContainer';
 
 interface MovieProps {
   movie: Movie;

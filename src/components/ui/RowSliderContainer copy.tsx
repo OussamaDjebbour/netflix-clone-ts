@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import RowSlider from './RowSlider';
-import { Movie } from './SlidersContainer';
+import { Movie } from '../features/SlidersContainer';
 
 interface RowSliderContainer {
   movies: Movie[] | null;

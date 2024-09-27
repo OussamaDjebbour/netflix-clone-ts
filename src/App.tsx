@@ -2,7 +2,10 @@ import { useEffect, Suspense } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import HeroSection from './components/features/HeroSection';
-import Slider from './components/ui/SlidersContainer';
+import Slider from './components/features/SlidersContainer';
+import SlidersContainer from './components/features/SlidersContainer';
+import HoverImageReveal from './components/ui/test';
+import Footer from './components/features/Footer';
 
 const queryClient = new QueryClient();
 
@@ -56,6 +59,10 @@ function App() {
         >
           <HeroSection />
         </Suspense>
+        <SlidersContainer />
+        <Footer />
+        {/* <MovieGenres movieId={movies?.[0].id} /> */}
+        {/* <HoverImageReveal /> */}
       </div>
     </QueryClientProvider>
   );

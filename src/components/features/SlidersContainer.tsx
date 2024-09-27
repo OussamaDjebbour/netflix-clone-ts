@@ -1,5 +1,5 @@
 import React from 'react';
-import RowSliderContainer from './RowSliderContainer';
+import RowSliderContainer from '../ui/RowSliderContainer';
 // import axios from 'axios';
 
 export interface Movie {
@@ -11,13 +11,13 @@ export interface Movie {
 
 const SlidersContainer: React.FC = () => {
   return (
-    <section className="relative w-full overflow-y-hidden overflow-x-scroll py-8 min-[600px]:py-16 min-[900px]:-mt-[11.7rem] lg:-mt-64 xl:-mt-72 2xl:-mt-[26rem] [&::-webkit-scrollbar]:hidden">
+    <main className="relative w-full overflow-y-hidden overflow-x-scroll py-8 min-[600px]:py-16 min-[900px]:-mt-[11.7rem] lg:-mt-64 xl:-mt-72 2xl:-mt-[26rem] [&::-webkit-scrollbar]:hidden">
       <RowSliderContainer title="now playing" />
       <RowSliderContainer title="popular" />
       <RowSliderContainer title="trending" />
       <RowSliderContainer title="upcoming" />
       <RowSliderContainer title="top rated" />
-    </section>
+    </main>
   );
 };
 

@@ -4,7 +4,7 @@ import RandomMovieImageCover from '../ui/RandomMovieImageCover';
 import { TMDBBASEURL, TMDBIMAGEURL } from '../../constants';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import HoverImageReveal from '../ui/test';
-import SlidersContainer from '../ui/SlidersContainer';
+import SlidersContainer from './SlidersContainer';
 import MovieGenres from '../ui/MovieGenres';
 
 interface Movie {
@@ -56,9 +56,6 @@ const HeroSection: React.FC = () => {
             </div>
           ))}
         </div> */}
-        <SlidersContainer />
-        {/* <MovieGenres movieId={movies?.[0].id} /> */}
-        <HoverImageReveal />
       </div>
 
       {/* <a

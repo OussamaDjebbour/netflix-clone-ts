@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Movie } from './SlidersContainer';
+import { Movie } from '../features/SlidersContainer';
 import MovieSlider from './MovieSlider';
 import { PERCENTAGE_TRANSFORM } from '../../constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
