@@ -362,7 +362,12 @@
 // 6666666666666666666666666666666
 
 // import { FC } from 'react';
-// import { Movie } from './SlidersContainer';
+// import { FC, Suspense, useRef, useState } from 'react';
+// import M from './M';
+
+// import MovieTrailer from './MovieTrailer';
+
+// import Spinner from './Spinner';
 // import RoundedButton from './RoundedButton';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import {
@@ -372,6 +377,7 @@
 // } from '@fortawesome/free-solid-svg-icons';
 // import { faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons';
 // import MovieGenres from './MovieGenres';
+// import { Movie } from '../features/SlidersContainer';
 
 // interface MovieProps {
 //   movie: Movie;
@@ -379,21 +385,53 @@
 // }
 
 // const MovieSlider: FC<MovieProps> = ({ movie, currentIndex }) => {
+//   const [isVideo, setIsVideo] = useState(false);
+
+//   const hoverTimeoutRef = useRef<number | null>(null);
+
+//   const handleMouseEnter = () => {
+//     hoverTimeoutRef.current = setTimeout(() => {
+//       setIsVideo(true);
+//     }, 1000); // 3 seconds
+//   };
+
+//   const handleMouseLeave = () => {
+//     if (hoverTimeoutRef.current) {
+//       clearTimeout(hoverTimeoutRef.current);
+//     }
+
+//     setIsVideo(false);
+//   };
+
 //   return (
 //     <div
 //       key={movie.id}
 //       className="relative flex-shrink-0 grow-0 basis-full cursor-pointer min-[600px]:basis-[calc(50%-2px)] min-[680px]:basis-[calc(33.33%-2.66px)] min-[900px]:basis-[calc(25%-3px)] lg:basis-[calc(20%-3.2px)]"
+//       onMouseEnter={() => handleMouseEnter()}
+//       onMouseLeave={() => handleMouseLeave()}
 //     >
 //       {/* Image container with hover group */}
 //       <div className="group relative transform transition-transform duration-300 hover:z-50 hover:-translate-y-10 hover:scale-110 min-[600px]:hover:scale-125">
 //         {/* Movie Image */}
-//         <img
-//           src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
-//           alt={movie.title}
-//           // transform transition-transform duration-300
-//           // group-hover:scale-110 min-[600px]:group-hover:scale-125
-//           className="h-full w-full rounded object-cover"
-//         />
+//         {isVideo ? (
+//           <div className="h-full w-full rounded bg-red-700 object-cover">
+//             <Suspense
+//               fallback={<Spinner />}
+
+//               // fallback={<p className="text-center text-white">Loading...</p>}
+//             >
+//               <MovieTrailer movieId={movie.id} />
+//             </Suspense>
+//           </div>
+//         ) : (
+//           <img
+//             src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
+//             alt={movie.title}
+//             // transform transition-transform duration-300
+//             // group-hover:scale-110 min-[600px]:group-hover:scale-125
+//             className="h-full w-full rounded object-cover"
+//           />
+//         )}
 
 //         {/* Overlay content */}
 //         <div className="pointer-events-none absolute left-0 top-full w-full transform bg-[#242424] px-2.5 py-2.5 opacity-0 transition-all duration-300 group-hover:pointer-events-auto group-hover:z-50 group-hover:opacity-100">
@@ -450,6 +488,7 @@ import { faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons';
 import MovieGenres from './MovieGenres';
 import M from './M';
 import MovieTrailer from './MovieTrailer';
+import Spinner from './Spinner';
 
 interface MovieProps {
   movie: Movie;
@@ -476,19 +515,22 @@ const MovieSlider: FC<MovieProps> = ({ movie, currentIndex }) => {
   return (
     <div
       key={movie.id}
-      className="relative flex-shrink-0 grow-0 basis-full cursor-pointer min-[600px]:basis-[calc(50%-2px)] min-[768px]:basis-[calc(25%-3px)] lg:basis-[calc(20%-3.2px)]"
+      className="relative flex-shrink-0 grow-0 basis-full cursor-pointer min-[600px]:basis-[calc(50%-2px)] min-[680px]:basis-[calc(33.33%-2.66px)] min-[900px]:basis-[calc(25%-3px)] lg:basis-[calc(20%-3.2px)]"
       onMouseEnter={() => handleMouseEnter()}
       onMouseLeave={() => handleMouseLeave()}
     >
       {/* Image or Video container with hover group */}
-      <div className="group relative transform transition-transform duration-300 hover:z-50 hover:-translate-y-10 hover:scale-125">
+      <div className="group relative transform transition-transform duration-300 hover:z-50 hover:-translate-y-10 hover:scale-110 min-[600px]:hover:scale-125">
         {/* Movie Image or Video */}
         {isVideo ? (
-          <Suspense
-            fallback={<p className="text-center text-white">Loading...</p>}
-          >
-            <MovieTrailer movieId={movie.id} />
-          </Suspense>
+          <div className="basis-full rounded bg-red-700 object-cover">
+            <Suspense
+              fallback={<Spinner />}
+              // fallback={<p className="text-center text-white">Loading...</p>}
+            >
+              <MovieTrailer movieId={movie.id} />
+            </Suspense>
+          </div>
         ) : (
           // <video
           //   src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`} // You will need the video source from TMDb or other sources
