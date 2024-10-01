@@ -16,7 +16,9 @@ const MovieTrailer = ({ movieId }: { movieId: number }) => {
 
   //   if (isLoading) return <p className="text-center text-white">Loading...</p>;
   if (error)
-    return <p className="text-center text-white">Error fetching video</p>;
+    return (
+      <p className="text-center text-3xl text-white">Error fetching video</p>
+    );
 
   // Filter for YouTube trailers
   const trailer = movieTrailer?.find(

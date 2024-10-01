@@ -515,7 +515,7 @@ const MovieSlider: FC<MovieProps> = ({ movie, currentIndex }) => {
   return (
     <div
       key={movie.id}
-      className="relative flex-shrink-0 grow-0 basis-full cursor-pointer min-[600px]:basis-[calc(50%-2px)] min-[680px]:basis-[calc(33.33%-2.66px)] min-[900px]:basis-[calc(25%-3px)] lg:basis-[calc(20%-3.2px)]"
+      className="relative flex-shrink-0 grow-0 basis-full min-[600px]:basis-[calc(50%-2px)] min-[680px]:basis-[calc(33.33%-2.66px)] min-[900px]:basis-[calc(25%-3px)] lg:basis-[calc(20%-3.2px)]"
       onMouseEnter={() => handleMouseEnter()}
       onMouseLeave={() => handleMouseLeave()}
     >
@@ -523,7 +523,7 @@ const MovieSlider: FC<MovieProps> = ({ movie, currentIndex }) => {
       <div className="group relative transform transition-transform duration-300 hover:z-50 hover:-translate-y-10 hover:scale-110 min-[600px]:hover:scale-125">
         {/* Movie Image or Video */}
         {isVideo ? (
-          <div className="basis-full rounded bg-red-700 object-cover">
+          <div className="basis-full rounded bg-black object-cover">
             <Suspense
               fallback={<Spinner />}
               // fallback={<p className="text-center text-white">Loading...</p>}
@@ -542,7 +542,7 @@ const MovieSlider: FC<MovieProps> = ({ movie, currentIndex }) => {
           <img
             src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
             alt={movie.title}
-            className="h-full w-full rounded object-cover"
+            className="h-full w-full cursor-pointer rounded object-cover"
           />
         )}
 
