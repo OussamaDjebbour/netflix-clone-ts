@@ -486,9 +486,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons';
 import MovieGenres from './MovieGenres';
-import M from './M';
+// import M from './M';
 import MovieTrailer from './MovieTrailer';
 import Spinner from './Spinner';
+import { QueryErrorResetBoundary } from '@tanstack/react-query';
+import { ErrorBoundary } from 'react-error-boundary'; // Error boundary package
+import ErrorFallback from './ErrorFallback';
 
 interface MovieProps {
   movie: Movie;
@@ -513,6 +516,7 @@ const MovieSlider: FC<MovieProps> = ({ movie, currentIndex }) => {
   };
 
   return (
+    // <ErrorBoundary FallbackComponent={ErrorFallback}>
     <div
       key={movie.id}
       className="relative flex-shrink-0 grow-0 basis-full min-[600px]:basis-[calc(50%-2px)] min-[680px]:basis-[calc(33.33%-2.66px)] min-[900px]:basis-[calc(25%-3px)] lg:basis-[calc(20%-3.2px)]"
@@ -524,12 +528,14 @@ const MovieSlider: FC<MovieProps> = ({ movie, currentIndex }) => {
         {/* Movie Image or Video */}
         {isVideo ? (
           <div className="basis-full rounded bg-black object-cover">
-            <Suspense
-              fallback={<Spinner />}
-              // fallback={<p className="text-center text-white">Loading...</p>}
-            >
-              <MovieTrailer movieId={movie.id} />
-            </Suspense>
+            <QueryErrorResetBoundary>
+              <Suspense
+                fallback={<Spinner />}
+                // fallback={<p className="text-center text-white">Loading...</p>}
+              >
+                <MovieTrailer movieId={movie.id} />
+              </Suspense>
+            </QueryErrorResetBoundary>
           </div>
         ) : (
           // <video
@@ -581,6 +587,7 @@ const MovieSlider: FC<MovieProps> = ({ movie, currentIndex }) => {
         </div>
       </div>
     </div>
+    // </ErrorBoundary>
   );
 };
 
