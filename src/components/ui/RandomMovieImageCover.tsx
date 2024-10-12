@@ -6,6 +6,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { TMDBBASEURL, TMDBIMAGEURL } from '../../constants';
 import { fetchRandomMovie } from '../../services/fetchRandomMovie';
 import { useMediaQuery } from 'react-responsive';
+import { useSearchParams } from 'react-router-dom';
+import Spinner from './Spinner';
 
 interface RandomMovieImageCoverProps {
   isShow: boolean;
@@ -16,6 +18,7 @@ interface Movie {
   title: string;
   overview: string;
   backdrop_path: string;
+  // poster_path: string;
 }
 
 const API_KEY = import.meta.env.VITE_API_KEY;
@@ -34,9 +37,14 @@ const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = ({
 }) => {
   // const [isShow, setIsShow] = useState(false);
 
-  const { data: movie } = useSuspenseQuery({
-    queryKey: ['randomMovie'],
-    queryFn: fetchRandomMovie,
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Set default value for "mediaType" parameter if it's missing
+  const mediaType = searchParams.get('mediaType') || 'movies';
+
+  const { data: movie, isLoading } = useSuspenseQuery({
+    queryKey: [`random${mediaType}`],
+    queryFn: () => fetchRandomMovie(mediaType),
   });
 
   const isSmallScreen = useMediaQuery({
@@ -44,10 +52,11 @@ const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = ({
   });
 
   console.log(
-    '`${TMDBIMAGEURL}${movie.backdrop_path}`',
+    '`${TMDBIMAGEURL}${TVSHOWWWWWWWSSSSSSSS.backdrop_path}`',
     `${TMDBIMAGEURL}${movie.backdrop_path}`,
     movie,
   );
+  if (isLoading) <Spinner />;
   return (
     <div className="relative w-full">
       <img src={`${TMDBIMAGEURL}${movie.backdrop_path}`} alt="cover image" />
@@ -64,10 +73,13 @@ const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = ({
             ? reduceLengthString(movie?.overview, 70) */}
           {reduceLengthString(movie?.overview, 130)}
         </p>
-        <div className="mt-3 flex gap-4 text-base min-[500px]:mb-4 min-[500px]:mt-4 min-[600px]:text-base small:mt-6 small:text-lg lg:mt-8">
-          <Button>Play</Button>
-          <Button>My list</Button>
-        </div>
+
+        {!isLoading && (
+          <div className="mt-3 flex gap-4 text-base min-[500px]:mb-4 min-[500px]:mt-4 min-[600px]:text-base small:mt-6 small:text-lg lg:mt-8">
+            <Button>Play</Button>
+            <Button>My list</Button>
+          </div>
+        )}
       </div>
 
       <AnimatePresence>

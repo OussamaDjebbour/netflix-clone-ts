@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, Suspense, useEffect, useState } from 'react';
 import { Movie } from '../features/SlidersContainer';
 import MovieSlider from './MovieSlider';
 import { PERCENTAGE_TRANSFORM } from '../../constants';
@@ -12,16 +12,32 @@ import { fetchPlayNowMovies } from '../../services/fetchPlayNowMovies';
 import { transformString } from '../../helpers/transformString';
 import replaceSpacesWithUnderscores from '../../helpers/replaceSpacesWithUndescores';
 import { useMediaQuery } from 'react-responsive';
+import { fetchAnimes } from '../../services/fetchAnime';
+import { fetchTVShows } from '../../services/fetchTVShows';
+import { useSearchParams } from 'react-router-dom';
+import Spinner from './Spinner';
 
 interface SliderProps {
   title: string;
 }
 
 const RowSlider: FC<SliderProps> = ({ title }) => {
+  // const { data: movies } = useSuspenseQuery<Movie[]>({
+  //   queryKey: [transformString(title)],
+  //   // queryFn: fetchAnimes,
+  //   queryFn: () => fetchPlayNowMovies(replaceSpacesWithUnderscores(title)),
+  // });
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const mediaType = searchParams.get('mediaType') || 'movies';
+
   const { data: movies } = useSuspenseQuery<Movie[]>({
-    queryKey: [transformString(title)],
-    queryFn: () => fetchPlayNowMovies(replaceSpacesWithUnderscores(title)),
+    // queryKey: [transformString(title)],
+    queryKey: [`${transformString(title)}${mediaType}`],
+    queryFn: () => fetchTVShows(replaceSpacesWithUnderscores(title), mediaType),
   });
+  console.log('moviesdsssdsds', movies);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [moviesPerPage, setMoviesPerPage] = useState(1);
   // const totalPages = movies ? Math.floor(movies.length / moviesPerPage) : 20;
@@ -138,11 +154,13 @@ const RowSlider: FC<SliderProps> = ({ title }) => {
       )} */}
 
         {movies?.map((movie) => (
-          <MovieSlider
-            key={movie.id}
-            movie={movie}
-            currentIndex={currentIndex}
-          />
+          <Suspense key={movie?.id} fallback={<Spinner />}>
+            <MovieSlider
+              // key={movie?.id}
+              movie={movie}
+              currentIndex={currentIndex}
+            />
+          </Suspense>
         ))}
       </div>
 

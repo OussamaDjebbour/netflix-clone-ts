@@ -515,6 +515,16 @@ const MovieSlider: FC<MovieProps> = ({ movie, currentIndex }) => {
     setIsVideo(false);
   };
 
+  // Check for image paths
+
+  const imagePath = movie.backdrop_path || movie.poster_path;
+
+  const imageUrl = `https://image.tmdb.org/t/p/w500${imagePath}`;
+
+  // Determine aspect ratio: 16/9
+
+  const aspectRatioClass = 'aspect-[16/9]';
+
   return (
     // <ErrorBoundary FallbackComponent={ErrorFallback}>
     <div
@@ -546,9 +556,9 @@ const MovieSlider: FC<MovieProps> = ({ movie, currentIndex }) => {
           //   loop
           // />
           <img
-            src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
+            src={imageUrl}
             alt={movie.title}
-            className="h-full w-full cursor-pointer rounded object-cover"
+            className={` ${aspectRatioClass} h-full w-full cursor-pointer rounded object-cover`}
           />
         )}
 
@@ -583,7 +593,7 @@ const MovieSlider: FC<MovieProps> = ({ movie, currentIndex }) => {
           </p>
 
           {/* Movie Genres */}
-          <MovieGenres movieId={movie.id} />
+          {/* <MovieGenres movieId={movie.id} /> */}
         </div>
       </div>
     </div>

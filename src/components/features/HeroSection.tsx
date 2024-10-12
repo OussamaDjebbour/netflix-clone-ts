@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import Navbar from '../ui/Navbar';
 import RandomMovieImageCover from '../ui/RandomMovieImageCover';
 import { TMDBBASEURL, TMDBIMAGEURL } from '../../constants';
@@ -6,6 +6,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import HoverImageReveal from '../ui/test';
 import SlidersContainer from './SlidersContainer';
 import MovieGenres from '../ui/MovieGenres';
+import Spinner from '../ui/Spinner';
 
 interface Movie {
   id: number;
@@ -21,7 +22,7 @@ const fetchNowPlayingMovies = async (): Promise<Movie[]> => {
     `${TMDBBASEURL}/movie/now_playing?language=en-US&page=1&api_key=${API_KEY}`,
   );
   const data = await response.json();
-  const movies: Movie[] = data.results;
+  const movies: Movie[] = data.results.slice(0, 2);
 
   // return movies[Math.floor(Math.random() * movies?.length)];
   return movies;
@@ -33,19 +34,29 @@ const HeroSection: React.FC = () => {
   // const movies = fetchNowPlayingMovies();
   // console.log('movies', movies);
 
-  const { data: movies } = useSuspenseQuery({
-    queryKey: ['nowPlayingMovies'],
-    queryFn: fetchNowPlayingMovies,
-    // enabled: false,
-  });
+  // const status = useSuspenseQuery({
+  //   queryKey: ['nowPlayingMovies'],
+  //   queryFn: fetchNowPlayingMovies,
+  //   // enabled: false,
+  // });
 
-  // console.log('movies', movies);
+  // console.log('status', status);
 
   return (
     <>
       <div className="relative w-full">
         <Navbar setIsShow={setIsShow} />
-        <RandomMovieImageCover isShow={isShow} />
+        {/* <Suspense
+          fallback={
+            <p className="h-[200px] w-[600px] bg-red-600 text-2xl">
+              Loadddddddddddddddddddddddddiiiiiiiiiiiiiinnnnnnnnngggggggggggggg
+            </p>
+          }
+        > */}
+        <Suspense fallback={<Spinner />}>
+          <RandomMovieImageCover isShow={isShow} />
+        </Suspense>
+
         {/* <div className="flex min-w-full small:absolute small:bottom-0 small:z-50">
           {movies?.map((movie: Movie) => (
             <div className="w-full" key={movie.id}>

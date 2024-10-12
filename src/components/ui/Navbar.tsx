@@ -1,8 +1,15 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faBell } from '@fortawesome/free-regular-svg-icons/faBell';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+  useTransition,
+} from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 interface NavbarProps {
   setIsShow: Dispatch<SetStateAction<boolean>>;
@@ -24,6 +31,32 @@ const Navbar: React.FC<NavbarProps> = ({ setIsShow }) => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  // const navigate = useNavigate();
+  // const handleMediaSwitch = (media: 'movies' | 'tv-shows' | 'anime') => {
+  //   navigate(`?mediaType=${media}`);
+  // };
+
+  //
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [isPending, startTransition] = useTransition();
+
+  // Set default value for "mediaType" parameter if it's missing
+  const mediaType = searchParams.get('mediaType') || 'movies';
+
+  useEffect(() => {
+    if (!searchParams.has('mediaType')) {
+      // Set the default "mediaType" parameter in the URL if not present
+      setSearchParams({ mediaType });
+    }
+  }, [mediaType, searchParams, setSearchParams]);
+
+  const handleChangeMedia = (newMedia: 'movies' | 'tv-shows' | 'anime') => {
+    startTransition(() => {
+      setSearchParams({ mediaType: newMedia });
+    });
+  };
 
   return (
     <nav
@@ -53,8 +86,26 @@ const Navbar: React.FC<NavbarProps> = ({ setIsShow }) => {
           className="hidden text-white small:flex small:items-center small:gap-4 small:transition-all small:duration-500 small:ease-in lg:gap-5"
         >
           <li className="hover:cursor-pointer">Home</li>
-          <li className="hover:cursor-pointer">TV Shows</li>
-          <li className="hover:cursor-pointer">Movies</li>
+          <li
+            className="hover:cursor-pointer"
+            onClick={() => handleChangeMedia('movies')}
+          >
+            Movies
+          </li>
+          <li
+            className="hover:cursor-pointer"
+            onClick={() => handleChangeMedia('tv-shows')}
+          >
+            TV Shows
+          </li>
+          <li
+            className="hover:cursor-pointer"
+            onClick={() => handleChangeMedia('anime')}
+          >
+            Anime
+          </li>
+          {/* <li className="hover:cursor-pointer">TV Shows</li>
+          <li className="hover:cursor-pointer">Movies</li> */}
           <li className="hover:cursor-pointer">New</li>
           <li className="hover:cursor-pointer">My List</li>
         </motion.ul>
