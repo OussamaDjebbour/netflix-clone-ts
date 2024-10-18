@@ -17,11 +17,11 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ErrorPage from './pages/ErrorPage';
 
 const queryClient = new QueryClient({
-  // defaultOptions: {
-  //   queries: {
-  //     staleTime: 1000 * 30,
-  //   },
-  // },
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 300000,
+    },
+  },
 });
 
 const router = createBrowserRouter([

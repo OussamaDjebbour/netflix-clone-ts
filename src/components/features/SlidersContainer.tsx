@@ -1,6 +1,7 @@
 import React from 'react';
 import RowSliderContainer from '../ui/RowSliderContainer';
 import { useSearchParams } from 'react-router-dom';
+import ProjectsList from '../ui/ProjectsList';
 // import axios from 'axios';
 
 export interface Movie {
@@ -37,10 +38,11 @@ const SlidersContainer: React.FC = () => {
       <RowSliderContainer title="popular" />
       <RowSliderContainer title="trending" />
       {/* <RowSliderContainer title="upcoming" /> */}
-      <RowSliderContainer title="top rated" />
+      {/* <RowSliderContainer title="top rated" /> */}
       {/* <RowSliderContainer title="airing_today" /> */}
       {/* <RowSliderContainer title="on_the_air" /> */}
       {/* <RowSliderContainer title="latest" /> */}
+      {/* <ProjectsList /> */}
     </main>
   );
 };

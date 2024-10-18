@@ -6,6 +6,7 @@ import { transformString } from '../../helpers/transformString';
 import replaceSpacesWithUnderscores from '../../helpers/replaceSpacesWithUndescores';
 import { ftchTest } from '../../services/fetchTVShows';
 import Spinner from './Spinner';
+import RowTest from './RowTest';
 
 interface RowSliderContainer {
   title: string;
@@ -25,7 +26,8 @@ const RowSliderContainer: FC<RowSliderContainer> = ({ title }) => {
       </h2>
 
       {/* <Suspense fallback={<Spinner />}> */}
-      <RowSlider title={title || ''} />
+      {/* <RowSlider title={title || ''} /> */}
+      <RowTest title={title || ''} />
       {/* </Suspense> */}
     </div>
   );

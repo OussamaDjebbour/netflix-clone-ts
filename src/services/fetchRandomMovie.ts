@@ -28,8 +28,8 @@ export const fetchRandomMovie = async (mediaType: string): Promise<Movie> => {
   // movies.map((m) => console.log(m.title));
   const movie = movies[Math.floor(Math.random() * movies.length)];
   // console.log('moviemoviemoviemoviemoviemoviemovie', movie);
-  return movie.backdrop_path ? movie : movies[0];
-  // return movies[13];
+  // return movie.backdrop_path ? movie : movies[0];
+  return movies[1];
 };
 
 // export const fetchRandomMovie = async (): Promise<Movie> => {

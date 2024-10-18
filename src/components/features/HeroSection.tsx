@@ -53,9 +53,9 @@ const HeroSection: React.FC = () => {
             </p>
           }
         > */}
-        <Suspense fallback={<Spinner />}>
-          <RandomMovieImageCover isShow={isShow} />
-        </Suspense>
+        {/* <Suspense fallback={<Spinner />}> */}
+        <RandomMovieImageCover isShow={isShow} />
+        {/* </Suspense> */}
 
         {/* <div className="flex min-w-full small:absolute small:bottom-0 small:z-50">
           {movies?.map((movie: Movie) => (
