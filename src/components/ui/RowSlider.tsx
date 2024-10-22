@@ -255,11 +255,12 @@ const RowSlider: FC<SliderProps> = ({ title }) => {
     data: movies = [],
     refetch,
     isLoading,
+    isPending,
   } = useQuery<Movie[]>({
     queryKey: [title, mediaType, currentIndex, moviesPerPage],
     queryFn: () =>
       fetchTVShows(
-        replaceSpacesWithUnderscores(title),
+        title,
         mediaType,
         // currentIndex,
         // moviesPerPage,
@@ -414,9 +415,13 @@ const RowSlider: FC<SliderProps> = ({ title }) => {
 
   return (
     <div className="relative">
-      {isLoading ? (
-        <Spinner />
+      {isPending ? (
+        // <div className="h-screen w-full">
+        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <Spinner />
+        </div>
       ) : (
+        // <Spinner />
         <div
           ref={ref}
           className="flex basis-full gap-1 px-9 transition-transform duration-500 min-[600px]:px-14"

@@ -729,234 +729,6 @@
 
 // export default RowTest;
 
-import { FC, useEffect, useState } from 'react';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { fetchTVShows } from '../../services/fetchTVShows';
-import { useMediaQuery } from 'react-responsive';
-import Spinner from './Spinner';
-import MovieSlider from './MovieSlider';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faChevronLeft,
-  faChevronRight,
-} from '@fortawesome/free-solid-svg-icons';
-import { Movie } from '../features/SlidersContainer';
-import { useSearchParams } from 'react-router-dom';
-import replaceSpacesWithUnderscores from '../../helpers/replaceSpacesWithUndescores';
-
-interface SliderProps {
-  title: string;
-}
-
-const RowTest: FC<SliderProps> = ({ title }) => {
-  const [moviesPerPage, setMoviesPerPage] = useState(1);
-  const [fade, setFade] = useState(true);
-
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const mediaType = searchParams.get('mediaType') || 'movies';
-
-  const isVerySmallScreen = useMediaQuery({ query: '(max-width: 599px)' });
-  const isSmallScreen = useMediaQuery({
-    query: '(min-width: 600px) and (max-width: 679px)',
-  });
-  const isMediumScreen = useMediaQuery({
-    query: '(min-width: 680px) and (max-width: 899px)',
-  });
-  const isLargeScreen = useMediaQuery({
-    query: '(min-width: 900px) and (max-width: 1023px)',
-  });
-  const isVeryLargeScreen = useMediaQuery({ query: '(min-width: 1024px)' });
-
-  useEffect(() => {
-    if (isVerySmallScreen) setMoviesPerPage(1);
-    else if (isSmallScreen) setMoviesPerPage(2);
-    else if (isMediumScreen) setMoviesPerPage(3);
-    else if (isLargeScreen) setMoviesPerPage(4);
-    else if (isVeryLargeScreen) setMoviesPerPage(5);
-  }, [
-    isVerySmallScreen,
-    isSmallScreen,
-    isMediumScreen,
-    isLargeScreen,
-    isVeryLargeScreen,
-  ]);
-
-  const {
-    data: movies = [],
-    // fetchNextPage, hasNextPage, isFetchingNextPage,
-    isLoading,
-  } = useQuery<Movie[]>({
-    queryKey: [replaceSpacesWithUnderscores(title), mediaType, moviesPerPage],
-    queryFn: () => fetchTVShows(title, mediaType),
-    // queryFn: ({ pageParam = 1 }) => fetchTVShows(title, 'movies', pageParam),
-    // getNextPageParam: (lastPage) => {
-    //   if (lastPage.page < lastPage.total_pages) {
-    //     return lastPage.page + 1;
-    //   }
-    //   return undefined;
-    // },
-    // initialPageParam: 1,
-  });
-
-  // const movies = data?.pages.flatMap((page) => page.results) || [];
-  // const movies = data?.pages.flat() || [];
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-  // const totalPages = Math.floor(movies.length / moviesPerPage);
-  // console.log('totalPages', totalPages);
-  // const testt = Math.floor(movies.length / moviesPerPage);
-
-  console.log(
-    'currentIndexcurrentIndexcurrentIndexcurrentIndexcurrentIndexcurrentIndexcurrentIndexcurrentIndexcurrentIndexcurrentIndexcurrentIndexcurrentIndexcurrentIndexcurrentIndexcurrentIndexcurrentIndexcurrentIndexcurrentIndexcurrentIndexcurrentIndexcurrentIndexcurrentIndexcurrentIndexcurrentIndexcurrentIndexcurrentIndex',
-    currentIndex,
-    moviesPerPage,
-    currentIndex + moviesPerPage,
-  );
-
-  // Adjust this to skip the last page if the remaining items are less than moviesPerPage
-  const totalValidMovies =
-    Math.floor(movies.length / moviesPerPage) * moviesPerPage;
-
-  console.log(
-    'totalValidMoviestotalValidMoviestotalValidMoviestotalValidMovies',
-    totalValidMovies,
-  );
-
-  const prevSlide = () => {
-    setFade(false);
-    setCurrentIndex((prev) =>
-      prev === 0 ? totalValidMovies - moviesPerPage : prev - moviesPerPage,
-    );
-  };
-
-  const nextSlide = () => {
-    setFade(false);
-    setCurrentIndex((prev) =>
-      prev + moviesPerPage >= totalValidMovies ? 0 : prev + moviesPerPage,
-    );
-  };
-
-  // const prevSlide = () => {
-  //   setFade(false);
-  //   setCurrentIndex((prev) =>
-  //     prev === 0 ? movies.length - moviesPerPage : prev - moviesPerPage,
-  //   );
-  //   // setCurrentIndex((prev) => (prev === 0 ? totalPages - 1 : prev - 1));
-  // };
-
-  // const nextSlide = () => {
-  //   // if (currentIndex + moviesPerPage >= movies.length && hasNextPage) {
-  //   //   fetchNextPage();
-  //   // }
-  //   setFade(false);
-  //   setCurrentIndex((prev) =>
-  //     prev + moviesPerPage >= movies.length ? 0 : prev + moviesPerPage,
-  //   );
-  // };
-  // const nextSlide = () => {
-  //   // if (currentIndex + moviesPerPage >= movies.length && hasNextPage) {
-  //   //   fetchNextPage();
-  //   // }
-  //   setFade(false);
-  //   setCurrentIndex((prev) =>
-  //     prev + moviesPerPage >= movies.length ? 0 : prev + moviesPerPage,
-  //   );
-  //   // setCurrentIndex((prev) => (prev === totalPages - 1 ? 0 : prev + 1));
-  // };
-
-  useEffect(() => {
-    if (!fade) {
-      const timer = setTimeout(() => setFade(true), 300);
-      return () => clearTimeout(timer);
-    }
-  }, [currentIndex]);
-
-  // console.log('isFetchingNextPage', isFetchingNextPage);
-
-  useEffect(() => {
-    if (isVerySmallScreen) {
-      setCurrentIndex(0);
-      setMoviesPerPage(1);
-    } else if (isSmallScreen) {
-      setCurrentIndex(0);
-      setMoviesPerPage(2);
-    } else if (isMediumScreen) {
-      setCurrentIndex(0);
-      setMoviesPerPage(3);
-    } else if (isLargeScreen) {
-      setCurrentIndex(0);
-      setMoviesPerPage(4);
-    } else if (isVeryLargeScreen) {
-      setCurrentIndex(0);
-      setMoviesPerPage(5);
-    }
-  }, [
-    isVerySmallScreen,
-    isSmallScreen,
-    isMediumScreen,
-    isLargeScreen,
-    isVeryLargeScreen,
-  ]);
-
-  return (
-    <div className="relative">
-      {/* {isFetchingNextPage || isLoading ? ( */}
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <div
-          className={`flex basis-full gap-1 px-9 transition-all duration-500 min-[600px]:px-14 ${
-            fade ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'
-          }`}
-        >
-          {movies
-            .slice(currentIndex, currentIndex + moviesPerPage)
-            // .slice(
-            //   currentIndex,
-            //   currentIndex === 0
-            //     ? currentIndex + moviesPerPage
-            //     : moviesPerPage + moviesPerPage,
-            // )
-            .map((movie) => (
-              <MovieSlider
-                key={movie.id}
-                movie={movie}
-                currentIndex={currentIndex}
-              />
-            ))}
-        </div>
-      )}
-
-      <button
-        onClick={prevSlide}
-        className="absolute left-0 top-1/2 h-full w-[35px] -translate-y-1/2 transform bg-[rgba(0,0,0,0.5)] min-[600px]:w-[55px]"
-      >
-        <FontAwesomeIcon
-          icon={faChevronLeft}
-          size="3x"
-          color="white"
-          fontWeight="bold"
-        />
-      </button>
-
-      <button
-        onClick={nextSlide}
-        className="absolute right-0 top-1/2 h-full w-[35px] -translate-y-1/2 transform bg-[rgba(0,0,0,0.5)] min-[600px]:w-[55px]"
-      >
-        <FontAwesomeIcon
-          icon={faChevronRight}
-          size="3x"
-          color="white"
-          fontWeight="bold"
-        />
-      </button>
-    </div>
-  );
-};
-
-export default RowTest;
-
 // import { FC, useEffect, useState } from 'react';
 // import { useInfiniteQuery } from '@tanstack/react-query';
 // import { fetchTVShows } from '../../services/fetchTVShows';
@@ -1038,6 +810,361 @@ export default RowTest;
 //         <Spinner />
 //       ) : (
 //         <div className="flex gap-1 px-9 transition-transform duration-500 min-[600px]:px-14">
+//           {movies
+//             .slice(currentIndex, currentIndex + moviesPerPage)
+//             .map((movie) => (
+//               <MovieSlider
+//                 key={movie.id}
+//                 movie={movie}
+//                 currentIndex={currentIndex}
+//               />
+//             ))}
+//         </div>
+//       )}
+
+//       <button
+//         onClick={prevSlide}
+//         className="absolute left-0 top-1/2 h-full w-[35px] -translate-y-1/2 transform bg-[rgba(0,0,0,0.5)] min-[600px]:w-[55px]"
+//       >
+//         <FontAwesomeIcon
+//           icon={faChevronLeft}
+//           size="3x"
+//           color="white"
+//           fontWeight="bold"
+//         />
+//       </button>
+
+//       <button
+//         onClick={nextSlide}
+//         className="absolute right-0 top-1/2 h-full w-[35px] -translate-y-1/2 transform bg-[rgba(0,0,0,0.5)] min-[600px]:w-[55px]"
+//       >
+//         <FontAwesomeIcon
+//           icon={faChevronRight}
+//           size="3x"
+//           color="white"
+//           fontWeight="bold"
+//         />
+//       </button>
+//     </div>
+//   );
+// };
+
+// export default RowTest;
+
+import { FC, useEffect, useState } from 'react';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { fetchTVShows } from '../../services/fetchTVShows';
+import { useMediaQuery } from 'react-responsive';
+import Spinner from './Spinner';
+import MovieSlider from './MovieSlider';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faChevronLeft,
+  faChevronRight,
+} from '@fortawesome/free-solid-svg-icons';
+import { Movie } from '../features/SlidersContainer';
+import { useSearchParams } from 'react-router-dom';
+import replaceSpacesWithUnderscores from '../../helpers/replaceSpacesWithUndescores';
+import { useInView } from 'react-intersection-observer';
+import LazyMovieSlider from './LazyMovieSlider';
+
+interface SliderProps {
+  title: string;
+}
+
+const RowTest: FC<SliderProps> = ({ title }) => {
+  const [moviesPerPage, setMoviesPerPage] = useState(1);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const [fade, setFade] = useState(true);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const mediaType = searchParams.get('mediaType') || 'movies';
+
+  // Set up Intersection Observer
+
+  const { ref, inView } = useInView({
+    triggerOnce: true, // Only trigger once when it first comes into view
+
+    rootMargin: '60px', // Load slightly before fully in view
+  });
+
+  const isVerySmallScreen = useMediaQuery({ query: '(max-width: 599px)' });
+  const isSmallScreen = useMediaQuery({
+    query: '(min-width: 600px) and (max-width: 679px)',
+  });
+  const isMediumScreen = useMediaQuery({
+    query: '(min-width: 680px) and (max-width: 899px)',
+  });
+  const isLargeScreen = useMediaQuery({
+    query: '(min-width: 900px) and (max-width: 1023px)',
+  });
+  const isVeryLargeScreen = useMediaQuery({ query: '(min-width: 1024px)' });
+
+  useEffect(() => {
+    if (isVerySmallScreen) setMoviesPerPage(1);
+    else if (isSmallScreen) setMoviesPerPage(2);
+    else if (isMediumScreen) setMoviesPerPage(3);
+    else if (isLargeScreen) setMoviesPerPage(4);
+    else if (isVeryLargeScreen) setMoviesPerPage(5);
+  }, [
+    isVerySmallScreen,
+    isSmallScreen,
+    isMediumScreen,
+    isLargeScreen,
+    isVeryLargeScreen,
+  ]);
+
+  const {
+    data: movies = [],
+    // fetchNextPage, hasNextPage, isFetchingNextPage,
+    isLoading,
+    isFetching,
+    error,
+    refetch,
+  } = useQuery<Movie[]>({
+    // queryKey: [replaceSpacesWithUnderscores(title), mediaType, moviesPerPage],
+    queryKey: [title, mediaType, currentIndex, moviesPerPage],
+    queryFn: () => fetchTVShows(title, mediaType, currentIndex, moviesPerPage),
+    enabled: inView,
+    // queryFn: ({ pageParam = 1 }) => fetchTVShows(title, 'movies', pageParam),
+    // getNextPageParam: (lastPage) => {
+    //   if (lastPage.page < lastPage.total_pages) {
+    //     return lastPage.page + 1;
+    //   }
+    //   return undefined;
+    // },
+    // initialPageParam: 1,
+  });
+
+  // const movies = data?.pages.flatMap((page) => page.results) || [];
+  // const movies = data?.pages.flat() || [];
+
+  // const totalPages = Math.floor(movies.length / moviesPerPage);
+  // console.log('totalPages', totalPages);
+  // const testt = Math.floor(movies.length / moviesPerPage);
+  // if (error) throw new Error('Oops! Something!');
+
+  // Adjust this to skip the last page if the remaining items are less than moviesPerPage
+  const totalValidMovies =
+    Math.floor(movies.length / moviesPerPage) * moviesPerPage;
+
+  console.log(
+    'totalValidMoviestotalValidMoviestotalValidMoviestotalValidMovies',
+    totalValidMovies,
+    movies,
+  );
+
+  const prevSlide = () => {
+    setFade(false);
+    setCurrentIndex((prev) =>
+      prev === 0 ? totalValidMovies - moviesPerPage : prev - moviesPerPage,
+    );
+  };
+
+  const nextSlide = () => {
+    setFade(false);
+    setCurrentIndex((prev) =>
+      prev + moviesPerPage >= totalValidMovies ? 0 : prev + moviesPerPage,
+    );
+  };
+
+  // const prevSlide = () => {
+  //   setFade(false);
+  //   setCurrentIndex((prev) =>
+  //     prev === 0 ? movies.length - moviesPerPage : prev - moviesPerPage,
+  //   );
+  //   // setCurrentIndex((prev) => (prev === 0 ? totalPages - 1 : prev - 1));
+  // };
+
+  // const nextSlide = () => {
+  //   // if (currentIndex + moviesPerPage >= movies.length && hasNextPage) {
+  //   //   fetchNextPage();
+  //   // }
+  //   setFade(false);
+  //   setCurrentIndex((prev) =>
+  //     prev + moviesPerPage >= movies.length ? 0 : prev + moviesPerPage,
+  //   );
+  // };
+  // const nextSlide = () => {
+  //   // if (currentIndex + moviesPerPage >= movies.length && hasNextPage) {
+  //   //   fetchNextPage();
+  //   // }
+  //   setFade(false);
+  //   setCurrentIndex((prev) =>
+  //     prev + moviesPerPage >= movies.length ? 0 : prev + moviesPerPage,
+  //   );
+  //   // setCurrentIndex((prev) => (prev === totalPages - 1 ? 0 : prev + 1));
+  // };
+
+  useEffect(() => {
+    if (!fade) {
+      const timer = setTimeout(() => setFade(true), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [currentIndex]);
+
+  // console.log('isFetchingNextPage', isFetchingNextPage);
+
+  useEffect(() => {
+    if (isVerySmallScreen) {
+      setCurrentIndex(0);
+      setMoviesPerPage(1);
+    } else if (isSmallScreen) {
+      setCurrentIndex(0);
+      setMoviesPerPage(2);
+    } else if (isMediumScreen) {
+      setCurrentIndex(0);
+      setMoviesPerPage(3);
+    } else if (isLargeScreen) {
+      setCurrentIndex(0);
+      setMoviesPerPage(4);
+    } else if (isVeryLargeScreen) {
+      setCurrentIndex(0);
+      setMoviesPerPage(5);
+    }
+  }, [
+    isVerySmallScreen,
+    isSmallScreen,
+    isMediumScreen,
+    isLargeScreen,
+    isVeryLargeScreen,
+  ]);
+
+  // const t = movies.slice(currentIndex, currentIndex + moviesPerPage);
+  // // .map((movie) => !movie.backdrop_path)
+
+  // console.log('ttttt', t[0]?.backdrop_path);
+
+  console.log('inViewwwww', inView);
+
+  return (
+    <div ref={ref} className="relative">
+      {isLoading || !inView ? (
+        <div className="h-full basis-full">
+          <Spinner />
+        </div>
+      ) : (
+        <div
+          // ref={ref}
+          className={`flex basis-full gap-1 px-9 transition-all duration-500 min-[600px]:px-14 ${
+            fade ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'
+          }`}
+        >
+          {movies
+            .slice(currentIndex, currentIndex + moviesPerPage)
+            .map((movie) => (
+              // <LazyMovieSlider
+              //   key={movie.id}
+              //   movie={movie}
+              //   currentIndex={currentIndex}
+              // />
+              <MovieSlider
+                key={movie.id}
+                movie={movie}
+                currentIndex={currentIndex}
+              />
+            ))}
+        </div>
+      )}
+
+      <button
+        onClick={prevSlide}
+        className="absolute left-0 top-1/2 h-full w-[35px] -translate-y-1/2 transform bg-[rgba(0,0,0,0.5)] min-[600px]:w-[55px]"
+      >
+        <FontAwesomeIcon
+          icon={faChevronLeft}
+          size="3x"
+          color="white"
+          fontWeight="bold"
+        />
+      </button>
+
+      <button
+        onClick={nextSlide}
+        className="absolute right-0 top-1/2 h-full w-[35px] -translate-y-1/2 transform bg-[rgba(0,0,0,0.5)] min-[600px]:w-[55px]"
+      >
+        <FontAwesomeIcon
+          icon={faChevronRight}
+          size="3x"
+          color="white"
+          fontWeight="bold"
+        />
+      </button>
+    </div>
+  );
+};
+
+export default RowTest;
+
+// Final
+
+// import { useInView } from 'react-intersection-observer';
+
+// const RowTest: FC<SliderProps> = ({ title }) => {
+//   const [moviesPerPage, setMoviesPerPage] = useState(1);
+//   const [currentIndex, setCurrentIndex] = useState(0);
+//   const [fade, setFade] = useState(true);
+
+//   // Set up Intersection Observer for lazy fetching
+//   const { ref, inView } = useInView({
+//     triggerOnce: true, // Fetch only once when it comes into view
+//     rootMargin: '100px', // Load slightly before fully in view
+//   });
+
+//   // Fetch movies when the component comes into view
+//   const {
+//     data: movies = [],
+//     isLoading,
+//     isFetching,
+//     refetch, // Will be called when inView is true
+//   } = useQuery<Movie[]>({
+//     queryKey: [title, currentIndex, moviesPerPage],
+//     queryFn: () => fetchTVShows(title, 'movies', currentIndex, moviesPerPage),
+//     enabled: inView, // Only fetch when the component is in view
+//   });
+
+//   // useEffect(() => {
+//   //   if (inView) {
+//   //     refetch(); // Trigger fetch when RowTest comes into view
+//   //   }
+//   // }, [inView, refetch]);
+
+//   const totalValidMovies =
+//     Math.floor(movies.length / moviesPerPage) * moviesPerPage;
+
+//   const prevSlide = () => {
+//     setFade(false);
+//     setCurrentIndex((prev) =>
+//       prev === 0 ? totalValidMovies - moviesPerPage : prev - moviesPerPage,
+//     );
+//   };
+
+//   const nextSlide = () => {
+//     setFade(false);
+//     setCurrentIndex((prev) =>
+//       prev + moviesPerPage >= totalValidMovies ? 0 : prev + moviesPerPage,
+//     );
+//   };
+
+//   useEffect(() => {
+//     if (!fade) {
+//       const timer = setTimeout(() => setFade(true), 300);
+//       return () => clearTimeout(timer);
+//     }
+//   }, [currentIndex]);
+
+//   return (
+//     <div ref={ref} className="relative">
+//       {isLoading || isFetching || !inView ? (
+//         <Spinner />
+//       ) : (
+//         <div
+//           className={`flex basis-full gap-1 px-9 transition-all duration-500 min-[600px]:px-14 ${
+//             fade ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'
+//           }`}
+//         >
 //           {movies
 //             .slice(currentIndex, currentIndex + moviesPerPage)
 //             .map((movie) => (

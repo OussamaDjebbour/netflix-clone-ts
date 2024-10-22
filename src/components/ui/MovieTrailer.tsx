@@ -2,16 +2,21 @@ import React, { Suspense } from 'react';
 // import { useQuery } from 'react-query';
 import { fetchMovieVideo } from '../../services/fetchMovieVideo';
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useSearchParams } from 'react-router-dom';
 // import axios from 'axios';
 
 const MovieTrailer = ({ movieId }: { movieId: number }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const mediaType = searchParams.get('mediaType') || 'movies';
+
   const {
     data: movieTrailer,
     isLoading,
     error,
   } = useSuspenseQuery({
-    queryKey: ['movieVideos', movieId],
-    queryFn: () => fetchMovieVideo(movieId),
+    queryKey: ['movieVideos', mediaType, movieId],
+    queryFn: () => fetchMovieVideo(movieId, mediaType),
   });
 
   //   if (isLoading) return <p className="text-center text-white">Loading...</p>;

@@ -593,7 +593,7 @@ const MovieSlider: FC<MovieProps> = ({ movie, currentIndex }) => {
           </p>
 
           {/* Movie Genres */}
-          {/* <MovieGenres movieId={movie.id} /> */}
+          <MovieGenres movieId={movie.id} />
         </div>
       </div>
     </div>

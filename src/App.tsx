@@ -15,6 +15,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import HomePage from './pages/HomePage';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ErrorPage from './pages/ErrorPage';
+import { ErrorBoundary } from 'react-error-boundary';
+import ErrorFallback from './components/ui/ErrorFallback';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,7 +40,9 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
-      <RouterProvider router={router} />
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <RouterProvider router={router} />
+      </ErrorBoundary>
       {/* <HomePage /> */}
     </QueryClientProvider>
   );

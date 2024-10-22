@@ -35,10 +35,10 @@ const SlidersContainer: React.FC = () => {
       <RowSliderContainer
         title={mediaType === 'movies' ? 'now playing' : 'on_the_air'}
       />
+      {/* <RowSliderContainer title="trending" /> */}
+      <RowSliderContainer title="upcoming" />
       <RowSliderContainer title="popular" />
-      <RowSliderContainer title="trending" />
-      {/* <RowSliderContainer title="upcoming" /> */}
-      {/* <RowSliderContainer title="top rated" /> */}
+      <RowSliderContainer title="top rated" />
       {/* <RowSliderContainer title="airing_today" /> */}
       {/* <RowSliderContainer title="on_the_air" /> */}
       {/* <RowSliderContainer title="latest" /> */}

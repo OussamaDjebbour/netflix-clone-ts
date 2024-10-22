@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import React, { useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { reduceLengthString } from '../../helpers/reduceLengthString';
 import Button from './Button';
 import { AnimatePresence, motion } from 'framer-motion';
-import { TMDBBASEURL, TMDBIMAGEURL } from '../../constants';
+import { TMDBIMAGEURL } from '../../constants';
 import { fetchRandomMovie } from '../../services/fetchRandomMovie';
 import { useMediaQuery } from 'react-responsive';
 import { useSearchParams } from 'react-router-dom';
@@ -11,31 +11,21 @@ import Spinner from './Spinner';
 
 interface RandomMovieImageCoverProps {
   isShow: boolean;
+  imageLoaded: boolean;
+  setImageLoaded: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-interface Movie {
-  id: number;
-  title: string;
-  overview: string;
-  backdrop_path: string;
-  // poster_path: string;
-}
-
-const API_KEY = import.meta.env.VITE_API_KEY;
-
-// const fetchRandomMovie = async (): Promise<Movie> => {
-//   const response = await fetch(
-//     `${TMDBBASEURL}/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&page=1`,
-//   );
-//   const data = await response.json();
-//   const movies: Movie[] = data.results;
-//   return movies[Math.floor(Math.random() * movies.length)];
-// };
 
 const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = ({
   isShow,
+  imageLoaded,
+  setImageLoaded,
 }) => {
   // const [isShow, setIsShow] = useState(false);
+
+  const handleImageLoad = () => {
+    console.log('image loaded');
+    setImageLoaded(true);
+  };
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -52,21 +42,33 @@ const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = ({
   });
 
   console.log(
-    '`${TMDBIMAGEURL}${TVSHOWWWWWWWSSSSSSSS.backdrop_path}`',
+    'isLoading || !imageLoaded ',
+    isLoading,
+    !imageLoaded,
     `${TMDBIMAGEURL}${movie?.backdrop_path}`,
-    movie,
   );
+
+  useEffect(() => {
+    if (movie?.backdrop_path) {
+      const img = new Image();
+      img.src = `${TMDBIMAGEURL}${movie?.backdrop_path}`;
+      img.onload = () => {
+        setImageLoaded(true);
+        console.log('Image preloaded successfully');
+      };
+    }
+  }, [movie?.backdrop_path]);
 
   return (
     <div className="relative max-h-screen w-full overflow-hidden">
-      {isLoading ? (
-        <div className="flex h-screen min-h-[500px] basis-full items-center justify-center">
+      {isLoading || !imageLoaded ? (
+        <div className="flex h-screen basis-full items-center justify-center">
           <Spinner />
         </div>
       ) : (
         <>
-          {' '}
           <img
+            // onLoad={() => handleImageLoad()}
             src={`${TMDBIMAGEURL}${movie?.backdrop_path}`}
             alt="cover image "
             className="w-full"

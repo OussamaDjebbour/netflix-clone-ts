@@ -1,12 +1,7 @@
-import React, { Suspense, useState } from 'react';
+import React, { useState } from 'react';
 import Navbar from '../ui/Navbar';
 import RandomMovieImageCover from '../ui/RandomMovieImageCover';
-import { TMDBBASEURL, TMDBIMAGEURL } from '../../constants';
-import { useSuspenseQuery } from '@tanstack/react-query';
-import HoverImageReveal from '../ui/test';
-import SlidersContainer from './SlidersContainer';
-import MovieGenres from '../ui/MovieGenres';
-import Spinner from '../ui/Spinner';
+import { TMDBBASEURL } from '../../constants';
 
 interface Movie {
   id: number;
@@ -15,20 +10,15 @@ interface Movie {
   backdrop_path: string;
 }
 
-const API_KEY = import.meta.env.VITE_API_KEY;
+interface HeroSectionProps {
+  imageLoaded: boolean;
+  setImageLoaded: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-const fetchNowPlayingMovies = async (): Promise<Movie[]> => {
-  const response = await fetch(
-    `${TMDBBASEURL}/movie/now_playing?language=en-US&page=1&api_key=${API_KEY}`,
-  );
-  const data = await response.json();
-  const movies: Movie[] = data.results.slice(0, 2);
-
-  // return movies[Math.floor(Math.random() * movies?.length)];
-  return movies;
-};
-
-const HeroSection: React.FC = () => {
+const HeroSection: React.FC<HeroSectionProps> = ({
+  imageLoaded,
+  setImageLoaded,
+}) => {
   const [isShow, setIsShow] = useState(false);
 
   // const movies = fetchNowPlayingMovies();
@@ -54,7 +44,11 @@ const HeroSection: React.FC = () => {
           }
         > */}
         {/* <Suspense fallback={<Spinner />}> */}
-        <RandomMovieImageCover isShow={isShow} />
+        <RandomMovieImageCover
+          isShow={isShow}
+          imageLoaded={imageLoaded}
+          setImageLoaded={setImageLoaded}
+        />
         {/* </Suspense> */}
 
         {/* <div className="flex min-w-full small:absolute small:bottom-0 small:z-50">
