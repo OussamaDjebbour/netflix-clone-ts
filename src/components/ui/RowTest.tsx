@@ -867,14 +867,16 @@ import { useSearchParams } from 'react-router-dom';
 import replaceSpacesWithUnderscores from '../../helpers/replaceSpacesWithUndescores';
 import { useInView } from 'react-intersection-observer';
 import LazyMovieSlider from './LazyMovieSlider';
+import useResponsiveMoviesPerPage from '../../hooks/useResponsiveMoviesPerPage';
 
 interface SliderProps {
   title: string;
 }
 
 const RowTest: FC<SliderProps> = ({ title }) => {
-  const [moviesPerPage, setMoviesPerPage] = useState(1);
+  // const [moviesPerPage, setMoviesPerPage] = useState(1);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const moviesPerPage = useResponsiveMoviesPerPage();
 
   const [fade, setFade] = useState(true);
 
@@ -890,31 +892,17 @@ const RowTest: FC<SliderProps> = ({ title }) => {
     rootMargin: '60px', // Load slightly before fully in view
   });
 
-  const isVerySmallScreen = useMediaQuery({ query: '(max-width: 599px)' });
-  const isSmallScreen = useMediaQuery({
-    query: '(min-width: 600px) and (max-width: 679px)',
-  });
-  const isMediumScreen = useMediaQuery({
-    query: '(min-width: 680px) and (max-width: 899px)',
-  });
-  const isLargeScreen = useMediaQuery({
-    query: '(min-width: 900px) and (max-width: 1023px)',
-  });
-  const isVeryLargeScreen = useMediaQuery({ query: '(min-width: 1024px)' });
-
-  useEffect(() => {
-    if (isVerySmallScreen) setMoviesPerPage(1);
-    else if (isSmallScreen) setMoviesPerPage(2);
-    else if (isMediumScreen) setMoviesPerPage(3);
-    else if (isLargeScreen) setMoviesPerPage(4);
-    else if (isVeryLargeScreen) setMoviesPerPage(5);
-  }, [
-    isVerySmallScreen,
-    isSmallScreen,
-    isMediumScreen,
-    isLargeScreen,
-    isVeryLargeScreen,
-  ]);
+  // const isVerySmallScreen = useMediaQuery({ query: '(max-width: 599px)' });
+  // const isSmallScreen = useMediaQuery({
+  //   query: '(min-width: 600px) and (max-width: 679px)',
+  // });
+  // const isMediumScreen = useMediaQuery({
+  //   query: '(min-width: 680px) and (max-width: 899px)',
+  // });
+  // const isLargeScreen = useMediaQuery({
+  //   query: '(min-width: 900px) and (max-width: 1023px)',
+  // });
+  // const isVeryLargeScreen = useMediaQuery({ query: '(min-width: 1024px)' });
 
   const {
     data: movies = [],
@@ -999,38 +987,40 @@ const RowTest: FC<SliderProps> = ({ title }) => {
   // };
 
   useEffect(() => {
+    setCurrentIndex(0);
+  }, [moviesPerPage]);
+
+  useEffect(() => {
     if (!fade) {
       const timer = setTimeout(() => setFade(true), 300);
       return () => clearTimeout(timer);
     }
   }, [currentIndex]);
 
-  // console.log('isFetchingNextPage', isFetchingNextPage);
-
-  useEffect(() => {
-    if (isVerySmallScreen) {
-      setCurrentIndex(0);
-      setMoviesPerPage(1);
-    } else if (isSmallScreen) {
-      setCurrentIndex(0);
-      setMoviesPerPage(2);
-    } else if (isMediumScreen) {
-      setCurrentIndex(0);
-      setMoviesPerPage(3);
-    } else if (isLargeScreen) {
-      setCurrentIndex(0);
-      setMoviesPerPage(4);
-    } else if (isVeryLargeScreen) {
-      setCurrentIndex(0);
-      setMoviesPerPage(5);
-    }
-  }, [
-    isVerySmallScreen,
-    isSmallScreen,
-    isMediumScreen,
-    isLargeScreen,
-    isVeryLargeScreen,
-  ]);
+  // useEffect(() => {
+  //   if (isVerySmallScreen) {
+  //     setCurrentIndex(0);
+  //     setMoviesPerPage(1);
+  //   } else if (isSmallScreen) {
+  //     setCurrentIndex(0);
+  //     setMoviesPerPage(2);
+  //   } else if (isMediumScreen) {
+  //     setCurrentIndex(0);
+  //     setMoviesPerPage(3);
+  //   } else if (isLargeScreen) {
+  //     setCurrentIndex(0);
+  //     setMoviesPerPage(4);
+  //   } else if (isVeryLargeScreen) {
+  //     setCurrentIndex(0);
+  //     setMoviesPerPage(5);
+  //   }
+  // }, [
+  //   isVerySmallScreen,
+  //   isSmallScreen,
+  //   isMediumScreen,
+  //   isLargeScreen,
+  //   isVeryLargeScreen,
+  // ]);
 
   // const t = movies.slice(currentIndex, currentIndex + moviesPerPage);
   // // .map((movie) => !movie.backdrop_path)
@@ -1095,6 +1085,127 @@ const RowTest: FC<SliderProps> = ({ title }) => {
     </div>
   );
 };
+
+// const RowTest: FC<SliderProps> = ({ title }) => {
+//   const [moviesPerPage, setMoviesPerPage] = useState(1);
+//   const [currentIndex, setCurrentIndex] = useState(0);
+//   const [fade, setFade] = useState(true);
+
+//   const [searchParams] = useSearchParams();
+//   const mediaType = searchParams.get('mediaType') || 'movies';
+
+//   // Responsive screen checks
+//   const isVerySmallScreen = useMediaQuery({ query: '(max-width: 599px)' });
+//   const isSmallScreen = useMediaQuery({
+//     query: '(min-width: 600px) and (max-width: 679px)',
+//   });
+//   const isMediumScreen = useMediaQuery({
+//     query: '(min-width: 680px) and (max-width: 899px)',
+//   });
+//   const isLargeScreen = useMediaQuery({
+//     query: '(min-width: 900px) and (max-width: 1023px)',
+//   });
+//   const isVeryLargeScreen = useMediaQuery({ query: '(min-width: 1024px)' });
+
+//   // Update the number of movies to display based on screen size
+//   useEffect(() => {
+//     if (isVerySmallScreen) setMoviesPerPage(1);
+//     else if (isSmallScreen) setMoviesPerPage(2);
+//     else if (isMediumScreen) setMoviesPerPage(3);
+//     else if (isLargeScreen) setMoviesPerPage(4);
+//     else if (isVeryLargeScreen) setMoviesPerPage(5);
+//   }, [
+//     isVerySmallScreen,
+//     isSmallScreen,
+//     isMediumScreen,
+//     isLargeScreen,
+//     isVeryLargeScreen,
+//   ]);
+
+//   const {
+//     data: movies = [],
+//     isLoading,
+//     isFetching,
+//     error,
+//   } = useQuery<Movie[]>({
+//     queryKey: [title, mediaType, moviesPerPage],
+//     queryFn: () => fetchTVShows(title, mediaType, 0, moviesPerPage),
+//   });
+
+//   // Handle fade effect for the slider
+//   useEffect(() => {
+//     if (!fade) {
+//       const timer = setTimeout(() => setFade(true), 300);
+//       return () => clearTimeout(timer);
+//     }
+//   }, [currentIndex]);
+
+//   const totalValidMovies =
+//     Math.floor(movies.length / moviesPerPage) * moviesPerPage;
+
+//   // Slider functions
+//   const prevSlide = () => {
+//     setFade(false);
+//     setCurrentIndex((prev) =>
+//       prev === 0 ? totalValidMovies - moviesPerPage : prev - moviesPerPage,
+//     );
+//   };
+
+//   const nextSlide = () => {
+//     setFade(false);
+//     setCurrentIndex((prev) =>
+//       prev + moviesPerPage >= totalValidMovies ? 0 : prev + moviesPerPage,
+//     );
+//   };
+
+//   if (isLoading) {
+//     return <Spinner />;
+//   }
+
+//   return (
+//     <div className="relative">
+//       <div
+//         className={`flex gap-1 px-9 transition-all duration-500 min-[600px]:px-14 ${
+//           fade ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'
+//         }`}
+//       >
+//         {movies
+//           .slice(currentIndex, currentIndex + moviesPerPage)
+//           .map((movie) => (
+//             <MovieSlider
+//               key={movie.id}
+//               movie={movie}
+//               currentIndex={currentIndex}
+//             />
+//           ))}
+//       </div>
+
+//       <button
+//         onClick={prevSlide}
+//         className="absolute left-0 top-1/2 h-full w-[35px] -translate-y-1/2 transform bg-[rgba(0,0,0,0.5)] min-[600px]:w-[55px]"
+//       >
+//         <FontAwesomeIcon
+//           icon={faChevronLeft}
+//           size="3x"
+//           color="white"
+//           fontWeight="bold"
+//         />
+//       </button>
+
+//       <button
+//         onClick={nextSlide}
+//         className="absolute right-0 top-1/2 h-full w-[35px] -translate-y-1/2 transform bg-[rgba(0,0,0,0.5)] min-[600px]:w-[55px]"
+//       >
+//         <FontAwesomeIcon
+//           icon={faChevronRight}
+//           size="3x"
+//           color="white"
+//           fontWeight="bold"
+//         />
+//       </button>
+//     </div>
+//   );
+// };
 
 export default RowTest;
 
