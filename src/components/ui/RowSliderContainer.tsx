@@ -7,12 +7,15 @@ import replaceSpacesWithUnderscores from '../../helpers/replaceSpacesWithUndesco
 import { ftchTest } from '../../services/fetchTVShows';
 import Spinner from './Spinner';
 import RowTest from './RowTest';
+import { ErrorBoundary } from 'react-error-boundary';
+import ErrorFallback from './ErrorFallback';
+import { HeroSectionProps } from '../features/HeroSection';
 
-interface RowSliderContainer {
+interface RowSliderContainerProps {
   title: string;
 }
 
-const RowSliderContainer: FC<RowSliderContainer> = ({ title }) => {
+const RowSliderContainer: FC<RowSliderContainerProps> = ({ title }) => {
   // const { data: movies } = useSuspenseQuery<Movie[]>({
   //   queryKey: [transformString(title)],
   //   queryFn: ftchTest,
@@ -27,7 +30,9 @@ const RowSliderContainer: FC<RowSliderContainer> = ({ title }) => {
 
       {/* <Suspense fallback={<Spinner />}> */}
       {/* <RowSlider title={title || ''} /> */}
-      <RowTest title={title || ''} />
+      <ErrorBoundary fallback={<ErrorFallback />}>
+        <RowTest title={title || ''} />
+      </ErrorBoundary>
       {/* </Suspense> */}
     </div>
   );

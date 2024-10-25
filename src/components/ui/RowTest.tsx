@@ -868,6 +868,8 @@ import replaceSpacesWithUnderscores from '../../helpers/replaceSpacesWithUndesco
 import { useInView } from 'react-intersection-observer';
 import LazyMovieSlider from './LazyMovieSlider';
 import useResponsiveMoviesPerPage from '../../hooks/useResponsiveMoviesPerPage';
+import MiniSpinner from './MiniSpinner';
+import { HeroSectionProps } from '../features/HeroSection';
 
 interface SliderProps {
   title: string;
@@ -879,6 +881,7 @@ const RowTest: FC<SliderProps> = ({ title }) => {
   const moviesPerPage = useResponsiveMoviesPerPage();
 
   const [fade, setFade] = useState(true);
+  const [isSliding, setIsSliding] = useState(false);
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -910,11 +913,14 @@ const RowTest: FC<SliderProps> = ({ title }) => {
     isLoading,
     isFetching,
     error,
+    isError,
     refetch,
   } = useQuery<Movie[]>({
     // queryKey: [replaceSpacesWithUnderscores(title), mediaType, moviesPerPage],
-    queryKey: [title, mediaType, currentIndex, moviesPerPage],
+    queryKey: [title, mediaType, moviesPerPage],
+    // queryFn: () => fetchTVShows(title, mediaType, currentIndex, moviesPerPage),
     queryFn: () => fetchTVShows(title, mediaType, currentIndex, moviesPerPage),
+
     enabled: inView,
     // queryFn: ({ pageParam = 1 }) => fetchTVShows(title, 'movies', pageParam),
     // getNextPageParam: (lastPage) => {
@@ -945,6 +951,7 @@ const RowTest: FC<SliderProps> = ({ title }) => {
   );
 
   const prevSlide = () => {
+    setIsSliding(true);
     setFade(false);
     setCurrentIndex((prev) =>
       prev === 0 ? totalValidMovies - moviesPerPage : prev - moviesPerPage,
@@ -952,6 +959,7 @@ const RowTest: FC<SliderProps> = ({ title }) => {
   };
 
   const nextSlide = () => {
+    setIsSliding(true);
     setFade(false);
     setCurrentIndex((prev) =>
       prev + moviesPerPage >= totalValidMovies ? 0 : prev + moviesPerPage,
@@ -996,6 +1004,29 @@ const RowTest: FC<SliderProps> = ({ title }) => {
       return () => clearTimeout(timer);
     }
   }, [currentIndex]);
+  // Trigger fade-in when data fetching completes
+
+  useEffect(() => {
+    // Simulate a delay for the spinner to show briefly
+    const timer = setTimeout(() => setIsSliding(false), 300);
+    return () => clearTimeout(timer);
+  }, [currentIndex]);
+
+  // useEffect(() => {
+  //   if (!isFetching && !isLoading) {
+  //     setFade(true); // Trigger fade in when data is fetched
+  //   } else {
+  //     setFade(false); // Reset fade when data is being fetched
+  //   }
+  // }, [isFetching, isLoading]); // Re-run on data fetching state changes
+
+  // useEffect(() => {
+  //   if (imageLoaded) {
+  //     setFade(true); // Trigger fade in when data is fetched
+  //   } else {
+  //     setFade(false); // Reset fade when data is being fetched
+  //   }
+  // }, [isFetching, isLoading]); // Re-run on data fetching state changes
 
   // useEffect(() => {
   //   if (isVerySmallScreen) {
@@ -1029,6 +1060,16 @@ const RowTest: FC<SliderProps> = ({ title }) => {
 
   console.log('inViewwwww', inView);
 
+  // if (isError) throw new Error(`Error: ${error}`);
+  if (isError && error) {
+    console.log('errorerrorerrorerror', error);
+
+    // throw error; // This throws the error to the ErrorBoundary
+    return (
+      <div className="text-white">Error loading movies: {error.message}</div>
+    );
+  }
+
   return (
     <div ref={ref} className="relative">
       {isLoading || !inView ? (
@@ -1060,8 +1101,10 @@ const RowTest: FC<SliderProps> = ({ title }) => {
       )}
 
       <button
+        aria-label="Previous slide"
         onClick={prevSlide}
         className="absolute left-0 top-1/2 h-full w-[35px] -translate-y-1/2 transform bg-[rgba(0,0,0,0.5)] min-[600px]:w-[55px]"
+        disabled={isFetching}
       >
         <FontAwesomeIcon
           icon={faChevronLeft}
@@ -1072,8 +1115,10 @@ const RowTest: FC<SliderProps> = ({ title }) => {
       </button>
 
       <button
+        aria-label="Next slide"
         onClick={nextSlide}
         className="absolute right-0 top-1/2 h-full w-[35px] -translate-y-1/2 transform bg-[rgba(0,0,0,0.5)] min-[600px]:w-[55px]"
+        disabled={isFetching}
       >
         <FontAwesomeIcon
           icon={faChevronRight}

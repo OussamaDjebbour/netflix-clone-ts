@@ -22,10 +22,10 @@ const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = ({
 }) => {
   // const [isShow, setIsShow] = useState(false);
 
-  const handleImageLoad = () => {
-    console.log('image loaded');
-    setImageLoaded(true);
-  };
+  // const handleImageLoad = () => {
+  //   console.log('image loaded');
+  //   setImageLoaded(true);
+  // };
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -37,16 +37,9 @@ const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = ({
     queryFn: () => fetchRandomMovie(mediaType),
   });
 
-  const isSmallScreen = useMediaQuery({
-    query: '(max-width: 430px)',
-  });
-
-  console.log(
-    'isLoading || !imageLoaded ',
-    isLoading,
-    !imageLoaded,
-    `${TMDBIMAGEURL}${movie?.backdrop_path}`,
-  );
+  // const isSmallScreen = useMediaQuery({
+  //   query: '(max-width: 430px)',
+  // });
 
   useEffect(() => {
     if (movie?.backdrop_path) {
@@ -54,7 +47,6 @@ const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = ({
       img.src = `${TMDBIMAGEURL}${movie?.backdrop_path}`;
       img.onload = () => {
         setImageLoaded(true);
-        console.log('Image preloaded successfully');
       };
     }
   }, [movie?.backdrop_path]);

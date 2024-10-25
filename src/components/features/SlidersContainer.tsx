@@ -2,6 +2,7 @@ import React from 'react';
 import RowSliderContainer from '../ui/RowSliderContainer';
 import { useSearchParams } from 'react-router-dom';
 import ProjectsList from '../ui/ProjectsList';
+import { HeroSectionProps } from './HeroSection';
 // import axios from 'axios';
 
 export interface Movie {

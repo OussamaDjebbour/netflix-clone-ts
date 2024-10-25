@@ -10,7 +10,7 @@ interface Movie {
   backdrop_path: string;
 }
 
-interface HeroSectionProps {
+export interface HeroSectionProps {
   imageLoaded: boolean;
   setImageLoaded: React.Dispatch<React.SetStateAction<boolean>>;
 }
