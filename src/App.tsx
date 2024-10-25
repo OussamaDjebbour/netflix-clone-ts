@@ -17,6 +17,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ErrorPage from './pages/ErrorPage';
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from './components/ui/ErrorFallback';
+import { MediaProvider } from './context/useMediaContext';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -40,9 +41,11 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <RouterProvider router={router} />
-      </ErrorBoundary>
+      <MediaProvider>
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <RouterProvider router={router} />
+        </ErrorBoundary>
+      </MediaProvider>
       {/* <HomePage /> */}
     </QueryClientProvider>
   );

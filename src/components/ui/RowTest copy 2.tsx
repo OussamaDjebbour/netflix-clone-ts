@@ -731,7 +731,7 @@
 
 import { FC, useEffect, useState } from 'react';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { fetchTVShows } from '../../services/fetchTVShows';
+import { fetchTVShows } from '../../services/fetchMoviesAndTVShows';
 import { useMediaQuery } from 'react-responsive';
 import Spinner from './Spinner';
 import MovieSlider from './MovieSlider';

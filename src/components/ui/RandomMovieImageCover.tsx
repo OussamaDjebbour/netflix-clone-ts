@@ -5,9 +5,8 @@ import Button from './Button';
 import { AnimatePresence, motion } from 'framer-motion';
 import { TMDBIMAGEURL } from '../../constants';
 import { fetchRandomMovie } from '../../services/fetchRandomMovie';
-import { useMediaQuery } from 'react-responsive';
-import { useSearchParams } from 'react-router-dom';
 import Spinner from './Spinner';
+import { useMediaContext } from '../../context/useMediaContext';
 
 interface RandomMovieImageCoverProps {
   isShow: boolean;
@@ -20,26 +19,16 @@ const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = ({
   imageLoaded,
   setImageLoaded,
 }) => {
-  // const [isShow, setIsShow] = useState(false);
+  const { mediaType } = useMediaContext();
 
-  // const handleImageLoad = () => {
-  //   console.log('image loaded');
-  //   setImageLoaded(true);
-  // };
-
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  // Set default value for "mediaType" parameter if it's missing
-  const mediaType = searchParams.get('mediaType') || 'movies';
-
-  const { data: movie, isLoading } = useQuery({
+  const {
+    data: movie,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ['random', mediaType],
     queryFn: () => fetchRandomMovie(mediaType),
   });
-
-  // const isSmallScreen = useMediaQuery({
-  //   query: '(max-width: 430px)',
-  // });
 
   useEffect(() => {
     if (movie?.backdrop_path) {
@@ -49,7 +38,11 @@ const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = ({
         setImageLoaded(true);
       };
     }
-  }, [movie?.backdrop_path]);
+  }, []);
+
+  // movie?.backdrop_path
+
+  if (isError) return <div>Error loading movie. Please try again later.</div>;
 
   return (
     <div className="relative max-h-screen w-full overflow-hidden">
@@ -60,22 +53,16 @@ const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = ({
       ) : (
         <>
           <img
-            // onLoad={() => handleImageLoad()}
             src={`${TMDBIMAGEURL}${movie?.backdrop_path}`}
             alt="cover image "
             className="w-full"
           />
-          {/* <div className="p-4 md:absolute md:bottom-4 md:left-4 md:z-10 md:text-white"> */}
+
           <div className="absolute left-4 top-12 w-full overflow-x-hidden p-4 text-white min-[500px]:top-16 small:top-[20%] md:left-8 lg:top-[15%]">
-            {/* <h1 className="text-2xl font-bold max-[500px]:hidden"> */}
             <h1 className="w-auto max-w-[90%] truncate text-2xl font-bold min-[520px]:text-3xl min-[600px]:text-4xl md:text-[2.35rem] lg:text-[2.5rem]">
-              {/* {isSmallScreen
-                ? reduceLengthString(movie?.title, 21)
-                : movie?.title} */}
               {movie?.title}
             </h1>
             <p className="mt-2 w-[300px] text-xs min-[500px]:text-sm min-[600px]:mt-3 min-[600px]:w-[400px] min-[600px]:text-base small:mt-5 small:w-4/6 small:text-lg min-[900px]:w-3/4 lg:mt-8 lg:text-xl">
-              {/* {reduceLengthString(movie?.overview, 130)} */}
               {movie?.overview
                 ? reduceLengthString(movie.overview, 130)
                 : 'No overview available'}
@@ -86,7 +73,7 @@ const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = ({
               <Button>My list</Button>
             </div>
           </div>
-          <AnimatePresence>
+          <AnimatePresence initial={false}>
             {isShow && (
               <motion.ul
                 key="dropdown"
@@ -106,9 +93,6 @@ const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = ({
           </AnimatePresence>
         </>
       )}
-
-      {/* <div className="h-28 bg-[linear-gradient(100deg,transparent,rgba(37,37,37,0.61),#111)]" /> */}
-      {/* <div className="h-28 w-full bg-[linear-gradient(to_bottom,rgba(255,255,255,0),rgba(255,255,255,0.9)100%)]" /> */}
     </div>
   );
 };
