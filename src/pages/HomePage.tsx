@@ -1,5 +1,4 @@
-import { FC, Suspense, useState } from 'react';
-import Spinner from '../components/ui/Spinner';
+import { useState } from 'react';
 import HeroSection from '../components/features/HeroSection';
 import SlidersContainer from '../components/features/SlidersContainer';
 import Footer from '../components/features/Footer';
@@ -8,7 +7,6 @@ import ErrorFallback from '../components/ui/ErrorFallback';
 
 function HomePage() {
   const [imageLoaded, setImageLoaded] = useState(false);
-  console.log('imageLoaded', imageLoaded);
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <div className="bg-black">
@@ -22,8 +20,6 @@ function HomePage() {
             <Footer />
           </>
         )}
-        {/* <MovieGenres movieId={movies?.[0].id} /> */}
-        {/* <HoverImageReveal /> */}
       </div>
     </ErrorBoundary>
   );

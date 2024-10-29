@@ -25,6 +25,7 @@ const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = ({
     data: movie,
     isLoading,
     isError,
+    error,
   } = useQuery({
     queryKey: ['random', mediaType],
     queryFn: () => fetchRandomMovie(mediaType),
@@ -40,7 +41,9 @@ const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = ({
     }
   }, [movie?.backdrop_path]);
 
-  // movie?.backdrop_path
+  if (isError && error) {
+    console.log('errorerrorerrorerror', error);
+  }
 
   if (isError) return <div>Error loading movie. Please try again later.</div>;
 
@@ -86,13 +89,13 @@ const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = ({
                 <li className="hover:cursor-pointer">Home</li>
                 <li
                   className="hover:cursor-pointer"
-                  onClick={() => handleChangeMedia('tvShows')}
+                  onClick={() => handleChangeMedia('tv')}
                 >
                   TV Shows
                 </li>
                 <li
                   className="hover:cursor-pointer"
-                  onClick={() => handleChangeMedia('movies')}
+                  onClick={() => handleChangeMedia('movie')}
                 >
                   Movies
                 </li>

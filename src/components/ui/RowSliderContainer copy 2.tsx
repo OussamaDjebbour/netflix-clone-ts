@@ -1,5 +1,5 @@
 import { Dispatch, FC, SetStateAction } from 'react';
-import RowSlider from './RowSlider';
+import RowSlider from './RowSliderTest';
 import { Movie } from '../features/SlidersContainer';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { fetchPlayNowMovies } from '../../services/fetchPlayNowMovies';

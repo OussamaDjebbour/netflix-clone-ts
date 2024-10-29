@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 // Define the type for mediaType and the context state
-type MediaType = 'movies' | 'tvShows';
+type MediaType = 'movie' | 'tv';
 
 interface MediaContextState {
   mediaType: MediaType;
@@ -17,7 +17,7 @@ interface MediaProviderProps {
 }
 
 export const MediaProvider: React.FC<MediaProviderProps> = ({ children }) => {
-  const [mediaType, setMediaType] = useState<MediaType>('movies');
+  const [mediaType, setMediaType] = useState<MediaType>('movie');
 
   const handleChangeMedia = (newMedia: MediaType) => {
     // startTransition(() => {

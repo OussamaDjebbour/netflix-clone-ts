@@ -6,7 +6,6 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC } from 'react';
-import { useSearchParams } from 'react-router-dom';
 
 const Footer: FC = () => {
   return (

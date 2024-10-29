@@ -1,13 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faBell } from '@fortawesome/free-regular-svg-icons/faBell';
-import {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-  useTransition,
-} from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useMediaContext } from '../../context/useMediaContext';
 
@@ -57,7 +51,7 @@ const Navbar: React.FC<NavbarProps> = ({ setIsShow, setImageLoaded }) => {
           <li className="hover:cursor-pointer">Home</li>
           <li
             className="hover:cursor-pointer"
-            onClick={() => handleChangeMedia('movies')}
+            onClick={() => handleChangeMedia('movie')}
           >
             Movies
           </li>
@@ -65,17 +59,11 @@ const Navbar: React.FC<NavbarProps> = ({ setIsShow, setImageLoaded }) => {
             className="hover:cursor-pointer"
             onClick={() => {
               setImageLoaded(false);
-              handleChangeMedia('tvShows');
+              handleChangeMedia('tv');
             }}
           >
             TV Shows
           </li>
-          {/* <li
-            className="hover:cursor-pointer"
-            // onClick={() => handleChangeMedia('anime')}
-          >
-            Anime
-          </li> */}
           <li className="hover:cursor-pointer">New</li>
           <li className="hover:cursor-pointer">My List</li>
         </motion.ul>

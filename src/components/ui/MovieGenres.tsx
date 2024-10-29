@@ -18,8 +18,6 @@ const MovieGenres: React.FC<{ movieId: number }> = ({ movieId }) => {
     queryFn: () => fetchMovieGenres(movieId, mediaType),
   });
 
-  // console.log('moviemoviemoviemoviemoviemovie', movie);
-
   if (error) {
     console.error(error);
     return <div>Error loading movie genres</div>;
@@ -33,7 +31,7 @@ const MovieGenres: React.FC<{ movieId: number }> = ({ movieId }) => {
       <p className="text-left text-[8px]">
         {genres.map(
           (genre, index, arr) =>
-            `${genre.name}${index !== arr.length - 1 ? ', ' : ''}`,
+            `${genre.name}${index !== arr.length - 1 ? ', ' : '.'}`,
         )}
       </p>
     </div>

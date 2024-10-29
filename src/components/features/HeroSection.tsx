@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Navbar from '../ui/Navbar';
 import RandomMovieImageCover from '../ui/RandomMovieImageCover';
+import { ErrorBoundary } from 'react-error-boundary';
+import ErrorFallback from '../ui/ErrorFallback';
 
 export interface HeroSectionProps {
   imageLoaded: boolean;
@@ -18,11 +20,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       <div className="relative w-full">
         <Navbar setIsShow={setIsShow} setImageLoaded={setImageLoaded} />
 
-        <RandomMovieImageCover
-          isShow={isShow}
-          imageLoaded={imageLoaded}
-          setImageLoaded={setImageLoaded}
-        />
+        <ErrorBoundary fallback={<ErrorFallback />}>
+          <RandomMovieImageCover
+            isShow={isShow}
+            imageLoaded={imageLoaded}
+            setImageLoaded={setImageLoaded}
+          />
+        </ErrorBoundary>
       </div>
     </>
   );

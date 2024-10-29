@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import RowSlider from './RowSlider';
+import RowSlider from './RowSliderTest';
 import { Movie } from '../features/SlidersContainer';
 
 interface RowSliderContainer {
