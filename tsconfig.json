@@ -4,8 +4,23 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true
   },
+
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ]
 }
+
+// {
+//   "compilerOptions": {
+//     "target": "es6",
+//     "module": "commonjs",
+//     "strict": true,
+//     "jsx": "react-jsx", // Use 'react' if you're using React 17 or older
+//     "esModuleInterop": true,
+//     "skipLibCheck": true,
+//     "forceConsistentCasingInFileNames": true
+//   },
+//   "include": ["src/**/*"], // Adjust based on your project structure
+//   "exclude": ["node_modules", "dist"]
+// }

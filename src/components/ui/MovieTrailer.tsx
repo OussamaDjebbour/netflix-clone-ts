@@ -3,12 +3,11 @@ import React, { Suspense } from 'react';
 import { fetchMovieVideo } from '../../services/fetchMovieVideo';
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
+import { useMediaContext } from '../../context/useMediaContext';
 // import axios from 'axios';
 
 const MovieTrailer = ({ movieId }: { movieId: number }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const mediaType = searchParams.get('mediaType') || 'movies';
+  const { mediaType } = useMediaContext();
 
   const {
     data: movieTrailer,

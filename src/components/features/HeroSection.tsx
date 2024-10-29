@@ -16,7 +16,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   return (
     <>
       <div className="relative w-full">
-        <Navbar setIsShow={setIsShow} />
+        <Navbar setIsShow={setIsShow} setImageLoaded={setImageLoaded} />
 
         <RandomMovieImageCover
           isShow={isShow}

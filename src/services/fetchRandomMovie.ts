@@ -11,7 +11,7 @@ interface Movie {
 export const fetchRandomMovie = async (mediaType: string): Promise<Movie> => {
   const API_KEY = import.meta.env.VITE_API_KEY;
   const response = await fetch(
-    `${TMDBBASEURL}/${mediaType === 'movies' ? 'discover/movie' : 'discover/tv'}?api_key=${API_KEY}&language=en-US&page=1&sort_by=popularity.desc&without_genres=10749,35&with_genres=10751`,
+    `${TMDBBASEURL}/${mediaType === 'movies' ? 'discover/movie' : 'discover/tv'}?api_key=${API_KEY}&language=en-US&page=1&sort_by=popularity.desc&without_genres=10749,35&with_genres=10751,16`,
     // `https://api.themoviedb.org/3/${mediaType === 'movies' ? 'movie' : 'tv'}/${mediaType === 'movies' ? 'now_playing' : 'on_the_air'}?api_key=${API_KEY}&language=en-US&page=1&with_genres=16`,
   );
   // const response = await fetch(

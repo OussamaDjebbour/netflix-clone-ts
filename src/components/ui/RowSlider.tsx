@@ -17,11 +17,12 @@ import { transformString } from '../../helpers/transformString';
 import replaceSpacesWithUnderscores from '../../helpers/replaceSpacesWithUndescores';
 import { useMediaQuery } from 'react-responsive';
 import { fetchAnimes } from '../../services/fetchAnime';
-import { fetchTVShows } from '../../services/fetchMoviesAndTVShows';
+// import { fetchTVShows } from '../../services/fetchMoviesAndTVShows';
 import { useSearchParams } from 'react-router-dom';
 import Spinner from './Spinner';
 import { InView, useInView } from 'react-intersection-observer';
 import Slider from 'react-slick';
+import { fetchMoviesAndTVShows } from '../../services/fetchMoviesAndTVShows';
 
 interface SliderProps {
   title: string;
@@ -259,7 +260,7 @@ const RowSlider: FC<SliderProps> = ({ title }) => {
   } = useQuery<Movie[]>({
     queryKey: [title, mediaType, currentIndex, moviesPerPage],
     queryFn: () =>
-      fetchTVShows(
+      fetchMoviesAndTVShows(
         title,
         mediaType,
         // currentIndex,

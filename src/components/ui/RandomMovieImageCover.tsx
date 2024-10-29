@@ -19,7 +19,7 @@ const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = ({
   imageLoaded,
   setImageLoaded,
 }) => {
-  const { mediaType } = useMediaContext();
+  const { mediaType, handleChangeMedia } = useMediaContext();
 
   const {
     data: movie,
@@ -38,7 +38,7 @@ const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = ({
         setImageLoaded(true);
       };
     }
-  }, []);
+  }, [movie?.backdrop_path]);
 
   // movie?.backdrop_path
 
@@ -84,8 +84,18 @@ const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = ({
                 className="fixed top-14 z-50 flex w-full flex-col gap-2 bg-black px-4 py-4 font-medium text-white transition-all duration-300 ease-in min-[500px]:px-8 min-[600px]:text-xl small:hidden"
               >
                 <li className="hover:cursor-pointer">Home</li>
-                <li className="hover:cursor-pointer">TV Shows</li>
-                <li className="hover:cursor-pointer">Movies</li>
+                <li
+                  className="hover:cursor-pointer"
+                  onClick={() => handleChangeMedia('tvShows')}
+                >
+                  TV Shows
+                </li>
+                <li
+                  className="hover:cursor-pointer"
+                  onClick={() => handleChangeMedia('movies')}
+                >
+                  Movies
+                </li>
                 <li className="hover:cursor-pointer">New</li>
                 <li className="hover:cursor-pointer">My List</li>
               </motion.ul>

@@ -1,7 +1,7 @@
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { fetchMovieGenres } from '../../services/fetchMovieGenres';
-import { useSearchParams } from 'react-router-dom';
+import { useMediaContext } from '../../context/useMediaContext';
 
 // Type definition for genre
 interface Genre {
@@ -11,16 +11,14 @@ interface Genre {
 
 // Movie component to display genres
 const MovieGenres: React.FC<{ movieId: number }> = ({ movieId }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const mediaType = searchParams.get('mediaType') || 'movies';
+  const { mediaType } = useMediaContext();
 
   const { data: movie, error } = useQuery({
     queryKey: ['movieGenres', mediaType, movieId],
     queryFn: () => fetchMovieGenres(movieId, mediaType),
   });
 
-  console.log('moviemoviemoviemoviemoviemovie', movie);
+  // console.log('moviemoviemoviemoviemoviemovie', movie);
 
   if (error) {
     console.error(error);

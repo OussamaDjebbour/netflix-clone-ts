@@ -13,9 +13,10 @@ import { useMediaContext } from '../../context/useMediaContext';
 
 interface NavbarProps {
   setIsShow: Dispatch<SetStateAction<boolean>>;
+  setImageLoaded: Dispatch<SetStateAction<boolean>>;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ setIsShow }) => {
+const Navbar: React.FC<NavbarProps> = ({ setIsShow, setImageLoaded }) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -32,15 +33,7 @@ const Navbar: React.FC<NavbarProps> = ({ setIsShow }) => {
     };
   }, []);
 
-  const [isPending, startTransition] = useTransition();
-
-  const { setMediaType } = useMediaContext();
-
-  const handleChangeMedia = (newMedia: 'movies' | 'tvShows') => {
-    // startTransition(() => {
-    setMediaType(newMedia);
-    // });
-  };
+  const { handleChangeMedia } = useMediaContext();
 
   return (
     <nav
@@ -70,7 +63,10 @@ const Navbar: React.FC<NavbarProps> = ({ setIsShow }) => {
           </li>
           <li
             className="hover:cursor-pointer"
-            onClick={() => handleChangeMedia('tvShows')}
+            onClick={() => {
+              setImageLoaded(false);
+              handleChangeMedia('tvShows');
+            }}
           >
             TV Shows
           </li>

@@ -8,6 +8,7 @@ import ErrorFallback from '../components/ui/ErrorFallback';
 
 function HomePage() {
   const [imageLoaded, setImageLoaded] = useState(false);
+  console.log('imageLoaded', imageLoaded);
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <div className="bg-black">
