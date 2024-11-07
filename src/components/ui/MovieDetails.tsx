@@ -42,7 +42,7 @@ const MovieDetails: React.FC<Props> = () => {
     );
 
   return (
-    <div className="container mx-auto w-full p-4 md:p-6 lg:p-8">
+    <div className="container mx-auto mt-10 w-full p-4 md:p-6 lg:p-8">
       <header className="mb-4 flex items-center justify-between">
         <h1 className="text-3xl font-bold">{movieDetails.title}</h1>
         {/* <button className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700">

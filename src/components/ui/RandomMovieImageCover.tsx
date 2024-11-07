@@ -7,19 +7,26 @@ import { TMDBIMAGEURL } from '../../constants';
 import { fetchRandomMovie } from '../../services/fetchRandomMovie';
 import Spinner from './Spinner';
 import { useMediaContext } from '../../context/useMediaContext';
+import { useIsShowNavbarContext } from '../../context/useIsShowNavbarContext';
+import { useIsImageLoadedContext } from '../../context/useIsImageLoadedContext';
 
 interface RandomMovieImageCoverProps {
-  isShow: boolean;
-  imageLoaded: boolean;
-  setImageLoaded: React.Dispatch<React.SetStateAction<boolean>>;
+  // isShow: boolean;
+  // imageLoaded: boolean;
+  // setImageLoaded: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = ({
-  isShow,
-  imageLoaded,
-  setImageLoaded,
-}) => {
+const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = (
+  {
+    // isShow,
+    // imageLoaded,
+    // setImageLoaded,
+  },
+) => {
   const { mediaType, handleChangeMedia } = useMediaContext();
+  const { isShow } = useIsShowNavbarContext();
+  const { isImageLoaded, handleChangeIsImageLoaded } =
+    useIsImageLoadedContext();
 
   const {
     data: movie,
@@ -36,7 +43,7 @@ const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = ({
       const img = new Image();
       img.src = `${TMDBIMAGEURL}${movie?.backdrop_path}`;
       img.onload = () => {
-        setImageLoaded(true);
+        handleChangeIsImageLoaded(true);
       };
     }
   }, [movie?.backdrop_path]);
@@ -49,7 +56,7 @@ const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = ({
 
   return (
     <div className="relative max-h-screen w-full overflow-hidden">
-      {isLoading || !imageLoaded ? (
+      {isLoading || !isImageLoaded ? (
         <div className="flex h-screen basis-full items-center justify-center">
           <Spinner />
         </div>
@@ -76,7 +83,7 @@ const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = ({
               <Button>My list</Button>
             </div>
           </div>
-          <AnimatePresence initial={false}>
+          {/* <AnimatePresence initial={false}>
             {isShow && (
               <motion.ul
                 key="dropdown"
@@ -103,7 +110,7 @@ const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = ({
                 <li className="hover:cursor-pointer">My List</li>
               </motion.ul>
             )}
-          </AnimatePresence>
+          </AnimatePresence> */}
         </>
       )}
     </div>

@@ -10,6 +10,8 @@ import { MediaProvider } from './context/useMediaContext';
 import MovieDetails from './components/ui/MovieDetails';
 import MovieTvShowsDetails from './components/features/MovieTvShowsDetails';
 import MoviesAndTVShowsApp from './pages/MoviesAndTVShowsApp';
+import { IsShowNavbarProvider } from './context/useIsShowNavbarContext';
+import { IsImageLoadedProvider } from './context/useIsImageLoadedContext';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -51,9 +53,13 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
       <MediaProvider>
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <RouterProvider router={router} />
-        </ErrorBoundary>
+        <IsShowNavbarProvider>
+          <IsImageLoadedProvider>
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+              <RouterProvider router={router} />
+            </ErrorBoundary>
+          </IsImageLoadedProvider>
+        </IsShowNavbarProvider>
       </MediaProvider>
     </QueryClientProvider>
   );
