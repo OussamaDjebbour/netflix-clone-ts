@@ -7,6 +7,9 @@ import ErrorPage from './pages/ErrorPage';
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from './components/ui/ErrorFallback';
 import { MediaProvider } from './context/useMediaContext';
+import MovieDetails from './components/ui/MovieDetails';
+import MovieTvShowsDetails from './components/features/MovieTvShowsDetails';
+import MoviesAndTVShowsApp from './pages/MoviesAndTVShowsApp';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -16,11 +19,30 @@ const queryClient = new QueryClient({
   },
 });
 
+// const router = createBrowserRouter([
+//   {
+//     path: '/',
+//     element: <HomePage />,
+//     errorElement: <ErrorPage />,
+//   },
+//   {
+//     // path: '/:mediaType/:id', // Separate route for MovieTvShowsDetails
+//     // element: <MovieTvShowsDetails />,
+//     path: 'movie/:id', // Separate route for MovieTvShowsDetails
+//     element: <MovieDetails />,
+//     // errorElement: <ErrorPage />,
+//   },
+// ]);
+
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <HomePage />,
+    element: <MoviesAndTVShowsApp />, // Wrap with Layout
     errorElement: <ErrorPage />,
+    children: [
+      { path: '/', element: <HomePage /> },
+      { path: 'movie/:id', element: <MovieDetails /> },
+    ],
   },
 ]);
 

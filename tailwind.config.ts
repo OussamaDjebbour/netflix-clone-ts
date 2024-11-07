@@ -18,17 +18,20 @@ export default {
       height: {
         screen: '100dvh',
       },
-      keyframes: {
-        spinner: {
-          to: {
-            transform: 'rotate(1turn)',
-          },
-        },
-      },
-      animation: {
-        spinner: 'spinner 1.5s infinite linear',
-      },
+      // keyframes: {
+      //   spinner: {
+      //     to: {
+      //       transform: 'rotate(1turn)',
+      //     },
+      //   },
+      // },
+      // animation: {
+      //   spinner: 'spinner 1.5s infinite linear',
+      // },
     },
   },
   plugins: [],
+
+  mode: 'jit',
+  purge: ['./src/**/*.{js,ts,jsx,tsx}'],
 } satisfies Config;
