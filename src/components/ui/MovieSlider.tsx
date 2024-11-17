@@ -1,11 +1,12 @@
 import { FC, Suspense, useRef, useState } from 'react';
-import { Movie } from '../features/SlidersContainer';
 import RoundedButton from './RoundedButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPlay,
   faPlus,
   faChevronDown,
+  faCircleInfo,
+  faInfo,
 } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons';
 import MovieGenres from './MovieGenres';
@@ -13,6 +14,9 @@ import MovieGenres from './MovieGenres';
 import MovieTrailer from './MovieTrailer';
 import Spinner from './Spinner';
 import { QueryErrorResetBoundary } from '@tanstack/react-query';
+import { Movie } from '../../types/movie';
+import { useMediaContext } from '../../context/useMediaContext';
+import { useNavigate } from 'react-router-dom';
 
 interface MovieProps {
   movie: Movie;
@@ -21,6 +25,8 @@ interface MovieProps {
 const MovieSlider: FC<MovieProps> = ({ movie }) => {
   const [isVideo, setIsVideo] = useState(false);
   const hoverTimeoutRef = useRef<number | null>(null);
+  const { mediaType } = useMediaContext();
+  const navigate = useNavigate();
   const handleMouseEnter = () => {
     hoverTimeoutRef.current = setTimeout(() => {
       setIsVideo(true);
@@ -92,8 +98,14 @@ const MovieSlider: FC<MovieProps> = ({ movie }) => {
             </div>
 
             {/* Expand Button */}
-            <RoundedButton>
+            {/* <RoundedButton>
               <FontAwesomeIcon icon={faChevronDown} size="xs" />
+            </RoundedButton> */}
+
+            <RoundedButton
+              onClick={() => navigate(`/${mediaType}/${movie?.id}`)}
+            >
+              <FontAwesomeIcon icon={faInfo} size="xs" />
             </RoundedButton>
           </div>
 

@@ -1,4 +1,3 @@
-// types.ts
 export interface Genre {
   id: number;
   name: string;

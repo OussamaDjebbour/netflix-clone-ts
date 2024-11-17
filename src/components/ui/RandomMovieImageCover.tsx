@@ -2,31 +2,18 @@ import React, { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { reduceLengthString } from '../../helpers/reduceLengthString';
 import Button from './Button';
-import { AnimatePresence, motion } from 'framer-motion';
 import { TMDBIMAGEURL } from '../../constants';
 import { fetchRandomMovie } from '../../services/fetchRandomMovie';
 import Spinner from './Spinner';
 import { useMediaContext } from '../../context/useMediaContext';
-import { useIsShowNavbarContext } from '../../context/useIsShowNavbarContext';
 import { useIsImageLoadedContext } from '../../context/useIsImageLoadedContext';
+import { useNavigate } from 'react-router-dom';
 
-interface RandomMovieImageCoverProps {
-  // isShow: boolean;
-  // imageLoaded: boolean;
-  // setImageLoaded: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = (
-  {
-    // isShow,
-    // imageLoaded,
-    // setImageLoaded,
-  },
-) => {
-  const { mediaType, handleChangeMedia } = useMediaContext();
-  const { isShow } = useIsShowNavbarContext();
+const RandomMovieImageCover: React.FC = () => {
+  const { mediaType } = useMediaContext();
   const { isImageLoaded, handleChangeIsImageLoaded } =
     useIsImageLoadedContext();
+  const navigate = useNavigate();
 
   const {
     data: movie,
@@ -70,47 +57,25 @@ const RandomMovieImageCover: React.FC<RandomMovieImageCoverProps> = (
 
           <div className="absolute left-4 top-12 w-full overflow-x-hidden p-4 text-white min-[500px]:top-16 small:top-[20%] md:left-8 lg:top-[15%]">
             <h1 className="w-auto max-w-[90%] truncate text-2xl font-bold min-[520px]:text-3xl min-[600px]:text-4xl md:text-[2.35rem] lg:text-[2.5rem]">
-              {movie?.title}
+              {movie?.title || movie?.name}
             </h1>
+
             <p className="mt-2 w-[300px] text-xs min-[500px]:text-sm min-[600px]:mt-3 min-[600px]:w-[400px] min-[600px]:text-base small:mt-5 small:w-4/6 small:text-lg min-[900px]:w-3/4 lg:mt-8 lg:text-xl">
               {movie?.overview
                 ? reduceLengthString(movie.overview, 130)
                 : 'No overview available'}
             </p>
 
-            <div className="mt-3 flex gap-4 text-base min-[500px]:mb-4 min-[500px]:mt-4 min-[600px]:text-base small:mt-6 small:text-lg lg:mt-8">
+            {/* pt-3  min-[500px]:pb-4 small:pt-6 lg:pt-8 */}
+
+            <div className="flex gap-4 pt-3 text-base min-[500px]:pb-4 min-[600px]:text-base small:pt-6 small:text-lg min-[900px]:gap-8 lg:pt-8">
               <Button>Play</Button>
-              <Button>My list</Button>
+              {/* <Button>My list</Button> */}
+              <Button onClick={() => navigate(`/${mediaType}/${movie?.id}`)}>
+                More info
+              </Button>
             </div>
           </div>
-          {/* <AnimatePresence initial={false}>
-            {isShow && (
-              <motion.ul
-                key="dropdown"
-                initial={{ opacity: 0, y: -100 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -100 }}
-                transition={{ duration: 0.4 }}
-                className="fixed top-14 z-50 flex w-full flex-col gap-2 bg-black px-4 py-4 font-medium text-white transition-all duration-300 ease-in min-[500px]:px-8 min-[600px]:text-xl small:hidden"
-              >
-                <li className="hover:cursor-pointer">Home</li>
-                <li
-                  className="hover:cursor-pointer"
-                  onClick={() => handleChangeMedia('tv')}
-                >
-                  TV Shows
-                </li>
-                <li
-                  className="hover:cursor-pointer"
-                  onClick={() => handleChangeMedia('movie')}
-                >
-                  Movies
-                </li>
-                <li className="hover:cursor-pointer">New</li>
-                <li className="hover:cursor-pointer">My List</li>
-              </motion.ul>
-            )}
-          </AnimatePresence> */}
         </>
       )}
     </div>

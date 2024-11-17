@@ -8,16 +8,17 @@ import {
   faChevronLeft,
   faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
-import { Movie } from '../features/SlidersContainer';
+// import { Movie } from '../features/SlidersContainer';
 import { useInView } from 'react-intersection-observer';
 import useResponsiveMoviesPerPage from '../../hooks/useResponsiveMoviesPerPage';
 import { useMediaContext } from '../../context/useMediaContext';
+import { Movie } from '../../types/movie';
 
 interface SliderProps {
   title: string;
 }
 
-const RowTest: FC<SliderProps> = ({ title }) => {
+const RowSlider: FC<SliderProps> = ({ title }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [fade, setFade] = useState(true);
   const moviesPerPage = useResponsiveMoviesPerPage();
@@ -131,4 +132,4 @@ const RowTest: FC<SliderProps> = ({ title }) => {
   );
 };
 
-export default RowTest;
+export default RowSlider;

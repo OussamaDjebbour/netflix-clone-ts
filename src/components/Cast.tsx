@@ -6,9 +6,10 @@ interface Props {
 }
 
 const Cast: React.FC<Props> = ({ cast }) => {
+  console.log(cast);
   return (
-    <div className="mb-4 text-lg leading-relaxed">
-      <h2 className="mb-2 text-2xl font-bold">Cast</h2>
+    <div className="mb-4 leading-relaxed">
+      <h2 className="mb-2 text-xl font-bold">Cast</h2>
       <ul>
         {cast?.map((actor) => (
           <li key={actor.id}>

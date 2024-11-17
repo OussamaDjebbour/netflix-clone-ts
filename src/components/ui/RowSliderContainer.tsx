@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import RowTest from './RowSlider';
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from './ErrorFallback';
+import RowSlider from './RowSlider';
 
 interface RowSliderContainerProps {
   title: string;
@@ -15,7 +15,7 @@ const RowSliderContainer: FC<RowSliderContainerProps> = ({ title }) => {
       </h2>
 
       <ErrorBoundary fallback={<ErrorFallback />}>
-        <RowTest title={title || ''} />
+        <RowSlider title={title || ''} />
       </ErrorBoundary>
     </div>
   );

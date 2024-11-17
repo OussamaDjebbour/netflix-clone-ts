@@ -1,12 +1,13 @@
 import { TMDBBASEURL } from '../constants';
+import { Movie } from '../types/movie';
 
-interface Movie {
-  id: number;
-  title: string;
-  overview: string;
-  backdrop_path: string;
-  poster_path: string;
-}
+// interface Movie {
+//   id: number;
+//   title: string;
+//   overview: string;
+//   backdrop_path: string;
+//   poster_path: string;
+// }
 
 export const fetchRandomMovie = async (mediaType: string): Promise<Movie> => {
   try {
@@ -21,6 +22,7 @@ export const fetchRandomMovie = async (mediaType: string): Promise<Movie> => {
     const data = await response.json();
     const movies: Movie[] = data.results;
     const movie = movies[Math.floor(Math.random() * movies.length)];
+    console.log('movie', movie);
     return movie.backdrop_path ? movie : movies[0];
   } catch (err) {
     throw new Error('Failed to fetch movie details');

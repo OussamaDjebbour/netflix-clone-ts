@@ -8,7 +8,6 @@ import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from './components/ui/ErrorFallback';
 import { MediaProvider } from './context/useMediaContext';
 import MovieDetails from './components/ui/MovieDetails';
-import MovieTvShowsDetails from './components/features/MovieTvShowsDetails';
 import MoviesAndTVShowsApp from './pages/MoviesAndTVShowsApp';
 import { IsShowNavbarProvider } from './context/useIsShowNavbarContext';
 import { IsImageLoadedProvider } from './context/useIsImageLoadedContext';
@@ -43,7 +42,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { path: '/', element: <HomePage /> },
-      { path: 'movie/:id', element: <MovieDetails /> },
+      { path: ':mediaType/:id', element: <MovieDetails /> },
     ],
   },
 ]);

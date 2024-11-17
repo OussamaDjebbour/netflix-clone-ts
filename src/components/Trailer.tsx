@@ -7,12 +7,11 @@ interface Props {
 
 const Trailer: React.FC<Props> = ({ trailerPath }) => {
   return (
-    <div className="mb-4">
-      <h2 className="mb-2 text-2xl font-bold">Trailer</h2>
+    <div className="mb-4 p-4">
+      <h2 className="mb-2 text-xl font-bold">Trailer</h2>
       <iframe
-        className="h-64 w-full"
+        className="border border-[#999]"
         src={`https://www.youtube.com/embed/${trailerPath}`}
-        frameBorder="0"
         allowFullScreen
       />
     </div>

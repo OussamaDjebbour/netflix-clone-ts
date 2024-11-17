@@ -32,6 +32,6 @@ export default {
   },
   plugins: [],
 
-  mode: 'jit',
-  purge: ['./src/**/*.{js,ts,jsx,tsx}'],
+  // mode: 'jit',
+  // purge: ['./src/**/*.{js,ts,jsx,tsx}'],
 } satisfies Config;

@@ -22,9 +22,12 @@ export const fetchMovieTvDetails = async (
   //   return data;
 };
 
-export const fetchMovieDetail = async (id: string) => {
+export const fetchMovieDetail = async (
+  id: string,
+  mediaType: 'movie' | 'tv',
+) => {
   const response = await fetch(
-    `${API_URL}/movie/${id}?api_key=${API_KEY}&language=en-US`,
+    `${API_URL}/${mediaType}/${id}?api_key=${API_KEY}&language=en-US`,
   );
   if (!response.ok) {
     throw new Error('Failed to fetch movie details');
