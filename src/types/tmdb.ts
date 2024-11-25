@@ -39,4 +39,19 @@ export interface MovieDetailsResponse {
   social_media: { facebook: string; twitter: string; instagram: string };
 }
 
+// Movie and TV show result interface
+export interface SearchResult {
+  id: number;
+  title?: string;
+  name?: string;
+  overview: string;
+  poster_path: string | null;
+}
+
+// API response interface
+export interface SearchResponse {
+  results: SearchResult[];
+  total_results: number;
+}
+
 // export { MovieDetailsResponse };
