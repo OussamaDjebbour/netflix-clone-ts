@@ -127,17 +127,17 @@
 
 // export default SearchBar;
 
-import { faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useRef, useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { searchMoviesAndTv } from '../../services/searchMoviesAndTv';
 import { SearchResult } from '../../types/tmdb';
 
-// interface SearchBarProps {
-//   isSearchbarOpen: boolean;
-//   setIsSearchbarOpen: (isSearchbarOpen: boolean) => void;
-// }
+interface SearchBarProps {
+  isSearchbarOpen: boolean;
+  setIsSearchbarOpen: (isSearchbarOpen: boolean) => void;
+}
 
 // const SearchBar: React.FC<SearchBarProps> = ({
 //   isSearchbarOpen,
@@ -234,44 +234,40 @@ import { SearchResult } from '../../types/tmdb';
 // import { searchMoviesAndTv } from '../../services/searchMoviesAndTv';
 // import { SearchResult } from '../../types/tmdb';
 
-interface SearchBarProps {
-  isSearchbarOpen: boolean;
-  setIsSearchbarOpen: (isSearchbarOpen: boolean) => void;
-  searchTerm: string;
-  setSearchTerm: (searchTerm: string) => void;
-}
+// interface SearchBarProps {
+//   isSearchbarOpen: boolean;
+//   setIsSearchbarOpen: (isSearchbarOpen: boolean) => void;
+// }
 
 const SearchBar: React.FC<SearchBarProps> = ({
   isSearchbarOpen,
   setIsSearchbarOpen,
-  searchTerm,
-  setSearchTerm,
 }) => {
-  // const [searchTerm, setSearchTerm] = useState('');
-  // const [navbarHeight, setNavbarHeight] = useState(0); // State to store navbar height
-  // const resultsRef = useRef<HTMLDivElement>(null); // Reference for the search results container
+  const [searchTerm, setSearchTerm] = useState('');
+  const [navbarHeight, setNavbarHeight] = useState(0); // State to store navbar height
+  const resultsRef = useRef<HTMLDivElement>(null); // Reference for the search results container
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // const { data: searchResults } = useQuery<SearchResult[]>({
-  //   queryKey: ['movies', searchTerm],
-  //   queryFn: () => searchMoviesAndTv(searchTerm, 'movie'),
-  //   enabled: !!searchTerm, // Fetch only when there's a search term
-  // });
+  const { data: searchResults } = useQuery<SearchResult[]>({
+    queryKey: ['movies', searchTerm],
+    queryFn: () => searchMoviesAndTv(searchTerm, 'movie'),
+    enabled: !!searchTerm, // Fetch only when there's a search term
+  });
 
-  // useEffect(() => {
-  //   // Dynamically calculate navbar height
-  //   const navbar = document.querySelector('nav');
-  //   if (navbar) {
-  //     setNavbarHeight(navbar.offsetHeight);
-  //   }
-  // }, []);
+  useEffect(() => {
+    // Dynamically calculate navbar height
+    const navbar = document.querySelector('nav');
+    if (navbar) {
+      setNavbarHeight(navbar.offsetHeight);
+    }
+  }, []);
 
-  // useEffect(() => {
-  //   // Scroll search results into view when they are rendered
-  //   if (resultsRef.current) {
-  //     resultsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  //   }
-  // }, [searchResults]);
+  useEffect(() => {
+    // Scroll search results into view when they are rendered
+    if (resultsRef.current) {
+      resultsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [searchResults]);
 
   const handleFocus = () => {
     setIsSearchbarOpen(true);
@@ -300,12 +296,10 @@ const SearchBar: React.FC<SearchBarProps> = ({
             isSearchbarOpen && 'max-[680px]:hidden'
           } left-5 z-50 cursor-pointer`}
         />
-
         <input
           ref={inputRef}
           type="text"
-          // small:left-auto small:right-10
-          className={`fixed left-0 right-0 top-0 bg-[rgb(31,31,31)] py-3 pl-6 pr-4 text-white outline-none transition-all duration-300 focus:ring-neutral-300 small:left-auto small:right-10 small:top-auto small:block small:w-64 small:rounded-full small:pl-10 small:focus:ring-1 ${
+          className={`fixed left-0 right-0 bg-[rgb(31,31,31)] py-2.5 pl-6 pr-4 text-white outline-none transition-all duration-300 focus:ring-neutral-300 small:left-auto small:right-10 small:top-auto small:block small:w-64 small:rounded-full small:pl-10 small:focus:ring-1 ${
             isSearchbarOpen ? 'z-40 w-full opacity-100' : 'w-0 opacity-0'
           }`}
           placeholder="Search a movie or a tvShow"
@@ -314,13 +308,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-      <FontAwesomeIcon
-        icon={faXmark}
-        onClick={() => setIsSearchbarOpen(false)}
-        color="white"
-        // size="xl"
-        className={`absolute right-4 top-1 z-[10000] my-auto h-6 w-6 cursor-pointer rounded-[50%] p-2 hover:bg-[rgb(60,60,60)] small:hidden ${!isSearchbarOpen && 'hidden'}`}
-      />
+
       {/* Search Results */}
       {/* {searchResults && (
         <div

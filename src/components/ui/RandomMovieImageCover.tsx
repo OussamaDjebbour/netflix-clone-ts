@@ -39,7 +39,12 @@ const RandomMovieImageCover: React.FC = () => {
     console.log('errorerrorerrorerror', error);
   }
 
-  if (isError) return <div>Error loading movie. Please try again later.</div>;
+  if (isError)
+    return (
+      <div className="h-screen bg-black py-14 text-white">
+        Error loading movie. Please try again later.
+      </div>
+    );
 
   return (
     <div className="relative max-h-screen w-full overflow-hidden">

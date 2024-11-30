@@ -10,14 +10,28 @@ import { useNavigate } from 'react-router-dom';
 import SearchBar from './SearchBar';
 import SearchComponent from './SearchComponent';
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  // isSearchbarOpen: boolean;
+  // setIsSearchbarOpen: (isSearchbarOpen: boolean) => void;
+  searchTerm: string;
+  setSearchTerm: (searchTerm: string) => void;
+  isSearchbarOpen: boolean;
+  setIsSearchbarOpen: (isSearchOpen: boolean) => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({
+  searchTerm,
+  setSearchTerm,
+  isSearchbarOpen,
+  setIsSearchbarOpen,
+}) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const { mediaType, handleChangeMedia } = useMediaContext();
   const { handleToggleIsShow } = useIsShowNavbarContext();
   const { handleChangeIsImageLoaded } = useIsImageLoadedContext();
   const navigate = useNavigate();
 
-  const [isSearchbarOpen, setIsSearchbarOpen] = useState(false);
+  // const [isSearchbarOpen, setIsSearchbarOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,7 +70,12 @@ const Navbar: React.FC = () => {
       //     ? 'relative h-9 max-[680px]:block'
       //     : 'fixed h-[58px] transition-all duration-500 ease-linear'
       // }
-      className={`fixed top-0 z-50 flex h-[58px] w-full items-center gap-8 bg-black px-4 transition-all duration-500 ease-in min-[500px]:px-8 md:px-12 lg:gap-12 ${isScrolled ? 'small:bg-black' : 'small:bg-transparent'}`}
+      // ${
+      //   isSearchbarOpen ? 'max-[680px]:h-9' : 'h-[58px]'
+      // }
+      className={`fixed h-[58px] ${
+        isSearchbarOpen && 'max-[680px]:h-9'
+      } top-0 z-[10000] flex w-full items-center gap-8 bg-black px-4 transition-all duration-500 ease-in min-[500px]:px-8 md:px-12 lg:gap-12 ${isScrolled ? 'small:bg-black' : 'small:bg-transparent'}`}
     >
       <img
         src="../../../src/assets/images/netflix-logo-0.png"
@@ -119,6 +138,8 @@ const Navbar: React.FC = () => {
       <SearchBar
         isSearchbarOpen={isSearchbarOpen}
         setIsSearchbarOpen={setIsSearchbarOpen}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
       />
       {/* </div> */}
       {/* </div> */}

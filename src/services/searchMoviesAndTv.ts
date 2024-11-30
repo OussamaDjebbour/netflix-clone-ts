@@ -19,13 +19,12 @@ export const searchMoviesAndTv = async (
     //   )}`,
     // );
 
-    console.log('response', response);
-
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
     const data: SearchResponse = await response.json();
+    console.log('data.results', data.results);
     return data.results;
   } catch (error) {
     console.error('Error fetching search results:', error);
