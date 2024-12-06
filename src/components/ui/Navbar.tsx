@@ -75,7 +75,7 @@ const Navbar: React.FC<NavbarProps> = ({
       // }
       className={`fixed h-[58px] ${
         isSearchbarOpen && 'max-[680px]:h-9'
-      } top-0 z-[10000] flex w-full items-center gap-8 bg-black px-4 transition-all duration-500 ease-in min-[500px]:px-8 md:px-12 lg:gap-12 ${isScrolled ? 'small:bg-black' : 'small:bg-transparent'}`}
+      } top-0 z-[1000000000000000] flex w-full items-center gap-8 bg-black px-4 transition-all duration-500 ease-in min-[500px]:px-8 md:px-12 lg:gap-12 ${isScrolled ? 'small:bg-black' : 'small:bg-transparent'}`}
     >
       <img
         src="../../../src/assets/images/netflix-logo-0.png"

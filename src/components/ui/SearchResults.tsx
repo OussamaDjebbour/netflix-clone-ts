@@ -2,9 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { SearchResult } from '../../types/tmdb';
 import Overlay from './Overlay';
 import Spinner from './Spinner';
+import { useNavigate } from 'react-router-dom';
+import { useMediaContext } from '../../context/useMediaContext';
 
 interface SearchResultProps {
-  searchResults: SearchResult[];
+  searchResults: SearchResult[] | undefined;
   isSearchbarOpen: boolean;
   setIsSearchbarOpen: (isSearchbarOpen: boolean) => void;
   debouncedQuery: string;
@@ -21,7 +23,15 @@ const SearchResults: React.FC<SearchResultProps> = ({
   //   const [navbarHeight, setNavbarHeight] = useState(0); // State to store navbar height
   // const resultsRef = useRef<HTMLDivElement>(null); // Reference for the search results container
 
+  const navigate = useNavigate();
+  const { mediaType } = useMediaContext();
+
   console.log('isLoading', isLoading);
+
+  console.log(
+    'searchResultssearchResultssearchResultssearchResults',
+    searchResults,
+  );
 
   //   useEffect(() => {
   //     // Dynamically calculate navbar height
@@ -49,7 +59,7 @@ const SearchResults: React.FC<SearchResultProps> = ({
     //   });
     // }
     // Scroll to the top of the page when searchResults change
-    if (searchResults.length > 0) {
+    if (searchResults && searchResults.length > 0) {
       window.scrollTo({
         top: 0,
         behavior: 'smooth', // Smooth scrolling effect
@@ -57,18 +67,31 @@ const SearchResults: React.FC<SearchResultProps> = ({
     }
   }, [searchResults]);
 
-  if (isLoading) {
-    return (
-      <div className="z-[100000000] h-screen w-full bg-black">
-        <Spinner />
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className="z-[100000000] h-screen w-full bg-black">
+  //       <Spinner />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="z-[100000000000000000000]">
+      {/* <> */}
       {/* Search Results */}
-      {isSearchbarOpen && searchResults.length > 0 && (
+
+      {/* && searchResults.length>0 */}
+      {isSearchbarOpen && searchResults?.length === 0 && (
+        <div
+          className={`${isSearchbarOpen ? 'top-12' : 'top-[58px]'} absolute left-0 right-0 z-[600000000000] mb-10 flex flex-col items-center overflow-y-auto rounded-xl bg-[rgb(31,31,31)] py-4 text-white small:left-[12.5%] small:right-[12.5%] small:top-24`}
+        >
+          <p>
+            No results found for "
+            <span className="font-bold">{debouncedQuery}</span>"
+          </p>
+        </div>
+      )}
+      {isSearchbarOpen && searchResults && searchResults.length > 0 && (
         <div
           // ref={resultsRef}
           // small:left-auto small:right-auto
@@ -91,6 +114,8 @@ const SearchResults: React.FC<SearchResultProps> = ({
           {searchResults.slice(0, 8).map((result) => (
             <div
               key={result.id}
+              // /${mediaType}/
+              onClick={() => navigate(`/${mediaType}/${result?.id}`)}
               className="flex w-full cursor-pointer items-center gap-6 overflow-hidden border-t border-[rgba(255,255,255,0.25)] p-3 hover:bg-[#333]"
             >
               {
@@ -124,9 +149,12 @@ const SearchResults: React.FC<SearchResultProps> = ({
           </div>
         </div>
       )}
-      {isSearchbarOpen && searchResults.length > 0 && (
+
+      {/* searchResults.length > 0 && */}
+      {isSearchbarOpen && searchResults && (
         <Overlay setIsSearchbarOpen={setIsSearchbarOpen} />
       )}
+      {/* </> */}
     </div>
   );
 };

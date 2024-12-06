@@ -27,7 +27,7 @@ const MoviesAndTVShowsApp = () => {
   const debouncedQuery = useDebounce(searchTerm, 800); // Debounce delay of 800ms
 
   const {
-    data: searchResults = [],
+    data: searchResults,
     isLoading,
     isError,
   } = useQuery<SearchResult[]>({
@@ -46,7 +46,7 @@ const MoviesAndTVShowsApp = () => {
 
   return (
     // <>
-    <div className="relative z-[1000000000000000]">
+    <div className="relative">
       <Navbar
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
