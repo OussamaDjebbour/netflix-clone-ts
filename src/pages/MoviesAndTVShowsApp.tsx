@@ -7,7 +7,10 @@ import { useIsImageLoadedContext } from '../context/useIsImageLoadedContext';
 import { useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { SearchResult } from '../types/tmdb';
-import { searchMoviesAndTv } from '../services/searchMoviesAndTv';
+import {
+  // fetchFamilyAndAnimationContent,
+  searchMoviesAndTv,
+} from '../services/searchMoviesAndTv';
 import SearchResults from '../components/ui/SearchResults';
 import useDebounce from '../hooks/useDebounce';
 import Spinner from '../components/ui/Spinner';
@@ -33,7 +36,9 @@ const MoviesAndTVShowsApp = () => {
   } = useQuery<SearchResult[]>({
     queryKey: ['movies', debouncedQuery],
     queryFn: () => searchMoviesAndTv(debouncedQuery, 'movie'),
-    enabled: !!debouncedQuery, // Fetch only when there's a search query
+    // queryFn: () => fetchFamilyAndAnimationContent(debouncedQuery),
+    // enabled: !!debouncedQuery, // Fetch only when there's a search query
+    enabled: debouncedQuery.trim().length > 2, // Disable the query when debouncedQuery length is less than or equal to 2
   });
 
   // if (isLoading) {

@@ -24,7 +24,7 @@ const SearchResults: React.FC<SearchResultProps> = ({
   // const resultsRef = useRef<HTMLDivElement>(null); // Reference for the search results container
 
   const navigate = useNavigate();
-  const { mediaType } = useMediaContext();
+  // const { mediaType } = useMediaContext();
 
   console.log('isLoading', isLoading);
 
@@ -76,14 +76,16 @@ const SearchResults: React.FC<SearchResultProps> = ({
   // }
 
   return (
-    <div className="z-[100000000000000000000]">
+    // z-[100000000000000000000]
+    <div className="">
       {/* <> */}
       {/* Search Results */}
 
       {/* && searchResults.length>0 */}
       {isSearchbarOpen && searchResults?.length === 0 && (
         <div
-          className={`${isSearchbarOpen ? 'top-12' : 'top-[58px]'} absolute left-0 right-0 z-[600000000000] mb-10 flex flex-col items-center overflow-y-auto rounded-xl bg-[rgb(31,31,31)] py-4 text-white small:left-[12.5%] small:right-[12.5%] small:top-24`}
+          // z-[600000000000]
+          className={`${isSearchbarOpen ? 'top-12' : 'top-[58px]'} absolute left-0 right-0 z-[60] mb-10 flex flex-col items-center overflow-y-auto rounded-xl bg-[rgb(31,31,31)] py-4 text-white small:left-[12.5%] small:right-[12.5%] small:top-24`}
         >
           <p>
             No results found for "
@@ -103,7 +105,9 @@ const SearchResults: React.FC<SearchResultProps> = ({
           //   // maxHeight: `calc(100vh - ${navbarHeight}px)`, // Prevent overlapping viewport
           //   maxHeight: `calc(100vh + 400px)`, // Prevent overlapping viewport
           // }}
-          className={`absolute left-0 right-0 rounded-xl small:left-[12.5%] small:right-[12.5%] ${isSearchbarOpen ? 'top-12' : 'top-[58px]'} z-[600000000000] mb-10 flex flex-col items-center overflow-y-auto bg-[rgb(31,31,31)] text-white small:top-24`}
+
+          // z-[600000000000]
+          className={`absolute left-0 right-0 max-h-[calc(100dvh-7rem)] rounded-xl small:left-[12.5%] small:right-[12.5%] ${isSearchbarOpen ? 'top-12' : 'top-[58px]'} z-[60] mb-10 flex flex-col items-center ${searchResults.length > 3 && 'small:overflow-y-scroll'} ${searchResults.length > 4 && 'overflow-y-scroll'} bg-[rgb(31,31,31)] text-white small:top-24`}
         >
           {/* {isLoading && (
             <div className="z-[100000000] h-screen w-full bg-black">
@@ -115,8 +119,11 @@ const SearchResults: React.FC<SearchResultProps> = ({
             <div
               key={result.id}
               // /${mediaType}/
-              onClick={() => navigate(`/${mediaType}/${result?.id}`)}
-              className="flex w-full cursor-pointer items-center gap-6 overflow-hidden border-t border-[rgba(255,255,255,0.25)] p-3 hover:bg-[#333]"
+              onClick={() => {
+                setIsSearchbarOpen(false);
+                navigate(`/${result.media_type}/${result?.id}`);
+              }}
+              className="flex w-full cursor-pointer items-center gap-6 border-t border-[rgba(255,255,255,0.25)] p-3 hover:bg-[#333]"
             >
               {
                 <img

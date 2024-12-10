@@ -47,7 +47,7 @@ const MovieDetails: React.FC<Props> = () => {
   console.log('movieDetails', movieDetails);
 
   return (
-    <div className="w-full p-4 text-white min-[500px]:p-6 md:px-8 lg:px-10">
+    <div className="min-h-screen w-full p-4 text-white min-[500px]:p-6 md:px-8 lg:px-10">
       <header className="mb-4 mt-20 flex items-center justify-between min-[500px]:mb-6 md:mb-10 lg:mb-12">
         {/* <h1 className="text-xl font-bold lg:text-3xl">{movieDetails.title}</h1> */}
         {/* min-[520px]:text-3xl min-[600px]:text-4xl md:text-[2.35rem] lg:text-[2.5rem] */}
@@ -63,7 +63,9 @@ const MovieDetails: React.FC<Props> = () => {
       <div className="flex flex-col flex-wrap gap-8 md:gap-10 lg:gap-8 xl:mb-20 xl:flex-row">
         {/* <div className="mb-4 flex-shrink-0 grow-0"> */}
         <div className="basis-full min-[500px]:w-11/12 min-[500px]:pl-4 min-[600px]:w-4/5 md:w-3/5 xl:basis-[calc(50%-16px)] xl:self-center">
-          <Poster posterPath={movieDetails.backdrop_path} />
+          <Poster
+            posterPath={movieDetails.backdrop_path || movieDetails.poster_path}
+          />
         </div>
         {/* min-[600px]:text-base small:mt-5 small:w-4/6 small:text-lg min-[900px]:w-3/4 lg:mt-8 lg:text-xl xl:basis-2/3 mb-4 md:mb-6 lg:mb-8*/}
         <div className="mb-8 basis-full text-sm min-[600px]:text-base md:mb-10 xl:mb-0 xl:basis-[calc(50%-16px)] xl:self-center">
