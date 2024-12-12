@@ -1,3 +1,4 @@
+import { MediaProvider } from './../context/useMediaContext';
 export interface Genre {
   id: number;
   name: string;
@@ -49,6 +50,7 @@ export interface SearchResult {
   backdrop_path: string | null;
   release_date: Date;
   vote_average: number;
+  media_type: string;
 }
 
 // API response interface

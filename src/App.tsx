@@ -11,6 +11,8 @@ import MovieDetails from './components/ui/MovieDetails';
 import MoviesAndTVShowsApp from './pages/MoviesAndTVShowsApp';
 import { IsShowNavbarProvider } from './context/useIsShowNavbarContext';
 import { IsImageLoadedProvider } from './context/useIsImageLoadedContext';
+import AllSearchResults from './pages/AllSearchResults';
+import ResultsPage from './pages/ResultsPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,6 +45,8 @@ const router = createBrowserRouter([
     children: [
       { path: '/', element: <HomePage /> },
       { path: ':mediaType/:id', element: <MovieDetails /> },
+      // { path: ':searchQuery', element: <AllSearchResults /> },
+      { path: ':searchQuery', element: <ResultsPage /> },
     ],
   },
 ]);

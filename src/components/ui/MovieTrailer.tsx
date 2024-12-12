@@ -4,8 +4,8 @@ import { useMediaContext } from '../../context/useMediaContext';
 import { useParams } from 'react-router-dom';
 
 const MovieTrailer = ({ movieId }: { movieId: number }) => {
-  const { mediaType } = useMediaContext();
-  const { id } = useParams();
+  // const { mediaType } = useMediaContext();
+  const { id, mediaType = 'movie' } = useParams();
 
   const { data: movieTrailer, error } = useSuspenseQuery({
     queryKey: ['movieVideos', mediaType, movieId],

@@ -151,7 +151,10 @@ const SearchResults: React.FC<SearchResultProps> = ({
               </div>
             </div>
           ))}
-          <div className="w-full cursor-pointer border-t border-[rgba(255,255,255,0.25)] pb-4 pt-3 text-center text-xl text-white hover:bg-[#333]">
+          <div
+            onClick={() => navigate(`${debouncedQuery}`)}
+            className="w-full cursor-pointer border-t border-[rgba(255,255,255,0.25)] pb-4 pt-3 text-center text-xl text-white hover:bg-[#333]"
+          >
             See all results for "{debouncedQuery}"
           </div>
         </div>

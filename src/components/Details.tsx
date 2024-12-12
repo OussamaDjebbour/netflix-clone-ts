@@ -85,8 +85,8 @@ const Details: React.FC<Props> = ({
               <div className="mt-1 gap-2 lg:flex">
                 <span className="mb-1 inline-block font-bold">Seasons: </span>
                 <div className="gap-1 pl-8 min-[580px]:grid min-[580px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 lg:gap-x-10">
-                  {seasons.map((season, index, arr) =>
-                    season.name !== 'Specials' ? (
+                  {seasons?.map((season, index, arr) =>
+                    season?.name !== 'Specials' ? (
                       <div>
                         <span className="font-bold">{season.name}: </span>
                         <span className="text-[#c4c4c4]">

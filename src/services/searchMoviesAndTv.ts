@@ -181,9 +181,13 @@ export const searchMoviesAndTv = async (
     let totalPages = 5;
     let filteredResults: SearchResult[] = [];
 
+    let res;
+
     while (currentPage <= totalPages && filteredResults.length === 0) {
       // Fetch the current page
       const data = await fetchPage(currentPage);
+
+      res = data.results;
       console.log('dato', data);
       console.log('currentPage', currentPage);
       // totalPages = data.total_pages; // Update the total pages based on the API response
@@ -217,7 +221,8 @@ export const searchMoviesAndTv = async (
 
     console.log('sortedResultssortedResults', sortedResults);
 
-    return sortedResults;
+    // return sortedResults;
+    return res;
   } catch (error) {
     console.error('Error fetching search results:', error);
     return [];

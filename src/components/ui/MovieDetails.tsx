@@ -16,11 +16,17 @@ import MovieTrailer from './MovieTrailer';
 import { useMediaContext } from '../../context/useMediaContext';
 // import WatchlistButton from '../WatchListButton';
 
-interface Props {}
+// interface Props {}
 
-const MovieDetails: React.FC<Props> = () => {
-  const { id = '' } = useParams();
-  const { mediaType } = useMediaContext();
+interface RouteParams extends Record<string, string | undefined> {
+  id: string;
+  mediaType: 'movie' | 'tv';
+}
+
+const MovieDetails: React.FC = () => {
+  const { id = '', mediaType = 'movie' } = useParams<RouteParams>();
+  // const { mediaType } = useMediaContext();
+
   // const [movieDetails, setMovieDetails] =
   //   React.useState<MovieDetailsResponse | null>(null);
 
