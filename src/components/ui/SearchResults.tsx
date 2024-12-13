@@ -87,7 +87,7 @@ const SearchResults: React.FC<SearchResultProps> = ({
       {isSearchbarOpen && searchResults?.length === 0 && (
         <div
           // z-[600000000000]
-          className={`${isSearchbarOpen ? 'top-12' : 'top-[58px]'} absolute left-0 right-0 z-[60] mb-10 flex flex-col items-center overflow-y-auto rounded-xl bg-[rgb(31,31,31)] py-4 text-white small:left-[12.5%] small:right-[12.5%] small:top-24`}
+          className={`${isSearchbarOpen ? 'top-12' : 'top-[58px]'} fixed left-0 right-0 z-[60] mb-10 flex flex-col items-center overflow-y-auto rounded-xl bg-[rgb(31,31,31)] py-4 text-white small:left-[12.5%] small:right-[12.5%] small:top-24`}
         >
           <p>
             No results found for "

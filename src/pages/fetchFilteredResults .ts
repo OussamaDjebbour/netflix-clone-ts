@@ -1,13 +1,16 @@
 import { SearchResult } from '../types/tmdb';
 
 export const fetchFilteredResults = async ({
-  queryKey,
+  // queryKey,
+  query,
   pageParam = 1,
 }: {
-  queryKey: [string, string];
+  query: string;
+  // queryKey: [string];
   pageParam?: number;
 }): Promise<{ results: SearchResult[]; nextPage: number | null }> => {
-  const [query, mediaType] = queryKey;
+  // const [query] = queryKey;
+  // console.log('queryKey', queryKey);
   const API_KEY = import.meta.env.VITE_API_KEY;
 
   if (!query.trim()) return { results: [], nextPage: null };

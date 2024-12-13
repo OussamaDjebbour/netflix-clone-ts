@@ -10,16 +10,13 @@ import { useParams } from 'react-router-dom';
 // import { useSearchResults } from './hooks/useSearchResults';
 
 function ResultsPage() {
-  // const query = 'breaking';
   const { query = 'the' } = useParams();
-  const [mediaType, setMediaType] = useState('movie');
   const { ref, inView } = useInView();
   const [currentPage, setCurrentPage] = useState(1);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useSearchResults({
       query,
-      mediaType,
     });
 
   useEffect(() => {

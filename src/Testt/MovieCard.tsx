@@ -26,7 +26,7 @@ export function MovieCard({ item }: MovieCardProps) {
         >
           <img
             src={imageUrl}
-            alt={title || name}
+            alt={title || name || 'No image available'}
             className="absolute inset-0 h-full w-full transform object-cover transition-transform duration-300 group-hover:scale-105"
             // className="w-full transform object-cover transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
@@ -34,9 +34,11 @@ export function MovieCard({ item }: MovieCardProps) {
         </div>
       )}
       <h2 className="mt-4 text-xl font-semibold text-purple-300">
-        {title || name}
+        {title || name || 'No title available'}
       </h2>
-      <p className="mt-2 line-clamp-3 text-sm text-gray-400">{overview}</p>
+      <p className="mt-2 line-clamp-3 text-sm text-gray-400">
+        {overview || 'No overview available'}
+      </p>
     </div>
   );
 }
