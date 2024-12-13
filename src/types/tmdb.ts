@@ -60,3 +60,25 @@ export interface SearchResponse {
 }
 
 // export { MovieDetailsResponse };
+
+interface FetchParams {
+  query: string;
+  mediaType: string;
+  pageParam: number;
+}
+
+export const fetchFilteredResults = async ({
+  query,
+  mediaType,
+  pageParam,
+}: FetchParams) => {
+  if (!query.trim()) {
+    return {
+      results: [],
+      // queryKey: ['search', query, mediaType],
+      // lastPage:null
+      nextPage: null,
+      totalPages: 0,
+    };
+  }
+};
