@@ -11,14 +11,14 @@ import { useParams } from 'react-router-dom';
 
 function ResultsPage() {
   // const query = 'breaking';
-  const { query } = useParams();
+  const { query = 'the' } = useParams();
   const [mediaType, setMediaType] = useState('movie');
   const { ref, inView } = useInView();
   const [currentPage, setCurrentPage] = useState(1);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useSearchResults({
-      query: query || '',
+      query,
       mediaType,
     });
 
@@ -38,7 +38,7 @@ function ResultsPage() {
   }, [inView, fetchNextPage, hasNextPage, isFetchingNextPage, currentPage]);
 
   return (
-    <div className="min-h-screen bg-black text-gray-100">
+    <div className="min-h-screen bg-black pt-14 text-gray-100">
       <div className="container mx-auto">
         <div className="p-6">
           <h1 className="mb-6 text-3xl font-bold text-purple-400">
@@ -46,7 +46,7 @@ function ResultsPage() {
           </h1>
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {data?.pages?.map((page, index) =>
+            {data?.pages?.map((page) =>
               page.results.map((item) => (
                 <MovieCard key={item.id} item={item} />
               )),

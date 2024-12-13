@@ -17,7 +17,7 @@ export function MovieCard({ item }: MovieCardProps) {
   return (
     <div
       onClick={() => navigate(`/${item.media_type}/${item.id}`)}
-      className="group rounded-lg bg-gray-900 p-4 shadow-lg transition-all duration-300 hover:bg-gray-800 hover:shadow-purple-500/20"
+      className="group cursor-pointer rounded-lg bg-gray-900 p-4 shadow-lg transition-all duration-300 hover:bg-gray-800 hover:shadow-purple-500/20"
     >
       {imageUrl && (
         <div

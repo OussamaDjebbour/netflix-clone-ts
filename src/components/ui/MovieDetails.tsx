@@ -42,7 +42,7 @@ const MovieDetails: React.FC = () => {
       </header>
 
       <div className="flex flex-col flex-wrap gap-8 md:gap-10 lg:gap-8 xl:mb-20 xl:flex-row">
-        <div className="relative aspect-video basis-full overflow-hidden min-[500px]:w-11/12 min-[500px]:pl-4 min-[600px]:w-4/5 md:w-3/5 xl:basis-[calc(50%-16px)] xl:self-center">
+        <div className="relative aspect-video basis-full overflow-hidden rounded-xl min-[500px]:w-11/12 min-[500px]:pl-4 min-[600px]:w-4/5 md:w-3/5 xl:basis-[calc(50%-16px)] xl:self-center">
           <Poster
             posterPath={movieDetails.backdrop_path || movieDetails.poster_path}
           />

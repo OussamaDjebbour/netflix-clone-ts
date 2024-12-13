@@ -11,6 +11,7 @@ interface SearchResultProps {
   setIsSearchbarOpen: (isSearchbarOpen: boolean) => void;
   debouncedQuery: string;
   isLoading: boolean;
+  setSearchTerm: (searchTerm: string) => void;
 }
 
 const SearchResults: React.FC<SearchResultProps> = ({
@@ -19,6 +20,7 @@ const SearchResults: React.FC<SearchResultProps> = ({
   setIsSearchbarOpen,
   debouncedQuery,
   isLoading,
+  setSearchTerm,
 }) => {
   //   const [navbarHeight, setNavbarHeight] = useState(0); // State to store navbar height
   // const resultsRef = useRef<HTMLDivElement>(null); // Reference for the search results container
@@ -120,9 +122,11 @@ const SearchResults: React.FC<SearchResultProps> = ({
               key={result.id}
               // /${mediaType}/
               onClick={() => {
+                setSearchTerm('');
                 setIsSearchbarOpen(false);
                 navigate(`/${result.media_type}/${result?.id}`);
               }}
+              // className="relative flex aspect-video w-full cursor-pointer items-center gap-6 overflow-hidden border-t border-[rgba(255,255,255,0.25)] p-3 hover:bg-[#333]"
               className="flex w-full cursor-pointer items-center gap-6 border-t border-[rgba(255,255,255,0.25)] p-3 hover:bg-[#333]"
             >
               {
@@ -130,6 +134,7 @@ const SearchResults: React.FC<SearchResultProps> = ({
                   src={`https://image.tmdb.org/t/p/w200${result.backdrop_path || result.poster_path}`}
                   alt="No image"
                   className="w-1/4 rounded-md text-white"
+                  // className="absolute inset-0 w-1/4 transform object-cover text-white transition-transform duration-300 group-hover:scale-105"
                 />
               }
               {/* {result.poster_path && (
@@ -152,7 +157,11 @@ const SearchResults: React.FC<SearchResultProps> = ({
             </div>
           ))}
           <div
-            onClick={() => navigate(`${debouncedQuery}`)}
+            onClick={() => {
+              setSearchTerm('');
+              setIsSearchbarOpen(false);
+              navigate(`${debouncedQuery}`);
+            }}
             className="w-full cursor-pointer border-t border-[rgba(255,255,255,0.25)] pb-4 pt-3 text-center text-xl text-white hover:bg-[#333]"
           >
             See all results for "{debouncedQuery}"
@@ -162,7 +171,10 @@ const SearchResults: React.FC<SearchResultProps> = ({
 
       {/* searchResults.length > 0 && */}
       {isSearchbarOpen && searchResults && (
-        <Overlay setIsSearchbarOpen={setIsSearchbarOpen} />
+        <Overlay
+          setIsSearchbarOpen={setIsSearchbarOpen}
+          setSearchTerm={setSearchTerm}
+        />
       )}
       {/* </> */}
     </div>

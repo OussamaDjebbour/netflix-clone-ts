@@ -54,8 +54,8 @@ export const fetchFilteredResults = async ({
   // },
 
   return {
-    // results: filteredResults,
-    results: data.results,
+    results: filteredResults,
+    // results: data.results,
     nextPage: pageParam < data.total_pages ? pageParam + 1 : null,
   };
 };

@@ -221,8 +221,8 @@ export const searchMoviesAndTv = async (
 
     console.log('sortedResultssortedResults', sortedResults);
 
-    // return sortedResults;
-    return res;
+    return sortedResults;
+    // return res;
   } catch (error) {
     console.error('Error fetching search results:', error);
     return [];

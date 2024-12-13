@@ -115,6 +115,7 @@ const MoviesAndTVShowsApp = () => {
               setIsSearchbarOpen={setIsSearchbarOpen}
               debouncedQuery={debouncedQuery}
               isLoading={isLoading}
+              setSearchTerm={setSearchTerm}
             />
             {/* {isSearchbarOpen && searchResults.length > 0 && (
               <Overlay setIsSearchbarOpen={setIsSearchbarOpen} />
