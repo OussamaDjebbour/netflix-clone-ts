@@ -4,19 +4,21 @@ import { useSearchResults } from '../hooks/useSearchResults';
 // import { ResultsGrid } from './ResultsGrid';
 import { LoadingSpinner } from './LoadingSpinner';
 import { MovieCard } from './MovieCard';
+import { useParams } from 'react-router-dom';
 // import { ResultsGrid } from './components/ResultsGrid';
 // import { LoadingSpinner } from './components/LoadingSpinner';
 // import { useSearchResults } from './hooks/useSearchResults';
 
 function ResultsPage() {
-  const query = 'breaking';
+  // const query = 'breaking';
+  const { query } = useParams();
   const [mediaType, setMediaType] = useState('movie');
   const { ref, inView } = useInView();
   const [currentPage, setCurrentPage] = useState(1);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useSearchResults({
-      query,
+      query: query || '',
       mediaType,
     });
 

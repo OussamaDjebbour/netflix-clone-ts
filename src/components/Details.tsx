@@ -1,6 +1,7 @@
 // components/Details.tsx
 import React from 'react';
 import { useMediaContext } from '../context/useMediaContext';
+import { useParams } from 'react-router-dom';
 
 // const obj = {
 //   air_date: string,
@@ -35,7 +36,8 @@ const Details: React.FC<Props> = ({
   numberOfSeasons,
   seasons,
 }) => {
-  const { mediaType } = useMediaContext();
+  // const { mediaType } = useMediaContext();
+  const { mediaType } = useParams();
 
   return (
     // text-[#D3D3D3]
@@ -87,7 +89,7 @@ const Details: React.FC<Props> = ({
                 <div className="gap-1 pl-8 min-[580px]:grid min-[580px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 lg:gap-x-10">
                   {seasons?.map((season, index, arr) =>
                     season?.name !== 'Specials' ? (
-                      <div>
+                      <div key={index}>
                         <span className="font-bold">{season.name}: </span>
                         <span className="text-[#c4c4c4]">
                           {season.episode_count} episodes

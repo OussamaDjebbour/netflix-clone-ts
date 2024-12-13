@@ -48,7 +48,7 @@ const router = createBrowserRouter([
       { path: ':mediaType/:id', element: <MovieDetails /> },
       // { path: ':searchQuery', element: <AllSearchResults /> },
       // { path: ':searchQuery', element: <ResultsPage /> },
-      { path: ':searchQuery', element: <ResultsPage /> },
+      { path: ':query', element: <ResultsPage /> },
     ],
   },
 ]);
