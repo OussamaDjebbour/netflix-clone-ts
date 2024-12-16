@@ -1,38 +1,148 @@
-import React, { useEffect, useState } from 'react';
+// import React, { useEffect, useCallback } from 'react';
+// import { useInView } from 'react-intersection-observer';
+// import { useSearchResults } from '../hooks/useSearchResults';
+// import { useParams } from 'react-router-dom';
+// import { SearchResults } from '../kkk/SearchResults';
+// import { LoadMoreTrigger } from '../kkk/Load';
+// import { LoadingSpinner } from './LoadingSpinner';
+
+// function ResultsPage() {
+//   const { query = 'the' } = useParams();
+//   const { ref, inView } = useInView({
+//     threshold: 0.5,
+//     delay: 100,
+//   });
+
+//   const {
+//     data: allFilteredResults,
+//     fetchNextPage,
+//     hasNextPage,
+//     isFetchingNextPage,
+//     isError,
+//     isLoading,
+//   } = useSearchResults({ query });
+
+//   const handleFetchNextPage = useCallback(() => {
+//     if (hasNextPage && !isFetchingNextPage) {
+//       fetchNextPage();
+//     }
+//   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+//   useEffect(() => {
+//     if (inView) {
+//       handleFetchNextPage();
+//     }
+//   }, [inView, handleFetchNextPage]);
+
+//   if (isLoading) {
+//     return (
+//       <div className="flex min-h-screen items-center justify-center">
+//         <LoadingSpinner />
+//       </div>
+//     );
+//   }
+
+//   if (isError) {
+//     return (
+//       <div className="flex min-h-screen justify-center text-red-400">
+//         <p>Error loading results. Please try again.</p>
+//       </div>
+//     );
+//   }
+
+//   const allResults =
+//     allFilteredResults?.pages.flatMap((page) => page.results) ?? [];
+//   const hasResults = allResults.length > 0;
+
+//   if (!hasResults && !isFetchingNextPage && !hasNextPage) {
+//     return (
+//       <div className="flex min-h-screen justify-center text-gray-500">
+//         <p>No results found for "{query}"</p>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="min-h-screen bg-black pt-14 text-gray-100">
+//       <div className="container mx-auto">
+//         <div className="p-6">
+//           <h1 className="mb-6 text-3xl font-bold text-purple-400">
+//             Search Results
+//           </h1>
+
+//           <SearchResults results={allResults} />
+
+//           <LoadMoreTrigger
+//             hasNextPage={hasNextPage}
+//             isFetchingNextPage={isFetchingNextPage}
+//             hasResults={hasResults}
+//             triggerRef={ref}
+//           />
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default ResultsPage;
+
+import React, { useEffect, useMemo } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useSearchResults } from '../hooks/useSearchResults';
-// import { ResultsGrid } from './ResultsGrid';
-import { LoadingSpinner } from './LoadingSpinner';
-import { MovieCard } from './MovieCard';
 import { useParams } from 'react-router-dom';
-// import { ResultsGrid } from './components/ResultsGrid';
-// import { LoadingSpinner } from './components/LoadingSpinner';
-// import { useSearchResults } from './hooks/useSearchResults';
+import { LoadingSpinner } from './LoadingSpinner';
+import { SearchResults } from '../kkk/SearchResults';
+import { LoadMoreTrigger } from '../kkk/Load';
 
 function ResultsPage() {
   const { query = 'the' } = useParams();
-  const { ref, inView } = useInView();
-  const [currentPage, setCurrentPage] = useState(1);
+  const { ref, inView } = useInView({
+    threshold: 0.5,
+    rootMargin: '100px',
+  });
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useSearchResults({
-      query,
-    });
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isError,
+    isLoading,
+  } = useSearchResults({ query });
+
+  console.log('data', data);
 
   useEffect(() => {
-    const loadMoreResults = async () => {
-      if (inView && !isFetchingNextPage) {
-        if (hasNextPage) {
-          await fetchNextPage();
-        } else if (currentPage < 20) {
-          setCurrentPage((prev) => prev + 1);
-          await fetchNextPage();
-        }
-      }
-    };
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-    loadMoreResults();
-  }, [inView, fetchNextPage, hasNextPage, isFetchingNextPage, currentPage]);
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex min-h-screen justify-center text-red-400">
+        <p>Error loading results. Please try again.</p>
+      </div>
+    );
+  }
+
+  const allResults = data?.pages.flatMap((page) => page.results) ?? [];
+
+  if (!allResults.length && !isFetchingNextPage) {
+    return (
+      <div className="flex min-h-screen justify-center text-gray-500">
+        <p>No results found for "{query}"</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black pt-14 text-gray-100">
@@ -42,20 +152,14 @@ function ResultsPage() {
             Search Results
           </h1>
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {data?.pages?.map((page) =>
-              page.results.map((item) => (
-                <MovieCard key={item.id} item={item} />
-              )),
-            )}
-          </div>
+          <SearchResults results={allResults} />
 
-          <div ref={ref} className="mt-8 text-center">
-            {isFetchingNextPage && <LoadingSpinner />}
-            {!hasNextPage && !isFetchingNextPage && (
-              <p className="text-gray-500">No more results</p>
-            )}
-          </div>
+          <LoadMoreTrigger
+            hasNextPage={!!hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            hasResults={allResults.length > 0}
+            triggerRef={ref}
+          />
         </div>
       </div>
     </div>
@@ -63,3 +167,87 @@ function ResultsPage() {
 }
 
 export default ResultsPage;
+
+// function ResultsPage() {
+//   const { query = 'the' } = useParams();
+//   const { ref, inView } = useInView({
+//     threshold: 0.5,
+//     rootMargin: '100px',
+//   });
+
+//   const {
+//     data,
+//     fetchNextPage,
+//     hasNextPage,
+//     isFetchingNextPage,
+//     isError,
+//     isLoading,
+//     prefetchNextPage,
+//   } = useSearchResults({ query });
+
+//   // Memoize all results to prevent unnecessary array operations
+//   const allResults = useMemo(
+//     () => data?.pages.flatMap((page) => page.results) ?? [],
+//     [data?.pages],
+//   );
+
+//   useEffect(() => {
+//     if (inView && hasNextPage && !isFetchingNextPage) {
+//       fetchNextPage();
+//     }
+//   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+//   // Prefetch next page when user is close to the end
+//   useEffect(() => {
+//     if (inView && hasNextPage) {
+//       prefetchNextPage();
+//     }
+//   }, [inView, hasNextPage, prefetchNextPage]);
+
+//   if (isLoading) {
+//     return (
+//       <div className="flex min-h-screen items-center justify-center">
+//         <LoadingSpinner />
+//       </div>
+//     );
+//   }
+
+//   if (isError) {
+//     return (
+//       <div className="flex min-h-screen justify-center text-red-400">
+//         <p>Error loading results. Please try again.</p>
+//       </div>
+//     );
+//   }
+
+//   if (!allResults.length && !isFetchingNextPage) {
+//     return (
+//       <div className="flex min-h-screen justify-center text-gray-500">
+//         <p>No results found for "{query}"</p>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="min-h-screen bg-black pt-14 text-gray-100">
+//       <div className="container mx-auto">
+//         <div className="p-6">
+//           <h1 className="mb-6 text-3xl font-bold text-purple-400">
+//             Search Results
+//           </h1>
+
+//           <SearchResults results={allResults} />
+
+//           <LoadMoreTrigger
+//             hasNextPage={!!hasNextPage}
+//             isFetchingNextPage={isFetchingNextPage}
+//             hasResults={allResults.length > 0}
+//             triggerRef={ref}
+//           />
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default ResultsPage;

@@ -13,12 +13,13 @@ import { IsShowNavbarProvider } from './context/useIsShowNavbarContext';
 import { IsImageLoadedProvider } from './context/useIsImageLoadedContext';
 import AllSearchResults from './pages/AllSearchResults';
 import ResultsPage from './Testt/ResultsPage';
+import InfiniteScrollWithPrefetch from './Testt/I';
 // import ResultsPage from './pages/ResultsPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 300000,
+      staleTime: 5 * 60 * 1000,
     },
   },
 });
@@ -47,8 +48,8 @@ const router = createBrowserRouter([
       { path: '/', element: <HomePage /> },
       { path: ':mediaType/:id', element: <MovieDetails /> },
       // { path: ':searchQuery', element: <AllSearchResults /> },
-      // { path: ':searchQuery', element: <ResultsPage /> },
       { path: ':query', element: <ResultsPage /> },
+      // { path: ':query', element: <InfiniteScrollWithPrefetch /> },
     ],
   },
 ]);
