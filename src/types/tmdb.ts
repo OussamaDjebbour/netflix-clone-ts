@@ -3,6 +3,8 @@ export interface Genre {
   name: string;
 }
 
+export type MediaType = 'movie' | 'tv';
+
 export interface MovieTvDetails {
   id: number;
   title?: string;

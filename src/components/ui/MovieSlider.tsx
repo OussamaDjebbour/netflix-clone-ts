@@ -14,7 +14,7 @@ import MovieGenres from './MovieGenres';
 import MovieTrailer from './MovieTrailer';
 import Spinner from './Spinner';
 import { QueryErrorResetBoundary } from '@tanstack/react-query';
-import { Movie } from '../../types/movie';
+import { Movie } from '../../types/movieOrTv';
 import { useMediaContext } from '../../context/useMediaContext';
 import { useNavigate } from 'react-router-dom';
 

@@ -12,7 +12,7 @@ import {
 import { useInView } from 'react-intersection-observer';
 import useResponsiveMoviesPerPage from '../../hooks/useResponsiveMoviesPerPage';
 import { useMediaContext } from '../../context/useMediaContext';
-import { Movie } from '../../types/movie';
+import { Movie } from '../../types/movieOrTv';
 
 interface SliderProps {
   title: string;

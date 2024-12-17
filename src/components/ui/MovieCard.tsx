@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import { SearchResult } from '../../types/tmdb';
-import { getImageUrl } from '../../services/imageUtils';
+import { getImageUrl } from '../../helpers/imageUtils';
 
 interface MovieCardProps {
   filteredResult: SearchResult;

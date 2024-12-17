@@ -1,5 +1,5 @@
 import { TMDBBASEURL } from '../constants';
-import { Movie } from '../types/movie';
+import { Movie } from '../types/movieOrTv';
 
 // interface Movie {
 //   id: number;

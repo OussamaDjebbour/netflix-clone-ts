@@ -1,6 +1,6 @@
 import { SearchResult, TMDBResponse } from '../types/tmdb';
 import { fetchTMDBResults } from './fetchTMDBResults';
-import { filterResults } from './filterResults';
+import { filterResults } from '../helpers/filterResults';
 
 const defaultResponse: TMDBResponse = {
   results: [],

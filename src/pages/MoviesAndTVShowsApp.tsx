@@ -3,53 +3,44 @@ import Navbar from '../components/ui/Navbar';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useIsShowNavbarContext } from '../context/useIsShowNavbarContext';
 import { useMediaContext } from '../context/useMediaContext';
-import { useIsImageLoadedContext } from '../context/useIsImageLoadedContext';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { SearchResult } from '../types/tmdb';
-import {
-  // fetchFamilyAndAnimationContent,
-  searchMoviesAndTv,
-} from '../services/searchMoviesAndTv';
+import { MediaType, SearchResult } from '../types/tmdb';
+import { searchMoviesAndTv } from '../services/searchMoviesAndTv';
 import SearchResults from '../components/ui/SearchResults';
 import useDebounce from '../hooks/useDebounce';
 import Spinner from '../components/ui/Spinner';
 
 const MoviesAndTVShowsApp = () => {
   const { isShow, handleToggleIsShow } = useIsShowNavbarContext();
-  // const { isImageLoaded } = useIsImageLoadedContext();
-  const { handleChangeMedia } = useMediaContext();
-  const navigate = useNavigate();
-
   const [searchTerm, setSearchTerm] = useState('');
-  // const [navbarHeight, setNavbarHeight] = useState(0); // State to store navbar height
-
   const [isSearchbarOpen, setIsSearchbarOpen] = useState(false);
 
-  const debouncedQuery = useDebounce(searchTerm, 800); // Debounce delay of 800ms
+  const { handleChangeMedia } = useMediaContext();
+  const navigate = useNavigate();
+  const debouncedQuery = useDebounce(searchTerm, 400); // Debounce delay of 400ms
+
+  const handleClick = (mediaType: MediaType) => {
+    handleToggleIsShow();
+    handleChangeMedia(mediaType);
+    navigate('/');
+  };
 
   const {
     data: searchResults,
     isLoading,
     isError,
   } = useQuery<SearchResult[]>({
-    queryKey: ['movies', debouncedQuery],
+    queryKey: ['searchMoviesAndTVShows', debouncedQuery],
     queryFn: () => searchMoviesAndTv(debouncedQuery, 'movie'),
-    // queryFn: () => fetchFamilyAndAnimationContent(debouncedQuery),
-    // enabled: !!debouncedQuery, // Fetch only when there's a search query
     enabled: debouncedQuery.trim().length > 2, // Disable the query when debouncedQuery length is less than or equal to 2
   });
 
-  // if (isLoading) {
-  //   return <Spinner />;
-  // }
-
-  console.log('isLoading11111111111111', isLoading);
-
-  console.log('isError', isError);
+  if (isError) {
+    return <div className="text-center text-white">Error</div>;
+  }
 
   return (
-    // <>
     <div className="relative">
       <Navbar
         searchTerm={searchTerm}
@@ -70,9 +61,7 @@ const MoviesAndTVShowsApp = () => {
             <li
               className="hover:cursor-pointer"
               onClick={() => {
-                handleToggleIsShow();
-                handleChangeMedia('movie');
-                navigate('/');
+                handleClick('movie');
               }}
             >
               Home
@@ -80,9 +69,7 @@ const MoviesAndTVShowsApp = () => {
             <li
               className="hover:cursor-pointer"
               onClick={() => {
-                handleToggleIsShow();
-                handleChangeMedia('tv');
-                navigate('/');
+                handleClick('tv');
               }}
             >
               TV Shows
@@ -90,9 +77,7 @@ const MoviesAndTVShowsApp = () => {
             <li
               className="hover:cursor-pointer"
               onClick={() => {
-                handleToggleIsShow();
-                handleChangeMedia('movie');
-                navigate('/');
+                handleClick('movie');
               }}
             >
               Movies
@@ -102,10 +87,7 @@ const MoviesAndTVShowsApp = () => {
           </motion.ul>
         )}
       </AnimatePresence>
-      {/* {searchResults && !isLoading ? ( */}
-      <div
-      // className={`absolute left-0 right-0 rounded-xl small:left-[12.5%] small:right-[12.5%] ${isSearchbarOpen ? 'top-12' : 'top-[58px]'} z-[600000000000] mb-10 flex flex-col items-center overflow-y-auto bg-[rgb(31,31,31)] text-white small:top-24`}
-      >
+      <div>
         {!isLoading ? (
           <>
             <SearchResults
@@ -116,13 +98,8 @@ const MoviesAndTVShowsApp = () => {
               isLoading={isLoading}
               setSearchTerm={setSearchTerm}
             />
-            {/* {isSearchbarOpen && searchResults.length > 0 && (
-              <Overlay setIsSearchbarOpen={setIsSearchbarOpen} />
-            )} */}
           </>
         ) : (
-          // </div>
-          // absolute left-0 right-0 h-48 bg-black
           <div
             className={`${isSearchbarOpen ? 'top-12' : 'top-[58px]'} absolute left-0 right-0 z-[600000000000] mb-10 flex h-48 flex-col items-center overflow-y-auto rounded-xl bg-[rgb(31,31,31)] text-white small:left-[12.5%] small:right-[12.5%] small:top-24`}
           >
@@ -132,7 +109,6 @@ const MoviesAndTVShowsApp = () => {
       </div>
       <Outlet /> {/* This will render the matched route component */}
     </div>
-    // </>
   );
 };
 
