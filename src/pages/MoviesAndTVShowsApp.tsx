@@ -14,7 +14,6 @@ import {
 import SearchResults from '../components/ui/SearchResults';
 import useDebounce from '../hooks/useDebounce';
 import Spinner from '../components/ui/Spinner';
-import Overlay from '../components/ui/Overlay';
 
 const MoviesAndTVShowsApp = () => {
   const { isShow, handleToggleIsShow } = useIsShowNavbarContext();

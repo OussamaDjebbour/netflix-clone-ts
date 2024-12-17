@@ -1,4 +1,3 @@
-import { MediaProvider } from './../context/useMediaContext';
 export interface Genre {
   id: number;
   name: string;

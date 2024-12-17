@@ -12,7 +12,6 @@ import MoviesAndTVShowsApp from './pages/MoviesAndTVShowsApp';
 import { IsShowNavbarProvider } from './context/useIsShowNavbarContext';
 import { IsImageLoadedProvider } from './context/useIsImageLoadedContext';
 import ResultsPage from './pages/ResultsPage';
-// import ResultsPage from './Testt/ResultsPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,21 +21,6 @@ const queryClient = new QueryClient({
   },
 });
 
-// const router = createBrowserRouter([
-//   {
-//     path: '/',
-//     element: <HomePage />,
-//     errorElement: <ErrorPage />,
-//   },
-//   {
-//     // path: '/:mediaType/:id', // Separate route for MovieTvShowsDetails
-//     // element: <MovieTvShowsDetails />,
-//     path: 'movie/:id', // Separate route for MovieTvShowsDetails
-//     element: <MovieDetails />,
-//     // errorElement: <ErrorPage />,
-//   },
-// ]);
-
 const router = createBrowserRouter([
   {
     path: '/',
@@ -45,9 +29,7 @@ const router = createBrowserRouter([
     children: [
       { path: '/', element: <HomePage /> },
       { path: ':mediaType/:id', element: <MovieDetails /> },
-      // { path: ':searchQuery', element: <AllSearchResults /> },
       { path: ':query', element: <ResultsPage /> },
-      // { path: ':query', element: <InfiniteScrollWithPrefetch /> },
     ],
   },
 ]);
