@@ -24,6 +24,7 @@
 
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { searchMoviesAndShows } from '../kkk/searchService';
+import { useCallback } from 'react';
 
 interface UseSearchResultsProps {
   query: string;
@@ -35,7 +36,7 @@ export function useSearchResults({ query }: UseSearchResultsProps) {
     queryFn: ({ pageParam = 1 }) => searchMoviesAndShows(query, pageParam),
     getNextPageParam: (lastPage) => lastPage.nextPage,
     initialPageParam: 1,
-    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+    // staleTime: 5 * 60 * 1000, // Cache for 5 minutes
     refetchOnWindowFocus: false,
   });
 }

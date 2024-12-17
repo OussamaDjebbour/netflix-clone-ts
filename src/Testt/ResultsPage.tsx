@@ -112,6 +112,17 @@ function ResultsPage() {
 
   console.log('data', data);
 
+  // const allResults = data?.pages.flatMap((page) => page.results) ?? [];
+  // Memoize all results to prevent unnecessary array operations
+  const allResults = useMemo(
+    () => data?.pages.flatMap((page) => page.results) ?? [],
+    [data?.pages],
+  );
+  // const allResults = useMemo(() => {
+  //   if (!data) return [];
+  //   return data.pages.flatMap((page) => page.results);
+  // }, [data]);
+
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
@@ -128,17 +139,15 @@ function ResultsPage() {
 
   if (isError) {
     return (
-      <div className="flex min-h-screen justify-center text-red-400">
+      <div className="flex min-h-screen justify-center pt-14 text-red-400">
         <p>Error loading results. Please try again.</p>
       </div>
     );
   }
 
-  const allResults = data?.pages.flatMap((page) => page.results) ?? [];
-
   if (!allResults.length && !isFetchingNextPage) {
     return (
-      <div className="flex min-h-screen justify-center text-gray-500">
+      <div className="flex min-h-screen justify-center pt-14 text-gray-500">
         <p>No results found for "{query}"</p>
       </div>
     );
@@ -185,11 +194,11 @@ export default ResultsPage;
 //     prefetchNextPage,
 //   } = useSearchResults({ query });
 
-//   // Memoize all results to prevent unnecessary array operations
-//   const allResults = useMemo(
-//     () => data?.pages.flatMap((page) => page.results) ?? [],
-//     [data?.pages],
-//   );
+// // Memoize all results to prevent unnecessary array operations
+// const allResults = useMemo(
+//   () => data?.pages.flatMap((page) => page.results) ?? [],
+//   [data?.pages],
+// );
 
 //   useEffect(() => {
 //     if (inView && hasNextPage && !isFetchingNextPage) {
