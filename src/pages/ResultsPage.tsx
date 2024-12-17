@@ -1,39 +1,58 @@
-import React, { useEffect, useState } from 'react';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-// import { fetchFilteredResults } from './fetchFilteredResults';
-import { SearchResult } from '../types/tmdb';
-import { fetchFilteredResults } from './fetchFilteredResults ';
+import { useSearchResults } from '../hooks/useSearchResults';
+import { useParams } from 'react-router-dom';
+import { LoadingSpinner } from '../components/ui/LoadingSpinner';
+import { AllSearchResults } from '../components/ui/AllSearchResults';
+import { LoadMoreTrigger } from '../components/ui/LoadMoreTrigger';
 
 function ResultsPage() {
-  const query = 'the';
-  const [mediaType, setMediaType] = useState('all');
-  const { ref, inView } = useInView();
-  const [currentPage, setCurrentPage] = useState(1);
+  const { query = 'the' } = useParams();
+  const { ref, inView } = useInView({
+    threshold: 0.5,
+    rootMargin: '100px',
+  });
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey: [query, mediaType] as const,
-      queryFn: ({ pageParam = 1 }) =>
-        fetchFilteredResults({ queryKey: [query, mediaType], pageParam }),
-      getNextPageParam: (lastPage) => lastPage.nextPage,
-      initialPageParam: 1,
-    });
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isError,
+    isLoading,
+  } = useSearchResults({ query });
+
+  const allResults = data?.pages.flatMap((page) => page.results) ?? [];
 
   useEffect(() => {
-    const loadMoreResults = async () => {
-      if (inView && !isFetchingNextPage) {
-        if (hasNextPage) {
-          await fetchNextPage();
-        } else if (currentPage < 20) {
-          setCurrentPage((prev) => prev + 1);
-          await fetchNextPage();
-        }
-      }
-    };
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-    loadMoreResults();
-  }, [inView, fetchNextPage, hasNextPage, isFetchingNextPage, currentPage]);
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex min-h-screen justify-center pt-14 text-red-400">
+        <p>Error loading results. Please try again.</p>
+      </div>
+    );
+  }
+
+  if (!allResults.length && !isFetchingNextPage) {
+    return (
+      <div className="flex min-h-screen justify-center pt-14 text-gray-500">
+        <p>No results found for "{query}"</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black pt-14 text-gray-100">
@@ -42,50 +61,15 @@ function ResultsPage() {
           <h1 className="mb-6 text-3xl font-bold text-purple-400">
             Search Results
           </h1>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {data?.pages.map((page: any) =>
-              page.results.map((item: SearchResult) => (
-                <div
-                  key={item.id}
-                  className="group rounded-lg bg-gray-900 p-4 shadow-lg transition-all duration-300 hover:bg-gray-800 hover:shadow-purple-500/20"
-                >
-                  {(item.backdrop_path || item.poster_path) && (
-                    <div
-                      className="relative aspect-video overflow-hidden rounded-lg"
-                      // className="overflow-hidden rounded-lg"
-                    >
-                      <img
-                        src={`https://image.tmdb.org/t/p/w500${item.backdrop_path || item.poster_path}`}
-                        alt={item.title || item.name}
-                        // className="w-full transform object-cover transition-transform duration-300 group-hover:scale-105"
-                        className="absolute inset-0 h-full w-full transform object-cover transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy"
-                      />
-                    </div>
-                  )}
-                  <h2 className="mt-4 text-xl font-semibold text-purple-300">
-                    {item.title || item.name}
-                  </h2>
-                  <p className="mt-2 line-clamp-3 text-sm text-gray-400">
-                    {item.overview}
-                  </p>
-                </div>
-              )),
-            )}
-          </div>
 
-          <div ref={ref} className="mt-8 text-center">
-            {isFetchingNextPage && (
-              <div
-                className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-purple-500 border-r-transparent motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                role="status"
-                aria-label="Loading"
-              ></div>
-            )}
-            {!hasNextPage && !isFetchingNextPage && (
-              <p className="text-gray-500">No more results</p>
-            )}
-          </div>
+          <AllSearchResults results={allResults} />
+
+          <LoadMoreTrigger
+            hasNextPage={!!hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            hasResults={allResults.length > 0}
+            triggerRef={ref}
+          />
         </div>
       </div>
     </div>

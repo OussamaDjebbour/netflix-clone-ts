@@ -59,8 +59,6 @@ export interface SearchResponse {
   total_results: number;
 }
 
-// export { MovieDetailsResponse };
-
 interface FetchParams {
   query: string;
   mediaType: string;
@@ -82,3 +80,17 @@ export const fetchFilteredResults = async ({
     };
   }
 };
+
+export interface TMDBResponse {
+  results: any[];
+  page: number;
+  total_pages: number;
+}
+
+export interface SearchAllResultsResponse {
+  results: SearchResult[];
+  nextPage: number | null;
+  hasNextPage: boolean;
+  currentPage: number;
+  totalPages: number;
+}

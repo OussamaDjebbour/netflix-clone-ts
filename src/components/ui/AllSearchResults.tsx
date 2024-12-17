@@ -1,13 +1,13 @@
 import { memo } from 'react';
-import { SearchResult } from '../types/tmdb';
-import MovieCard from '../Testt/MovieCard';
+import { SearchResult } from '../../types/tmdb';
+import MovieCard from './MovieCard';
 
 interface SearchResultsProps {
   results: SearchResult[];
 }
 
 // Memoize the entire results grid to prevent unnecessary re-renders
-export const SearchResults = memo(function SearchResults({
+export const AllSearchResults = memo(function SearchResults({
   results,
 }: SearchResultsProps) {
   return (

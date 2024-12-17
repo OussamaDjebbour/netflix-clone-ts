@@ -11,10 +11,8 @@ import MovieDetails from './components/ui/MovieDetails';
 import MoviesAndTVShowsApp from './pages/MoviesAndTVShowsApp';
 import { IsShowNavbarProvider } from './context/useIsShowNavbarContext';
 import { IsImageLoadedProvider } from './context/useIsImageLoadedContext';
-import AllSearchResults from './pages/AllSearchResults';
-import ResultsPage from './Testt/ResultsPage';
-import InfiniteScrollWithPrefetch from './Testt/I';
-// import ResultsPage from './pages/ResultsPage';
+import ResultsPage from './pages/ResultsPage';
+// import ResultsPage from './Testt/ResultsPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
