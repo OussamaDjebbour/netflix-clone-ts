@@ -59,7 +59,7 @@ function ResultsPage() {
       <div className="container mx-auto">
         <div className="p-6">
           <h1 className="mb-6 text-3xl font-bold text-purple-400">
-            Search Results
+            Search Results for "{query}"
           </h1>
 
           <AllSearchResults results={allResults} />

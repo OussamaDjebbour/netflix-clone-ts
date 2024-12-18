@@ -3,13 +3,14 @@ import Navbar from '../components/ui/Navbar';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useIsShowNavbarContext } from '../context/useIsShowNavbarContext';
 import { useMediaContext } from '../context/useMediaContext';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { MediaType, SearchResult } from '../types/tmdb';
 import { searchMoviesAndTv } from '../services/searchMoviesAndTv';
 import SearchResults from '../components/ui/SearchResults';
 import useDebounce from '../hooks/useDebounce';
 import Spinner from '../components/ui/Spinner';
+import { MEDIA_TYPES } from '../constants';
 
 const MoviesAndTVShowsApp = () => {
   const { isShow, handleToggleIsShow } = useIsShowNavbarContext();
@@ -32,12 +33,16 @@ const MoviesAndTVShowsApp = () => {
     isError,
   } = useQuery<SearchResult[]>({
     queryKey: ['searchMoviesAndTVShows', debouncedQuery],
-    queryFn: () => searchMoviesAndTv(debouncedQuery, 'movie'),
+    queryFn: () => searchMoviesAndTv(debouncedQuery),
     enabled: debouncedQuery.trim().length > 2, // Disable the query when debouncedQuery length is less than or equal to 2
   });
 
   if (isError) {
-    return <div className="text-center text-white">Error</div>;
+    return (
+      <div className="text-center text-red-500">
+        An error occurred. Please try again.
+      </div>
+    );
   }
 
   return (
@@ -61,7 +66,7 @@ const MoviesAndTVShowsApp = () => {
             <li
               className="hover:cursor-pointer"
               onClick={() => {
-                handleClick('movie');
+                handleClick(MEDIA_TYPES.MOVIE);
               }}
             >
               Home
@@ -69,7 +74,7 @@ const MoviesAndTVShowsApp = () => {
             <li
               className="hover:cursor-pointer"
               onClick={() => {
-                handleClick('tv');
+                handleClick(MEDIA_TYPES.TV);
               }}
             >
               TV Shows
@@ -77,7 +82,7 @@ const MoviesAndTVShowsApp = () => {
             <li
               className="hover:cursor-pointer"
               onClick={() => {
-                handleClick('movie');
+                handleClick(MEDIA_TYPES.MOVIE);
               }}
             >
               Movies

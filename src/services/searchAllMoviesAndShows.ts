@@ -1,7 +1,7 @@
 import { SearchAllResultsResponse } from '../types/tmdb';
 import { findValidResults } from './findValidResults';
 
-export async function searchMoviesAndShows(
+export async function searchAllMoviesAndShows(
   query: string,
   pageParam = 1,
 ): Promise<SearchAllResultsResponse> {

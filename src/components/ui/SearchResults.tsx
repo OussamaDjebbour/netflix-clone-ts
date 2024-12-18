@@ -17,10 +17,19 @@ const SearchResults: React.FC<SearchResultProps> = ({
   isSearchbarOpen,
   setIsSearchbarOpen,
   debouncedQuery,
-  isLoading,
   setSearchTerm,
 }) => {
   const navigate = useNavigate();
+
+  const handleClick = (
+    param1: string,
+    param2?: '/' | '',
+    param3?: number | '',
+  ) => {
+    setSearchTerm('');
+    setIsSearchbarOpen(false);
+    navigate(`/${param1}${param2}${param3}`);
+  };
 
   useEffect(() => {
     // Scroll to the top of the page when searchResults change
@@ -33,7 +42,7 @@ const SearchResults: React.FC<SearchResultProps> = ({
   }, [searchResults]);
 
   return (
-    <div className="">
+    <div id="searchResult">
       {isSearchbarOpen && searchResults?.length === 0 && (
         <div
           className={`${isSearchbarOpen ? 'top-12' : 'top-[58px]'} fixed left-0 right-0 z-[60] mb-10 flex flex-col items-center overflow-y-auto rounded-xl bg-[rgb(31,31,31)] py-4 text-white small:left-[12.5%] small:right-[12.5%] small:top-24`}
@@ -52,9 +61,7 @@ const SearchResults: React.FC<SearchResultProps> = ({
             <div
               key={result.id}
               onClick={() => {
-                setSearchTerm('');
-                setIsSearchbarOpen(false);
-                navigate(`/${result.media_type}/${result?.id}`);
+                handleClick(result.media_type, '/', result.id);
               }}
               className="flex w-full cursor-pointer items-center gap-6 border-t border-[rgba(255,255,255,0.25)] p-3 hover:bg-[#333]"
             >
@@ -78,16 +85,15 @@ const SearchResults: React.FC<SearchResultProps> = ({
               </div>
             </div>
           ))}
-          <div
+          <button
+            tabIndex={-1}
             onClick={() => {
-              setSearchTerm('');
-              setIsSearchbarOpen(false);
-              navigate(`${debouncedQuery}`);
+              handleClick(debouncedQuery, '', '');
             }}
             className="w-full cursor-pointer border-t border-[rgba(255,255,255,0.25)] pb-4 pt-3 text-center text-xl text-white hover:bg-[#333]"
           >
             See all results for "{debouncedQuery}"
-          </div>
+          </button>
         </div>
       )}
 

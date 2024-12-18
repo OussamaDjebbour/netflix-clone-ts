@@ -24,7 +24,7 @@ const queryClient = new QueryClient({
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <MoviesAndTVShowsApp />, // Wrap with Layout
+    element: <MoviesAndTVShowsApp />,
     errorElement: <ErrorPage />,
     children: [
       { path: '/', element: <HomePage /> },

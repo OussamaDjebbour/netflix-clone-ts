@@ -7,6 +7,8 @@ import { useIsShowNavbarContext } from '../../context/useIsShowNavbarContext';
 import { useIsImageLoadedContext } from '../../context/useIsImageLoadedContext';
 import { useNavigate } from 'react-router-dom';
 import SearchBar from './SearchBar';
+import { MEDIA_TYPES } from '../../constants';
+import { MediaType } from '../../types/tmdb';
 
 interface NavbarProps {
   searchTerm: string;
@@ -27,6 +29,11 @@ const Navbar: React.FC<NavbarProps> = ({
   const { handleChangeIsImageLoaded } = useIsImageLoadedContext();
   const navigate = useNavigate();
 
+  const handleClick = (mediaType: MediaType) => {
+    handleChangeMedia(mediaType);
+    navigate('/');
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -46,6 +53,8 @@ const Navbar: React.FC<NavbarProps> = ({
       className={`fixed h-[58px] ${
         isSearchbarOpen && 'max-[680px]:h-9'
       } top-0 z-[1000000000000000] flex w-full items-center gap-8 bg-black px-4 transition-all duration-500 ease-in min-[500px]:px-8 md:px-12 lg:gap-12 ${isScrolled ? 'small:bg-black' : 'small:bg-transparent'}`}
+      role="navigation"
+      aria-label="Main navigation"
     >
       <img
         src="../../../src/assets/images/netflix-logo-0.png"
@@ -65,8 +74,7 @@ const Navbar: React.FC<NavbarProps> = ({
           <li
             className="hover:cursor-pointer"
             onClick={() => {
-              handleChangeMedia('movie');
-              navigate('/');
+              handleClick(MEDIA_TYPES.MOVIE);
             }}
           >
             Home
@@ -74,8 +82,7 @@ const Navbar: React.FC<NavbarProps> = ({
           <li
             className="hover:cursor-pointer"
             onClick={() => {
-              handleChangeMedia('movie');
-              navigate('/');
+              handleClick(MEDIA_TYPES.MOVIE);
             }}
           >
             Movies
@@ -83,13 +90,11 @@ const Navbar: React.FC<NavbarProps> = ({
           <li
             className="hover:cursor-pointer"
             onClick={() => {
-              if (mediaType !== 'tv') {
+              if (mediaType !== MEDIA_TYPES.TV) {
                 handleChangeIsImageLoaded(false);
-                handleChangeMedia('tv');
-                navigate('/');
+                handleClick(MEDIA_TYPES.TV);
               } else {
-                handleChangeMedia('tv');
-                navigate('/');
+                handleClick(MEDIA_TYPES.TV);
               }
             }}
           >
@@ -111,7 +116,14 @@ const Navbar: React.FC<NavbarProps> = ({
         onClick={handleToggleIsShow}
         className={`absolute right-10 flex cursor-pointer items-center transition-all duration-300 small:hidden md:right-20`}
       >
-        <FontAwesomeIcon icon={faBars} color="white" size="lg" />
+        <FontAwesomeIcon
+          icon={faBars}
+          color="white"
+          size="lg"
+          aria-label="Open navigation menu" // Descriptive label
+          role="button" // Defines it as an interactive element
+          tabIndex={0} // Makes it focusable for keyboard users
+        />
       </div>
     </nav>
   );

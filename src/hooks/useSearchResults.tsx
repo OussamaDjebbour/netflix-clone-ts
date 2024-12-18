@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { searchMoviesAndShows } from '../services/searchMoviesAndShows';
+import { searchAllMoviesAndShows } from '../services/searchAllMoviesAndShows';
 
 interface UseSearchResultsProps {
   query: string;
@@ -8,7 +8,7 @@ interface UseSearchResultsProps {
 export function useSearchResults({ query }: UseSearchResultsProps) {
   return useInfiniteQuery({
     queryKey: ['searchResults', query],
-    queryFn: ({ pageParam = 1 }) => searchMoviesAndShows(query, pageParam),
+    queryFn: ({ pageParam = 1 }) => searchAllMoviesAndShows(query, pageParam),
     getNextPageParam: (lastPage) => lastPage.nextPage,
     initialPageParam: 1,
     refetchOnWindowFocus: false,

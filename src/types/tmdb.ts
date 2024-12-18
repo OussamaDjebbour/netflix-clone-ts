@@ -2,23 +2,6 @@ export interface Genre {
   id: number;
   name: string;
 }
-
-export type MediaType = 'movie' | 'tv';
-
-export interface MovieTvDetails {
-  id: number;
-  title?: string;
-  name?: string;
-  poster_path: string;
-  overview: string;
-  release_date?: string;
-  first_air_date?: string;
-  genres: Genre[];
-  runtime?: number;
-  vote_average: number;
-  popularity: number;
-}
-
 export interface MovieDetailsResponse {
   id: number;
   title: string;
@@ -39,6 +22,22 @@ export interface MovieDetailsResponse {
   };
   homepage: string;
   social_media: { facebook: string; twitter: string; instagram: string };
+}
+
+export type MediaType = 'movie' | 'tv';
+
+export interface MovieTvDetails {
+  id: number;
+  title?: string;
+  name?: string;
+  poster_path: string;
+  overview: string;
+  release_date?: string;
+  first_air_date?: string;
+  genres: Genre[];
+  runtime?: number;
+  vote_average: number;
+  popularity: number;
 }
 
 // Movie and TV show result interface

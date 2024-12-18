@@ -7,18 +7,14 @@ const Overlay: React.FC<OverlayProps> = ({
   setIsSearchbarOpen,
   setSearchTerm,
 }) => {
+  const handleClick = () => {
+    setSearchTerm('');
+    setIsSearchbarOpen(false);
+  };
   return (
-    // isOverlayVisible &&
-    <div
-      onClick={() => {
-        setSearchTerm('');
-        setIsSearchbarOpen(false);
-      }}
-    >
+    <div onClick={handleClick}>
       {
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
-          {/* <div className="text-white">Overlay is visible!</div> */}
-        </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60"></div>
       }
     </div>
   );
