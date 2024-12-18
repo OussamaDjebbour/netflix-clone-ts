@@ -1,16 +1,8 @@
-// components/Details.tsx
 import React from 'react';
-import { useMediaContext } from '../context/useMediaContext';
 import { useParams } from 'react-router-dom';
+import { MEDIA_TYPES } from '../constants';
 
-// const obj = {
-//   air_date: string,
-//   episode_count: number,
-//   id: number,
-//   name: string,
-// };
-
-interface Props {
+interface DetailsProps {
   genres: { id: number; name: string }[];
   rating: number;
   releaseDate: string;
@@ -26,7 +18,7 @@ interface Props {
   }[];
 }
 
-const Details: React.FC<Props> = ({
+const Details: React.FC<DetailsProps> = ({
   genres,
   rating,
   releaseDate,
@@ -36,11 +28,9 @@ const Details: React.FC<Props> = ({
   numberOfSeasons,
   seasons,
 }) => {
-  // const { mediaType } = useMediaContext();
   const { mediaType } = useParams();
 
   return (
-    // text-[#D3D3D3]
     <div className="leading-relaxed">
       <h2 className="mb-2 text-xl font-bold min-[600px]:text-2xl lg:text-[1.6rem]">
         Details
@@ -51,7 +41,7 @@ const Details: React.FC<Props> = ({
           {genres.map((genre) => genre.name).join(', ')}
         </li>
         <li>
-          <span className="font-bold">Rating:</span> {rating}/10
+          <span className="font-bold">Rating:</span> {rating.toPrecision(2)}/10
         </li>
         <li>
           {mediaType === 'movie' ? (
@@ -73,7 +63,7 @@ const Details: React.FC<Props> = ({
           )}
         </li>
         <li>
-          {mediaType === 'movie' ? (
+          {mediaType === MEDIA_TYPES.MOVIE ? (
             <p>
               <span className="font-bold">Runtime: </span>
               {runtime} minutes

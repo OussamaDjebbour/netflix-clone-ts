@@ -1,4 +1,4 @@
-export interface Genre {
+interface Genre {
   id: number;
   name: string;
 }
@@ -9,14 +9,23 @@ export interface MovieTvDetails {
   id: number;
   title?: string;
   name?: string;
+  backdrop_path: string;
   poster_path: string;
   overview: string;
   release_date?: string;
   first_air_date?: string;
+  last_air_date?: string;
   genres: Genre[];
   runtime?: number;
   vote_average: number;
+  number_of_seasons?: number;
   popularity: number;
+  seasons: {
+    air_date: string;
+    episode_count: number;
+    id: number;
+    name: string;
+  }[];
 }
 
 // Movie and TV show result interface

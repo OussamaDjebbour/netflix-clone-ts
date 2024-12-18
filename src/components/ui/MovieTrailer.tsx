@@ -1,18 +1,14 @@
-import { fetchMovieVideo } from '../../services/fetchMovieVideo';
+import { fetchMovieAndTVVideo } from '../../services/fetchMovieAndTVVideo';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { useMediaContext } from '../../context/useMediaContext';
 import { useParams } from 'react-router-dom';
 
 const MovieTrailer = ({ movieId }: { movieId: number }) => {
-  // const { mediaType } = useMediaContext();
   const { id, mediaType = 'movie' } = useParams();
 
   const { data: movieTrailer, error } = useSuspenseQuery({
-    queryKey: ['movieVideos', mediaType, movieId],
-    queryFn: () => fetchMovieVideo(movieId, mediaType),
+    queryKey: [`VideoTrailer`, mediaType, movieId],
+    queryFn: () => fetchMovieAndTVVideo(movieId, mediaType),
   });
-
-  console.log('movieTrailer', movieTrailer);
 
   if (error)
     return (

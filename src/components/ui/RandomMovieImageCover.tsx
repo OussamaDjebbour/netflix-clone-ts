@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { reduceLengthString } from '../../helpers/reduceLengthString';
 import Button from './Button';
-import { TMDBIMAGEURL } from '../../constants';
 import { fetchRandomMovie } from '../../services/fetchRandomMovie';
 import Spinner from './Spinner';
 import { useMediaContext } from '../../context/useMediaContext';
 import { useIsImageLoadedContext } from '../../context/useIsImageLoadedContext';
 import { useNavigate } from 'react-router-dom';
+import { TMDBORIGINALIMAGEURL } from '../../constants';
 
 const RandomMovieImageCover: React.FC = () => {
   const { mediaType } = useMediaContext();
@@ -25,15 +25,18 @@ const RandomMovieImageCover: React.FC = () => {
     queryFn: () => fetchRandomMovie(mediaType),
   });
 
+  const imagePath = movie?.backdrop_path || movie?.poster_path;
+  const imageUrl = `${TMDBORIGINALIMAGEURL}${imagePath}`;
+
   useEffect(() => {
-    if (movie?.backdrop_path) {
+    if (imagePath) {
       const img = new Image();
-      img.src = `${TMDBIMAGEURL}${movie?.backdrop_path}`;
+      img.src = imageUrl;
       img.onload = () => {
         handleChangeIsImageLoaded(true);
       };
     }
-  }, [movie?.backdrop_path]);
+  }, [imagePath]);
 
   if (isError && error) {
     console.log('errorerrorerrorerror', error);
@@ -54,11 +57,7 @@ const RandomMovieImageCover: React.FC = () => {
         </div>
       ) : (
         <>
-          <img
-            src={`${TMDBIMAGEURL}${movie?.backdrop_path}`}
-            alt="cover image "
-            className="w-full"
-          />
+          <img src={imageUrl} alt="cover image " className="w-full" />
 
           <div className="absolute left-4 top-12 w-full overflow-x-hidden p-4 text-white min-[500px]:top-16 small:top-[20%] md:left-8 lg:top-[15%]">
             <h1 className="w-auto max-w-[90%] truncate text-2xl font-bold min-[520px]:text-3xl min-[600px]:text-4xl md:text-[2.35rem] lg:text-[2.5rem]">

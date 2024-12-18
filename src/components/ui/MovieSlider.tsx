@@ -24,7 +24,7 @@ interface MovieProps {
 
 const MovieSlider: FC<MovieProps> = ({ movie }) => {
   const [isVideo, setIsVideo] = useState(false);
-  const hoverTimeoutRef = useRef<number | null>(null);
+  const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { mediaType } = useMediaContext();
   const navigate = useNavigate();
   const handleMouseEnter = () => {
