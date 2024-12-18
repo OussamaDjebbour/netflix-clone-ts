@@ -1,6 +1,7 @@
 import { faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface SearchBarProps {
   isSearchbarOpen: boolean;
@@ -16,6 +17,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   setSearchTerm,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
 
   const handleFocus = () => {
     setIsSearchbarOpen(true);
@@ -31,7 +33,13 @@ const SearchBar: React.FC<SearchBarProps> = ({
 
   return (
     <>
-      <div
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          navigate(`/${searchTerm}`);
+          setIsSearchbarOpen(false);
+          setSearchTerm('');
+        }}
         className={`absolute right-[4.5rem] flex items-center transition-all duration-300 small:right-12 ${
           isSearchbarOpen ? 'small:w-64' : 'w-10'
         }`}
@@ -59,7 +67,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
           aria-label="Search movies or TV shows" // Descriptive label for screen readers
           aria-expanded={isSearchbarOpen} // Indicates if the search bar is open
         />
-      </div>
+      </form>
       <FontAwesomeIcon
         icon={faXmark}
         onClick={() => setIsSearchbarOpen(false)}
