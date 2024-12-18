@@ -3,7 +3,7 @@ import Navbar from '../components/ui/Navbar';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useIsShowNavbarContext } from '../context/useIsShowNavbarContext';
 import { useMediaContext } from '../context/useMediaContext';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { MediaType, SearchResult } from '../types/tmdb';
 import { searchMoviesAndTv } from '../services/searchMoviesAndTv';
