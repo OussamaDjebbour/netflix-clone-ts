@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { MediaType } from '../../types/tmdb';
+import { MediaType, Video } from '../../types/tmdb';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { fetchMovieAndTVVideo } from '../../services/fetchMovieAndTVVideo';
@@ -23,7 +23,7 @@ const MovieTrailer: FC<MovieTrailerProps> = ({ movieId, mediaType }) => {
 
   // Filter for YouTube trailers
   const trailer = movieTrailer?.find(
-    (video: any) => video.site === 'YouTube' && video.type === 'Trailer',
+    (video: Video) => video.site === 'YouTube' && video.type === 'Trailer',
   );
 
   if (!trailer)

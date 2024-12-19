@@ -1,15 +1,9 @@
 import { TMDBBASEURL } from '../constants';
-import { Movie } from '../types/movieOrTv';
+import { SearchResult } from '../types/tmdb';
 
-// interface Movie {
-//   id: number;
-//   title: string;
-//   overview: string;
-//   backdrop_path: string;
-//   poster_path: string;
-// }
-
-export const fetchRandomMovie = async (mediaType: string): Promise<Movie> => {
+export const fetchRandomMovie = async (
+  mediaType: string,
+): Promise<SearchResult> => {
   try {
     const API_KEY = import.meta.env.VITE_API_KEY;
     const response = await fetch(
@@ -20,9 +14,8 @@ export const fetchRandomMovie = async (mediaType: string): Promise<Movie> => {
       throw new Error('Failed to fetch movie details');
     }
     const data = await response.json();
-    const movies: Movie[] = data.results;
+    const movies: SearchResult[] = data.results;
     const movie = movies[Math.floor(Math.random() * movies.length)];
-    console.log('movie', movie);
     return movie.backdrop_path ? movie : movies[0];
   } catch (err) {
     throw new Error('Failed to fetch movie details');

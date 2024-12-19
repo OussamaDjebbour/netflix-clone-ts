@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import {
   faFacebook,
   faInstagram,
@@ -5,7 +6,7 @@ import {
   faYoutube,
 } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FC } from 'react';
+import FooterLink from '../ui/FooterLink';
 
 const Footer: FC = () => {
   return (
@@ -32,21 +33,20 @@ const Footer: FC = () => {
           className="cursor-pointer"
         />
       </div>
+
       <div className="mb-6 grid grid-cols-2 gap-2 min-[900px]:grid-cols-3">
-        <a href="#" className="cursor-pointer hover:underline">
-          Audio Description
-        </a>
-        <a className="cursor-pointer hover:underline">Help Center</a>
-        <a className="cursor-pointer hover:underline">Gift Cards</a>
-        <a className="cursor-pointer hover:underline">Media Center</a>
-        <a className="cursor-pointer hover:underline">Investor Relations</a>
-        <a className="cursor-pointer hover:underline">Jobs</a>
-        <a className="cursor-pointer hover:underline">Terms of Use</a>
-        <a className="cursor-pointer hover:underline">Privacy</a>
-        <a className="cursor-pointer hover:underline">Legal Notices</a>
-        <a className="cursor-pointer hover:underline">Cookie Preferences</a>
-        <a className="cursor-pointer hover:underline">Corporate Information</a>
-        <a className="cursor-pointer hover:underline">Contact Us</a>
+        <FooterLink>Audio Description</FooterLink>
+        <FooterLink>Help Center</FooterLink>
+        <FooterLink>Gift Cards</FooterLink>
+        <FooterLink>Media Center</FooterLink>
+        <FooterLink>Investor Relations</FooterLink>
+        <FooterLink>Jobs</FooterLink>
+        <FooterLink>Terms of Use</FooterLink>
+        <FooterLink>Privacy</FooterLink>
+        <FooterLink>Legal Notices</FooterLink>
+        <FooterLink>Cookie Preferences</FooterLink>
+        <FooterLink>Corporate Information</FooterLink>
+        <FooterLink>Contact Us</FooterLink>
       </div>
 
       <button className="mb-3 cursor-pointer rounded-md border border-gray-400 bg-transparent px-1 capitalize md:text-base">
@@ -54,7 +54,7 @@ const Footer: FC = () => {
       </button>
       <p className="text-xs text-gray-500">
         <span className="mr-1 text-gray-400">&copy;</span>{' '}
-        {new Date().getFullYear()} Netflix, Inc. Made by Djebbour Oussama{' '}
+        {new Date().getFullYear()} Netflix Clone, Inc. Made by Djebbour Oussama{' '}
       </p>
     </footer>
   );

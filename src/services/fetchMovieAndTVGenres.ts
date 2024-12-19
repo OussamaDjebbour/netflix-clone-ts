@@ -1,4 +1,7 @@
-export const fetchMovieGenres = async (movieId: number, mediaType: string) => {
+export const fetchMovieAndTVGenres = async (
+  movieId: number,
+  mediaType: string,
+) => {
   const API_KEY = import.meta.env.VITE_API_KEY;
   const response = await fetch(
     `https://api.themoviedb.org/3/${mediaType}/${movieId}?api_key=${API_KEY}&language=en-US

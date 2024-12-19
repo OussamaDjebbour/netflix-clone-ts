@@ -24,14 +24,14 @@ const MovieSlider: FC<MovieProps> = ({ movie }) => {
   const handleMouseEnter = () => {
     hoverTimeoutRef.current = setTimeout(() => {
       setIsVideo(true);
-    }, 1000);
+    }, 500);
   };
 
   const handleMouseLeave = () => {
+    setIsVideo(false);
     if (hoverTimeoutRef.current) {
       clearTimeout(hoverTimeoutRef.current);
     }
-    setIsVideo(false);
   };
 
   const handleClick = () => {
@@ -49,7 +49,7 @@ const MovieSlider: FC<MovieProps> = ({ movie }) => {
     >
       {/* Image or Video container with hover group */}
       <div className="group relative transform transition-transform duration-300 hover:z-50 hover:-translate-y-10 hover:scale-110 min-[600px]:hover:scale-125">
-        {/* Movie Image or Video */}
+        {/* (Movie Or TV Show )Image or Video */}
         {isVideo ? (
           <div className="basis-full rounded bg-black object-cover">
             <QueryErrorResetBoundary>
@@ -95,7 +95,7 @@ const MovieSlider: FC<MovieProps> = ({ movie }) => {
             Recommended for {(movie.vote_average * 10).toFixed(2)}%
           </p>
 
-          {/* Movie Genres */}
+          {/* Movie Or TV Genres */}
           <MovieGenres movieId={movie.id} />
         </div>
       </div>

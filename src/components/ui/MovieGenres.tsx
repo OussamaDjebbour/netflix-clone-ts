@@ -1,21 +1,20 @@
-import { useQuery } from '@tanstack/react-query';
 import React from 'react';
-import { fetchMovieGenres } from '../../services/fetchMovieGenres';
+import { useQuery } from '@tanstack/react-query';
+import { fetchMovieAndTVGenres } from '../../services/fetchMovieAndTVGenres';
 import { useMediaContext } from '../../context/useMediaContext';
+import { Genre } from '../../types/tmdb';
 
-// Type definition for genre
-interface Genre {
-  id: number;
-  name: string;
+interface MovieGenresProps {
+  movieId: number;
 }
 
 // Movie component to display genres
-const MovieGenres: React.FC<{ movieId: number }> = ({ movieId }) => {
+const MovieGenres: React.FC<MovieGenresProps> = ({ movieId }) => {
   const { mediaType } = useMediaContext();
 
   const { data: movie, error } = useQuery({
-    queryKey: ['movieGenres', mediaType, movieId],
-    queryFn: () => fetchMovieGenres(movieId, mediaType),
+    queryKey: [`${mediaType}Genres`, mediaType, movieId],
+    queryFn: () => fetchMovieAndTVGenres(movieId, mediaType),
   });
 
   if (error) {

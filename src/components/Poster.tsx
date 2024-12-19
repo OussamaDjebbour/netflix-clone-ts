@@ -6,9 +6,10 @@ interface Props {
 }
 
 const Poster: React.FC<Props> = ({ posterPath }) => {
+  const imageUrl = `${TMDBORIGINALIMAGEURL}${posterPath}`;
   return (
     <img
-      src={`${TMDBORIGINALIMAGEURL}${posterPath}`}
+      src={imageUrl}
       alt="poster"
       loading="lazy"
       className="absolute inset-0 h-full w-full transform object-cover"

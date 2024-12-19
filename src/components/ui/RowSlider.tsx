@@ -1,18 +1,17 @@
 import { FC, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { fetchMoviesAndTVShows } from '../../services/fetchMoviesAndTVShows';
-import Spinner from './Spinner';
-import MovieSlider from './MovieSlider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChevronLeft,
   faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
-// import { Movie } from '../features/SlidersContainer';
-import { useInView } from 'react-intersection-observer';
-import useResponsiveMoviesPerPage from '../../hooks/useResponsiveMoviesPerPage';
 import { useMediaContext } from '../../context/useMediaContext';
-import { Movie } from '../../types/movieOrTv';
+import useResponsiveMoviesPerPage from '../../hooks/useResponsiveMoviesPerPage';
+import { SearchResult } from '../../types/tmdb';
+import { fetchMoviesAndTVShows } from '../../services/fetchMoviesAndTVShows';
+import Spinner from './Spinner';
+import MovieSlider from './MovieSlider';
+import { useInView } from 'react-intersection-observer';
 
 interface SliderProps {
   title: string;
@@ -29,7 +28,7 @@ const RowSlider: FC<SliderProps> = ({ title }) => {
   const { ref, inView } = useInView({
     triggerOnce: true, // Only trigger once when it first comes into view
 
-    rootMargin: '60px', // Load slightly before fully in view
+    rootMargin: '80px', // Load slightly before fully in view
   });
 
   const {
@@ -37,7 +36,7 @@ const RowSlider: FC<SliderProps> = ({ title }) => {
     isLoading,
     error,
     isError,
-  } = useQuery<Movie[]>({
+  } = useQuery<SearchResult[]>({
     queryKey: [title, mediaType, moviesPerPage],
     queryFn: () => fetchMoviesAndTVShows(title, mediaType),
     enabled: inView,
@@ -73,11 +72,7 @@ const RowSlider: FC<SliderProps> = ({ title }) => {
   }, [currentIndex]);
   // Trigger fade-in when data fetching completes
 
-  // if (isError) throw new Error(`Error: ${error}`);
   if (isError && error) {
-    console.log('errorerrorerrorerror', error);
-
-    // throw error; // This throws the error to the ErrorBoundary
     return (
       <div className="text-white">Error loading movies: {error.message}</div>
     );

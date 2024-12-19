@@ -1,4 +1,4 @@
-interface Genre {
+export interface Genre {
   id: number;
   name: string;
 }
@@ -59,4 +59,9 @@ export interface SearchAllResultsResponse {
   hasNextPage: boolean;
   currentPage: number;
   totalPages: number;
+}
+
+export interface Video {
+  site: string;
+  type: string;
 }

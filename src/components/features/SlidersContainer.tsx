@@ -1,14 +1,6 @@
 import React from 'react';
-import RowSliderContainer from '../ui/RowSliderContainer';
 import { useMediaContext } from '../../context/useMediaContext';
-
-// export interface Movie {
-//   id: number;
-//   title: string;
-//   backdrop_path: string;
-//   vote_average: number;
-//   poster_path: string;
-// }
+import RowSliderContainer from '../ui/RowSliderContainer';
 
 const SlidersContainer: React.FC = () => {
   const { mediaType } = useMediaContext();
