@@ -1,13 +1,13 @@
 import React, { Suspense } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
+import { MediaType, MovieTvDetails } from '../../types/tmdb';
+import { fetchMovieDetail } from '../../services/fetchMovieDetails';
 import Overview from '../Overview';
 import Details from '../Details';
 import Poster from '../Poster';
-import { fetchMovieDetail } from '../../services/fetchMovieDetails';
-import { useQuery } from '@tanstack/react-query';
 import Spinner from './Spinner';
 import MovieTrailer from './MovieTrailer';
-import { MediaType, MovieTvDetails } from '../../types/tmdb';
 
 interface RouteParams extends Record<string, string | undefined> {
   id: string;
