@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
 import { useSearchResults } from '../hooks/useSearchResults';
-import { useParams } from 'react-router-dom';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { AllSearchResults } from '../components/ui/AllSearchResults';
 import { LoadMoreTrigger } from '../components/ui/LoadMoreTrigger';

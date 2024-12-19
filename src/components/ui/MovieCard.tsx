@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import { SearchResult } from '../../types/tmdb';
@@ -9,10 +9,10 @@ interface MovieCardProps {
 }
 
 const MovieCard = memo(({ filteredResult }: MovieCardProps) => {
+  const navigate = useNavigate();
+
   const { title, name, overview, media_type, id } = filteredResult;
   const imageUrl = getImageUrl(filteredResult);
-
-  const navigate = useNavigate();
 
   return (
     <div
