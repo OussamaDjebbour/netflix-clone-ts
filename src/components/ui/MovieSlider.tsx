@@ -1,25 +1,19 @@
 import { FC, Suspense, useRef, useState } from 'react';
 import RoundedButton from './RoundedButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faPlay,
-  faPlus,
-  faChevronDown,
-  faCircleInfo,
-  faInfo,
-} from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faPlus, faInfo } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons';
 import MovieGenres from './MovieGenres';
-// import M from './M';
 import MovieTrailer from './MovieTrailer';
 import Spinner from './Spinner';
 import { QueryErrorResetBoundary } from '@tanstack/react-query';
-import { Movie } from '../../types/movieOrTv';
 import { useMediaContext } from '../../context/useMediaContext';
 import { useNavigate } from 'react-router-dom';
+import { getImageUrl } from '../../helpers/imageUtils';
+import { SearchResult } from '../../types/tmdb';
 
 interface MovieProps {
-  movie: Movie;
+  movie: SearchResult;
 }
 
 const MovieSlider: FC<MovieProps> = ({ movie }) => {
@@ -40,16 +34,13 @@ const MovieSlider: FC<MovieProps> = ({ movie }) => {
     setIsVideo(false);
   };
 
-  // Check for image paths
-  const imagePath = movie.backdrop_path || movie.poster_path;
+  const handleClick = () => {
+    navigate(`/${mediaType}/${movie?.id}`);
+  };
 
-  const imageUrl = `https://image.tmdb.org/t/p/w500${imagePath}`;
-
-  // Determine aspect ratio: 16/9
-  const aspectRatioClass = 'aspect-[16/9]';
+  const imageUrl = getImageUrl(movie);
 
   return (
-    // <ErrorBoundary FallbackComponent={ErrorFallback}>
     <div
       key={movie.id}
       className="relative flex-shrink-0 grow-0 basis-full min-[600px]:basis-[calc(50%-2px)] min-[680px]:basis-[calc(33.33%-2.66px)] min-[900px]:basis-[calc(25%-3px)] lg:basis-[calc(20%-3.2px)]"
@@ -62,19 +53,16 @@ const MovieSlider: FC<MovieProps> = ({ movie }) => {
         {isVideo ? (
           <div className="basis-full rounded bg-black object-cover">
             <QueryErrorResetBoundary>
-              <Suspense
-                fallback={<Spinner />}
-                // fallback={<p className="text-center text-white">Loading...</p>}
-              >
-                <MovieTrailer movieId={movie.id} />
+              <Suspense fallback={<Spinner />}>
+                <MovieTrailer movieId={movie.id} mediaType={mediaType} />
               </Suspense>
             </QueryErrorResetBoundary>
           </div>
         ) : (
           <img
-            src={imageUrl}
-            alt={movie.title}
-            className={` ${aspectRatioClass} h-full w-full cursor-pointer rounded object-cover`}
+            src={imageUrl ?? ''}
+            alt={movie.title || movie.name || 'No image available'}
+            className={`aspect-video h-full w-full cursor-pointer rounded object-cover text-white`}
           />
         )}
 
@@ -97,14 +85,7 @@ const MovieSlider: FC<MovieProps> = ({ movie }) => {
               </RoundedButton>
             </div>
 
-            {/* Expand Button */}
-            {/* <RoundedButton>
-              <FontAwesomeIcon icon={faChevronDown} size="xs" />
-            </RoundedButton> */}
-
-            <RoundedButton
-              onClick={() => navigate(`/${mediaType}/${movie?.id}`)}
-            >
+            <RoundedButton onClick={handleClick}>
               <FontAwesomeIcon icon={faInfo} size="xs" />
             </RoundedButton>
           </div>
@@ -119,7 +100,6 @@ const MovieSlider: FC<MovieProps> = ({ movie }) => {
         </div>
       </div>
     </div>
-    // </ErrorBoundary>
   );
 };
 

@@ -79,7 +79,7 @@ const MovieAndTVDetails: React.FC = () => {
         </h2>
 
         <Suspense fallback={<Spinner />}>
-          <MovieTrailer movieId={movieDetails?.id} />
+          <MovieTrailer movieId={movieDetails?.id} mediaType={mediaType} />
         </Suspense>
       </div>
     </div>

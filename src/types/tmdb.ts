@@ -38,7 +38,7 @@ export interface SearchResult {
   backdrop_path: string | null;
   release_date: Date;
   vote_average: number;
-  media_type: string;
+  media_type?: string;
 }
 
 // API response interface
