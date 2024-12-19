@@ -1,10 +1,10 @@
 import React from 'react';
 
-interface Props {
+interface OverviewProps {
   overview: string;
 }
 
-const Overview: React.FC<Props> = ({ overview }) => {
+const Overview: React.FC<OverviewProps> = ({ overview }) => {
   return (
     <div className="mb-8 leading-relaxed">
       <h2 className="mb-2 text-xl font-bold min-[600px]:text-2xl lg:text-[1.6rem]">

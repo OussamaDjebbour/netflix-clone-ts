@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { MediaType, MovieTvDetails } from '../../types/tmdb';
-import { fetchMovieDetail } from '../../services/fetchMovieDetails';
+import { fetchMovieDetails } from '../../services/fetchMovieDetails';
 import Overview from '../Overview';
 import Details from '../Details';
 import Poster from '../Poster';
@@ -17,9 +17,13 @@ interface RouteParams extends Record<string, string | undefined> {
 const MovieAndTVDetails: React.FC = () => {
   const { id = '762509', mediaType = 'movie' } = useParams<RouteParams>();
 
-  const { data: movieDetails } = useQuery<MovieTvDetails>({
+  const {
+    data: movieDetails,
+    isLoading,
+    isError,
+  } = useQuery<MovieTvDetails>({
     queryKey: ['movieDetails', id, mediaType],
-    queryFn: () => fetchMovieDetail(id, mediaType),
+    queryFn: () => fetchMovieDetails(id, mediaType),
   });
 
   const {
@@ -38,11 +42,18 @@ const MovieAndTVDetails: React.FC = () => {
     seasons,
   } = movieDetails ?? {};
 
-  if (!movieDetails)
+  if (isLoading)
     return (
       <div className="flex h-screen basis-full items-center justify-center">
         <Spinner />
       </div>
+    );
+
+  if (isError)
+    return (
+      <p className="flex items-center justify-center text-white">
+        Something went wrong, please try again
+      </p>
     );
 
   return (
@@ -79,7 +90,7 @@ const MovieAndTVDetails: React.FC = () => {
         </h2>
 
         <Suspense fallback={<Spinner />}>
-          <MovieTrailer movieId={movieDetails?.id} mediaType={mediaType} />
+          <MovieTrailer movieId={id} mediaType={mediaType} />
         </Suspense>
       </div>
     </div>

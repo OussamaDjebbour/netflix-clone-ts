@@ -1,22 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { MEDIA_TYPES } from '../constants';
-
-interface DetailsProps {
-  genres: { id: number; name: string }[];
-  rating: number;
-  releaseDate: string;
-  firstEpisode: string;
-  lastEpisode: string;
-  runtime: number;
-  numberOfSeasons: number;
-  seasons: {
-    air_date: string;
-    episode_count: number;
-    id: number;
-    name: string;
-  }[];
-}
+import { DetailsProps } from '../types/tmdb';
 
 const Details: React.FC<DetailsProps> = ({
   genres,

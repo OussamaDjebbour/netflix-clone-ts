@@ -65,3 +65,18 @@ export interface Video {
   site: string;
   type: string;
 }
+export interface DetailsProps {
+  genres: Genre[];
+  rating: number;
+  releaseDate: string;
+  firstEpisode: string;
+  lastEpisode: string;
+  runtime: number;
+  numberOfSeasons: number;
+  seasons: {
+    air_date: string;
+    episode_count: number;
+    id: number;
+    name: string;
+  }[];
+}
