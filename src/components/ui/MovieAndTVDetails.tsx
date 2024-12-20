@@ -3,9 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { MediaType, MovieTvDetails } from '../../types/tmdb';
 import { fetchMovieDetails } from '../../services/fetchMovieDetails';
-import Overview from '../Overview';
-import Details from '../Details';
-import Poster from '../Poster';
+import Overview from './Overview';
+import Details from './Details';
+import Poster from './Poster';
 import Spinner from './Spinner';
 import MovieTrailer from './MovieTrailer';
 

@@ -1,4 +1,4 @@
-import { LoadingSpinner } from '../../Testt/LoadingSpinner';
+import { LoadingSpinner } from './LoadingSpinner';
 
 interface LoadMoreTriggerProps {
   hasNextPage: boolean;

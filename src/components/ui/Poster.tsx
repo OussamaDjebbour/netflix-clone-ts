@@ -1,5 +1,5 @@
 import React from 'react';
-import { TMDBORIGINALIMAGEURL } from '../constants';
+import { TMDBORIGINALIMAGEURL } from '../../constants';
 
 interface Props {
   posterPath: string;

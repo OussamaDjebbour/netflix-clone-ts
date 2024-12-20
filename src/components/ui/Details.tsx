@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { MEDIA_TYPES } from '../constants';
-import { DetailsProps } from '../types/tmdb';
+import { MEDIA_TYPES } from '../../constants';
+import { DetailsProps } from '../../types/tmdb';
 
 const Details: React.FC<DetailsProps> = ({
   genres,
