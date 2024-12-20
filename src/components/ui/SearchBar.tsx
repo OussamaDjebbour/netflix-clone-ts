@@ -2,6 +2,7 @@ import { faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useIsShowNavbarContext } from '../../context/useIsShowNavbarContext';
 
 interface SearchBarProps {
   isSearchbarOpen: boolean;
@@ -18,8 +19,10 @@ const SearchBar: React.FC<SearchBarProps> = ({
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+  const { isShow, handleToggleIsShow } = useIsShowNavbarContext();
 
   const handleFocus = () => {
+    if (isShow) handleToggleIsShow();
     setIsSearchbarOpen(true);
     inputRef.current?.focus();
   };
