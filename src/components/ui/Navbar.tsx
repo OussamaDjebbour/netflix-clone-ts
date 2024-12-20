@@ -122,7 +122,6 @@ const Navbar: React.FC<NavbarProps> = ({
           size="lg"
           aria-label="Open navigation menu" // Descriptive label
           role="button" // Defines it as an interactive element
-          tabIndex={0} // Makes it focusable for keyboard users
         />
       </div>
     </nav>

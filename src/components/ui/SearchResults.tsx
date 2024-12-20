@@ -22,7 +22,7 @@ const SearchResults: React.FC<SearchResultProps> = ({
   const navigate = useNavigate();
 
   const handleClick = (
-    param1: string,
+    param1: string | undefined,
     param2?: '/' | '',
     param3?: number | '',
   ) => {
@@ -61,7 +61,7 @@ const SearchResults: React.FC<SearchResultProps> = ({
             <div
               key={result.id}
               onClick={() => {
-                handleClick(result.media_type, '/', result.id);
+                handleClick(result?.media_type, '/', result.id);
               }}
               className="flex w-full cursor-pointer items-center gap-6 border-t border-[rgba(255,255,255,0.25)] p-3 hover:bg-[#333]"
             >
