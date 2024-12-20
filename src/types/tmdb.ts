@@ -41,12 +41,6 @@ export interface SearchResult {
   media_type?: string;
 }
 
-// API response interface
-export interface SearchResponse {
-  results: SearchResult[];
-  total_results: number;
-}
-
 export interface TMDBResponse {
   results: any[];
   page: number;

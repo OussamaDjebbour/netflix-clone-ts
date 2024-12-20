@@ -8,14 +8,6 @@ import {
 export const TMDBBASEURL = 'https://api.themoviedb.org/3';
 export const TMDBORIGINALIMAGEURL = 'https://image.tmdb.org/t/p/original';
 export const TMDBIMAGEURLSMALLSIZE = 'https://image.tmdb.org/t/p/w500';
-export const PERCENTAGE_TRANSFORM = 100;
-
-// Pagination configuration
-export const PAGINATION_CONFIG = {
-  MAX_PAGES: 20,
-  INITIAL_PAGE: 1,
-  OBSERVER_THRESHOLD: 0.1,
-} as const;
 
 // Genre configuration
 export const GENRE_CONFIG = {
