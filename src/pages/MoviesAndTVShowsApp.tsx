@@ -1,29 +1,34 @@
 import { Outlet, useNavigate } from 'react-router-dom';
-import Navbar from '../components/ui/Navbar';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useIsShowNavbarContext } from '../context/useIsShowNavbarContext';
-import { useMediaContext } from '../context/useMediaContext';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { MediaType, SearchResult } from '../types/tmdb';
 import { searchMoviesAndTv } from '../services/searchMoviesAndTv';
+import Navbar from '../components/ui/Navbar';
 import SearchResults from '../components/ui/SearchResults';
-import useDebounce from '../hooks/useDebounce';
+import NavbarButtonContainer from '../components/ui/NavbarButtonContainer';
 import Spinner from '../components/ui/Spinner';
-import { MEDIA_TYPES } from '../constants';
+import useDebounce from '../hooks/useDebounce';
+import { useIsShowNavbarContext } from '../context/useIsShowNavbarContext';
+import { useMediaContext } from '../context/useMediaContext';
+import { useIsImageLoadedContext } from '../context/useIsImageLoadedContext';
 
 const MoviesAndTVShowsApp = () => {
-  const { isShow, handleToggleIsShow } = useIsShowNavbarContext();
   const [searchTerm, setSearchTerm] = useState('');
   const [isSearchbarOpen, setIsSearchbarOpen] = useState(false);
 
-  const { handleChangeMedia } = useMediaContext();
-  const navigate = useNavigate();
+  const { isShow, handleToggleIsShow } = useIsShowNavbarContext();
+  const { mediaType, handleChangeMedia } = useMediaContext();
+  const { handleChangeIsImageLoaded } = useIsImageLoadedContext();
   const debouncedQuery = useDebounce(searchTerm, 400); // Debounce delay of 400ms
+  const navigate = useNavigate();
 
-  const handleClick = (mediaType: MediaType) => {
+  const handleClick = (media: MediaType) => {
+    if (mediaType !== media) {
+      handleChangeIsImageLoaded(false);
+    }
     handleToggleIsShow();
-    handleChangeMedia(mediaType);
+    handleChangeMedia(media);
     navigate('/');
   };
 
@@ -63,32 +68,7 @@ const MoviesAndTVShowsApp = () => {
             transition={{ duration: 0.4 }}
             className="fixed top-14 z-50 flex w-full flex-col gap-2 bg-black px-4 py-4 font-medium text-white transition-all duration-300 ease-in min-[500px]:px-8 min-[600px]:text-xl small:hidden"
           >
-            <li
-              className="hover:cursor-pointer"
-              onClick={() => {
-                handleClick(MEDIA_TYPES.MOVIE);
-              }}
-            >
-              Home
-            </li>
-            <li
-              className="hover:cursor-pointer"
-              onClick={() => {
-                handleClick(MEDIA_TYPES.TV);
-              }}
-            >
-              TV Shows
-            </li>
-            <li
-              className="hover:cursor-pointer"
-              onClick={() => {
-                handleClick(MEDIA_TYPES.MOVIE);
-              }}
-            >
-              Movies
-            </li>
-            <li className="hover:cursor-pointer">New</li>
-            <li className="hover:cursor-pointer">My List</li>
+            <NavbarButtonContainer handleClick={handleClick} />
           </motion.ul>
         )}
       </AnimatePresence>
