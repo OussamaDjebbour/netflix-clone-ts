@@ -43,7 +43,11 @@ const Navbar: React.FC<NavbarProps> = ({
       role="navigation"
       aria-label="Main navigation"
     >
-      <img src="public/assets/netflix-logo-0.png" alt="logo" className="w-28" />
+      <img
+        src="/public/assets/netflix-logo-0.png"
+        alt="logo"
+        className="w-28"
+      />
 
       <NavbarButtons />
 
