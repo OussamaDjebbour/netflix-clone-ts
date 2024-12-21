@@ -34,6 +34,8 @@ const MovieSlider: FC<MovieProps> = ({ movie }) => {
     }
   };
 
+  console.log(movie.id);
+
   const handleClick = () => {
     navigate(`/${mediaType}/${movie?.id}`);
   };

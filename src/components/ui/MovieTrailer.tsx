@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { fetchMovieAndTVVideo } from '../../services/fetchMovieAndTVVideo';
 
 interface MovieTrailerProps {
-  movieId: string;
+  movieId: number;
   mediaType: MediaType;
 }
 
