@@ -1,5 +1,5 @@
 export const fetchMovieAndTVGenres = async (
-  movieId: number,
+  movieId: string,
   mediaType: string,
 ) => {
   const API_KEY = import.meta.env.VITE_API_KEY;

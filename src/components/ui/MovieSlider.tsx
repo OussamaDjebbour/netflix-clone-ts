@@ -56,7 +56,10 @@ const MovieSlider: FC<MovieProps> = ({ movie }) => {
           <div className="basis-full rounded bg-black object-cover">
             <QueryErrorResetBoundary>
               <Suspense fallback={<Spinner />}>
-                <MovieTrailer movieId={movie.id} mediaType={mediaType} />
+                <MovieTrailer
+                  movieId={movie.id.toString()}
+                  mediaType={mediaType}
+                />
               </Suspense>
             </QueryErrorResetBoundary>
           </div>
@@ -98,7 +101,7 @@ const MovieSlider: FC<MovieProps> = ({ movie }) => {
           </p>
 
           {/* Movie Or TV Genres */}
-          <MovieGenres movieId={movie.id} />
+          <MovieGenres movieId={movie.id.toString()} />
         </div>
       </div>
     </div>

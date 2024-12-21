@@ -24,7 +24,7 @@ const SearchResults: React.FC<SearchResultProps> = ({
   const handleClick = (
     param1: string | undefined,
     param2?: '/' | '',
-    param3?: number | '',
+    param3?: string | '',
   ) => {
     setSearchTerm('');
     setIsSearchbarOpen(false);

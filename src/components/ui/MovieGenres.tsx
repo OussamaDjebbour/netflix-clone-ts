@@ -5,7 +5,7 @@ import { useMediaContext } from '../../context/useMediaContext';
 import { Genre } from '../../types/tmdb';
 
 interface MovieGenresProps {
-  movieId: number;
+  movieId: string;
 }
 
 // Movie component to display genres

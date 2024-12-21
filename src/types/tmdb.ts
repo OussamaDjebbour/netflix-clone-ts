@@ -30,7 +30,7 @@ export interface MovieTvDetails {
 
 // Movie and TV show result interface
 export interface SearchResult {
-  id: number;
+  id: string;
   title?: string;
   name?: string;
   overview: string;
