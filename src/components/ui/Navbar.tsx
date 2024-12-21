@@ -44,7 +44,7 @@ const Navbar: React.FC<NavbarProps> = ({
       aria-label="Main navigation"
     >
       <img
-        src="../../../src/assets/images/netflix-logo-0.png"
+        src="../../../public/assets/images/netflix-logo-0.png"
         alt="logo"
         className="w-28"
       />
