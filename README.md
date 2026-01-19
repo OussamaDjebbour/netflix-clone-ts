@@ -6,7 +6,7 @@ The project demonstrates content browsing patterns such as infinite scrolling, d
 [![Live Demo](https://img.shields.io/badge/demo-live-success)](https://netflix-clone-ts-pi.vercel.app/)
 [![GitHub](https://img.shields.io/badge/github-repo-blue)](https://github.com/OussamaDjebbour/netflix-clone-ts)
 
-![Movie Platform Preview](./screenshots/homepage.png) <!-- Add a screenshot here -->
+![Movie Platform Preview](./screenshots/homepage.jpg) <!-- Add a screenshot here -->
 
 ## ✨ Features
 
@@ -183,27 +183,27 @@ src/components/ui/LoadMoreTrigger.tsx
 
 ### Homepage with one Carousel
 
-![Homepage](./screenshots/homepage.png)
+![Homepage](./screenshots/homepage.jpg)
 
 ### Homepage with the rest of the Carousels
 
-![Homepage(Carousels)](./screenshots/carousels.png)
+![Homepage(Carousels)](./screenshots/carousels.jpg)
 
 ### Homepage (Mobile View)
 
-![Homepage(Mobile)](./screenshots/mobile.png)
+![Homepage(Mobile)](./screenshots/mobile.jpg)
 
 ### Movie Detail Page
 
-![Details](./screenshots/details.png)
+![Details](./screenshots/details.jpg)
 
 ### Search Results
 
-![Search](./screenshots/search.png)
+![Search](./screenshots/search.jpg)
 
 ### All Search Results
 
-![All Search Results](./screenshots/all-search.png)
+![All Search Results](./screenshots/all-search.jpg)
 
 ## 🎬 Demo
 
