@@ -191,7 +191,7 @@ src/components/ui/LoadMoreTrigger.tsx
 
 ### Homepage (Mobile View)
 
-![Homepage(Mobile)](./screenshots/mobile.jpg)
+![Homepage(Mobile)](./screenshots/homepage-mobile.jpg)
 
 ### Movie Detail Page
 
