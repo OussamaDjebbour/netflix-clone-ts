@@ -131,8 +131,14 @@ src/
 
 ### Infinite Scroll Implementation
 
+Infinite scrolling is implemented using **TanStack Query's `useInfiniteQuery`**
+combined with **React Intersection Observer**.
+
+The query handles pagination, caching, and background fetching, while the
+intersection observer triggers loading when the user scrolls near the bottom
+of the page.
+
 ```typescript
-// Uses React Intersection Observer + TanStack Query
 const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
   queryKey: ['movies', query],
   queryFn: ({ pageParam = 1 }) => searchAllMoviesAndShows(query, pageParam),
@@ -141,6 +147,17 @@ const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
   refetchOnWindowFocus: false,
 });
 ```
+
+The observer logic is encapsulated in a reusable hook and UI trigger component
+to keep page-level components clean and focused.
+
+📂 See full implementation:
+
+src/hooks/useSearchResults.ts
+
+src/pages/ResultsPage.tsx
+
+src/components/ui/LoadMoreTrigger.tsx
 
 ### Debounced Search
 
